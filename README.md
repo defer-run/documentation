@@ -1,15 +1,15 @@
-<div style="text-align: center;">
+<p align="center">
     <picture>
         <source media="(prefers-color-scheme: dark)" srcset="https://www.defer.run/github/defer_darkmode.png" width="410" height="216">
         <img alt="Defer logo" src="https://www.defer.run/github/defer_lightmode.png" width="410" height="216">
     </picture>
-</div>
+</p>
 <p>&nbsp;</p>
-<div style="text-align: center;">
+<p align="center">
     Zero infrastructure Node.js background jobs
-</div>
+</p>
 <p>&nbsp;</p>
-<div style="text-align: center;">
+<p align="center">
     <a href="https://docs.defer.run/">Documentation</a>
     <span>&nbsp;·&nbsp;</span>
     <a href="https://www.defer.run/blog">Blog</a>
@@ -17,7 +17,7 @@
     <a href="https://discord.gg/x2v84Vqsk6">Community</a>
     <span>&nbsp;·&nbsp;</span>
     <a href="https://github.com/defer-run/defer.client/discussions/categories/roadmap">Roadmap / RFCs</a>
-</div>
+</p>
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
