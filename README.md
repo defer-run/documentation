@@ -4,7 +4,6 @@
         <img alt="Defer logo" src="https://www.defer.run/github/defer_lightmode.png" width="410" height="216">
     </picture>
 </p>
-<p>&nbsp;</p>
 <p align="center">
     Zero infrastructure Node.js background jobs
 </p>
