@@ -1,0 +1,65 @@
+{
+  "background-function": {
+    "title": "Background function",
+    "theme": {
+      "breadcrumb": false,
+      "toc": true
+    }
+  },
+  "concurrency": {
+    "title": "Concurrency",
+    "theme": {
+      "breadcrumb": false,
+      "toc": true
+    }
+  },
+  "retries": {
+    "title": "Retries",
+    "theme": {
+      "breadcrumb": false,
+      "toc": true
+    }
+  },
+  "delay": {
+    "title": "Delayed Function",
+    "theme": {
+      "breadcrumb": false,
+      "toc": true
+    }
+  },
+  "cron": {
+    "title": "CRON",
+    "theme": {
+      "breadcrumb": false,
+      "toc": true
+    }
+  },
+  "metadata": {
+    "title": "Metadata",
+    "theme": {
+      "breadcrumb": false,
+      "toc": true
+    }
+  },
+  "getting-execution-result": {
+    "title": "Get Execution's result",
+    "theme": {
+      "breadcrumb": false,
+      "toc": true
+    }
+  },
+  "local-development": {
+    "title": "Local development",
+    "theme": {
+      "breadcrumb": false,
+      "toc": true
+    }
+  },
+  "workflows": {
+    "title": "Workflows",
+    "theme": {
+      "breadcrumb": false,
+      "toc": true
+    }
+  }
+}

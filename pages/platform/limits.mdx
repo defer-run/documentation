@@ -1,0 +1,85 @@
+import Image from "next/image";
+import { Callout, Tabs, Tab } from "nextra-theme-docs";
+import { Accordion, NextSteps } from "~components";
+
+# Limits
+
+Scale with your plan while following our Fair use policy.
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+## Fair use
+
+Defer is subject to a Fair usage policy to prevent any DDOS issues.
+
+Here are some examples of Fair use and forbidden usage:
+
+<br />
+
+### Example of good usage of Defer
+
+- Processing data
+- Offloading your Serverless API
+- Lightweight AI processing
+- Reports generation
+- File processing
+- Not sure? [Contact us](mailto:support@defer.run)
+
+<p>&nbsp;</p>
+
+### Example of forbidden usage of Defer
+
+- Crypto mining
+- Heavy ML or AI
+- Heavy scraping of websites
+- Loading testing
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+## Limits
+
+All the limits mentionned below are soft limits.
+Reaching them will result in a message from us and a possible suspension of your account in case of non conformity.
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+### Platform
+
+Global technical limits that impact both Builds and Executions.
+
+|                     | Hobby  | Pro     | Custom (Limits) |
+| ------------------- | ------ | ------- | --------------- |
+| Bandwith            | 1To    | 100To   | Custom          |
+| Network performance | 5Gb    | 10Gb    | Up to 5000Gb    |
+| Logs Retention      | 7 days | 30 days | Up to 1 year    |
+| Logs size           | 200Mo  | 1Go     | Up to 10Go      |
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+### Builds
+
+|                                        | Hobby | Pro | Custom (Limits) |
+| -------------------------------------- | ----- | --- | --------------- |
+| Concurrent build (across applications) | 1     | 1   | Up to 100       |
+| Duration                               | 30min | 1h  | Up to 10h       |
+| Build size                             | 1Go   | 5Go | Up to 10Go      |
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+### Executions
+
+|                                                        | Hobby | Pro       | Custom (Limits) |
+| ------------------------------------------------------ | ----- | --------- | --------------- |
+| Execution duration                                     | 30min | 6h        | Up to 2 days    |
+| Concurrency [(across functions)](/platform/executions) | 2     | 50        | Up to 1k        |
+| Argument size                                          | 20kb  | 100kb     | Up to 50Mo      |
+| vCPU                                                   | 0.5   | 1         | Up to 5         |
+| Memory                                                 | 500Mo | 500Mo-1Go | Up to 10Go      |
+| Result size                                            | 20kb  | 100kb     | Up to 50Mo      |
+| Storage                                                | 10Mo  | 100Mo     | Up to 1Go       |

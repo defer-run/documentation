@@ -1,0 +1,290 @@
+import Image from "next/image";
+import { Callout, Tabs, Tab } from "nextra-theme-docs";
+import { Prerequisites, Accordion, NextSteps } from "~components";
+
+# Background function
+
+Learn the conventions around Background function definition and its associated limitations.
+
+<br />
+
+### Prerequisites
+
+<br />
+
+<Prerequisites
+  items={[
+    {
+      title: "Setup Defer",
+      subtitle: "How to setup Defer with Next, Nest and more",
+      icon: "layers",
+      link: "/quickstart",
+    },
+  ]}
+/>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+## Overview
+
+Background function is the unit of work introduced to define a piece of code that will execute in the background - on the Defer Platform.
+
+Background functions can be defined as a [CRON](/features/cron), [executed as delayed](/features/delay), and composed to build a [Workflow](/features/workflows).
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+## Conventions
+
+A Background function is:
+
+1. a **named `async`** function
+1. with **serializable arguments**
+1. as **the default export** of
+1. a file located in a **`defer/` folder**
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+### Default export
+
+<p>&nbsp;</p>
+
+<div className="flex-split-layout">
+
+<div>
+
+**Correct example:**
+
+```ts filename="defer/weeklyBrief.ts" copy
+import { defer } from "@defer/client";
+
+const weeklyBrief = async () => {
+  // ...
+};
+
+export default defer.cron(weeklyBrief, "5 0 * * *");
+```
+
+</div>
+<div>
+
+**Incorrect example:**
+
+```ts filename="defer/weeklyBrief.ts" {7} copy
+import { defer } from '@defer/client'
+
+async function weeklyBriefFn () => {
+// ...
+}
+
+export const weeklyBrief = defer.cron(
+  weeklyBriefFn,
+  "5 0 * * *"
+)
+```
+
+_Problem: Named export instead of a default export_
+
+</div>
+</div>
+
+### Async function
+
+<p>&nbsp;</p>
+
+<div className="flex-split-layout">
+
+<div>
+
+**Correct example:**
+
+```ts filename="defer/weeklyBrief.ts" copy
+import { defer } from "@defer/client";
+
+const weeklyBrief = async () => {
+  // ...
+};
+
+export default defer.cron(weeklyBrief, "5 0 * * *");
+```
+
+</div>
+<div>
+
+**Incorrect example:**
+
+```ts filename="defer/weeklyBrief.ts" {3} copy
+import { defer } from '@defer/client'
+
+function weeklyBrief () => {
+// ...
+}
+
+export default defer.cron(
+  weeklyBrief,
+  "5 0 * * *"
+)
+```
+
+_Problem: `weeklyBrief()` is not `async`_
+
+</div>
+</div>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+### Named function
+
+<p>&nbsp;</p>
+
+<div className="flex-split-layout">
+
+<div>
+
+**Correct example:**
+
+```ts filename="defer/weeklyBrief.ts" copy
+import { defer } from "@defer/client";
+
+const weeklyBrief = async () => {
+  // ...
+};
+
+export default defer.cron(weeklyBrief, "5 0 * * *");
+```
+
+</div>
+<div>
+
+**Incorrect example:**
+
+```ts filename="defer/weeklyBrief.ts" {4} copy
+import { defer } from "@defer/client";
+
+export default defer.cron(async function () {
+  // ...
+}, "5 0 * * *");
+```
+
+_Problem: The wrapped function is anonymous_
+
+</div>
+</div>
+
+<Callout type="warning">
+**A Background function's name should be unique in a project**
+
+The Background function's name is used as a unique identifier when triggering and listing executions.
+
+</Callout>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+### Serializable arguments
+
+<p>&nbsp;</p>
+
+<div className="flex-split-layout">
+
+<div>
+
+**Correct example:**
+
+```tsx filename="defer/importContacts.ts" copy
+import { defer } from "@defer.run/client";
+
+async function importContacts(userId: string) {
+  // ... query information using `userId`...
+}
+export default defer(importContacts, {
+  concurrency: 10,
+  retry: 5,
+});
+```
+
+</div>
+<div>
+
+**Incorrect example:**
+
+```tsx filename="defer/importContacts.ts" {4} copy
+import { defer } from "@defer.run/client";
+
+async function importContacts(prismaClient: PrismaClient) {
+  // ...use the `prismaClient` instance...
+}
+export default defer(importContacts, {
+  concurrency: 10,
+  retry: 5,
+});
+```
+
+_Problem: The `prismaClient` argument is not serializable_
+
+</div>
+</div>
+
+<Callout type="info">
+**Why should arguments be serializable?**
+
+As covered in ["How Defer works?"](/platform/how-defer-works/), a call to a Background function
+triggers a call to the Defer Platform API with the environment token, function name, and arguments.
+
+Hence the necessity to have serializable arguments.
+
+</Callout>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+## Motivation
+
+The concept of the Background function brings seamless integration with all codebases, allowing you to _move existing parts of your code in the background_
+without refactoring and writing new use cases without restrictions.
+
+Contrary to Lambdas and Edge Functions, the Background function can leverage all installed dependencies (natives included) and import local files,
+without any build configuration.
+
+The following example works out of the box:
+
+```tsx filename="defer/importContacts.ts" {2-5} copy
+import { defer } from "@defer/client";
+// support for native dependencies
+import { hash } from "bcrypt";
+// support for custom paths for local imports
+import { SALT_ROUNDS } from "~/utils/crypto";
+
+const bcryptPassword = async () => {
+  const myPlaintextPassword = "s0//P4$$w0rD";
+  hash(myPlaintextPassword, SALT, function (err: any, hash: any) {
+    console.log(hash);
+  });
+};
+
+export default defer(bcryptPassword);
+```
+
+<br />
+
+The unified experience around Background functions unlocks easy access to execution configuration ([retries](/features/retries), [concurrency](/features/concurrency))
+and [workflow development patterns](/features/workflows).
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+## Limitations
+
+The current design of the Background function comes with some downsides, listed below:
+
+- Serializable arguments and the lack of persistent storage across executions require additional work.
+- Support for additional native dependencies is done upon request; feel free to ping us [on the Community](https://discord.gg/x2v84Vqsk6).
+- The support for aliases and custom paths in TurboRepo projects is limited (work in progress).
+- The support for Cloudflare Worker is currently under development.
+
+The design of the Background function is meant to evolve to allow wrapping existing parts of the code without needing to move it in a `/defer/` file.

@@ -1,0 +1,403 @@
+import Image from "next/image";
+import { Callout, Tabs, Tab } from "nextra-theme-docs";
+import { Prerequisites, Accordion, NextSteps, DeferToken } from "~components";
+
+# Getting started with Nest
+
+Learn how to setup Defer with Nest and trigger your first background function.
+
+<br />
+
+### Prerequisites
+
+<br />
+
+<Prerequisites
+  items={[
+    {
+      title: "Setup a Defer application",
+      subtitle: "Ensure that your Defer application is properly configured.",
+      icon: "defer",
+      link: "/platform/setup-a-defer-application",
+    },
+  ]}
+/>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+### Install the `@defer/client`
+
+<Tabs items={['yarn', 'npm', 'pnpm']}>
+<Tab>
+  ```bash copy
+    yarn add @defer/client
+  ```
+</Tab>
+<Tab>
+
+```bash copy
+  npm i @defer/client
+```
+
+</Tab>
+<Tab>
+
+```bash copy
+  pnpm i @defer/client
+```
+
+</Tab>
+</Tabs>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+### Create a `defer/` folder
+
+The Defer Platform expects to find all the background functions in the `defer/` folder.
+
+In a Nest app, we recommend creating an `defer/` folder as follows:
+
+```txt {9}
+.
+|-- nest-cli.json
+|-- package.json
+|-- src/
+|   |-- app.controller.spec.ts
+|   |-- app.controller.ts
+|   |-- app.module.ts
+|   |-- app.service.ts
+|   |-- defer/
+|   |-- main.ts
+|-- tsconfig.build.json
+|-- tsconfig.json
+|-- yarn.lock
+```
+
+<br />
+
+<Callout type="info">
+**Notes:**
+- The `defer/` folder can be located anywhere in your project
+- The `defer/` folder can contain nested folders
+
+</Callout>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+### Write a background function
+
+A background function is a function equivalent to a background job.
+
+All background functions must live in the `defer/` folder.
+
+Choose how to write your first background function:
+
+<Accordion title={"Start with the helloWorld() demo function"}>
+
+Let's add the following `helloWorld.ts` function in your `defer/` folder, as follows:
+
+<br />
+
+```tsx filename="src/defer/helloWorld.ts" copy
+// the `defer()` helper will be used to define a background function
+import { defer } from "@defer/client";
+
+// a background function must be `async`
+async function helloWorld(name: string) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log(`Hello ${name}!`);
+      resolve("done");
+    }, 5000);
+  });
+}
+
+// the function must be wrapped with `defer()` and exported as default
+export default defer(helloWorld);
+```
+
+</Accordion>
+
+<Accordion title={"I got a use case: a new feature or slow code to move in the background"}>
+
+You already have a use case? Sounds great!
+
+Start by first creating a background function in the `defer/` folder and see how to implement it depending on your use case:
+
+<Tabs items={['Move existing existing slow code to a background function', 'Write a new feature, ex: syncContacts()']}>
+
+  <Tab>
+
+    ```tsx filename="src/defer/syncContacts.ts" copy
+    // the `defer()` helper will be used to define a background function
+    import { defer } from "@defer/client"
+    // the `defer()` helper will be used to define a background function
+    import syncContacts from "../utils/syncContacts"
+
+    // the imported function must be wrapped with `defer()` and re-exported as default
+    export default defer(syncContacts)
+    ```
+
+  </Tab>
+
+  <Tab>
+
+    ```tsx filename="src/defer/syncContacts.ts" copy
+    // the `defer()` helper will be used to define a background function
+    import { defer } from "@defer/client"
+
+    interface Contact { /* ... */ }
+
+    // a background function must be `async`
+    async function syncContacts(contacts: Contact) {
+      // ...
+    }
+
+    // the function must be wrapped with `defer()` and exported as default
+    export default defer(helloWorld)
+    ```
+
+  </Tab>
+
+</Tabs>
+
+</Accordion>
+
+Our background function is ready to be used; let's see how to call it from your application.
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+### Call your background function
+
+Whenever you choose to use the `helloWorld()` function or create your own, the following example showcasing how to call `helloWorld()` from a Nest Controller demonstrates how easily you can trigger a background function execution.
+
+<br />
+
+```tsx filename="src/app.controller.ts" {3, 11} copy
+import { Controller, Get } from "@nestjs/common";
+import { AppService } from "./app.service";
+import helloWorld from "./defer/helloWorld";
+
+@Controller()
+export class AppController {
+  constructor(private readonly appService: AppService) {}
+
+  @Get()
+  async getHello(): Promise<string> {
+    await helloWorld();
+    return this.appService.getHello();
+  }
+}
+```
+
+<Callout type={"info"}>
+**How does Defer work?**
+
+If you are wondering how calling a background function triggers an execution on Defer Platform, please refer to this guide: [How Defer works](/platform/how-defer-works).
+
+</Callout>
+
+<br />
+<br />
+
+Once your Nest Controller route is defined, please commit and push it to your branch.
+
+Each Git commit push triggers a Build on the Defer Platform; you can go to the Defer Console to check its status.
+
+<div className={"image"}>
+  <div>
+    <Image
+      src="/getting-started/build-success.png"
+      alt="Your first successful build on the Defer Console"
+      width={400}
+      height={450}
+    />
+  </div>
+</div>
+
+<Callout type={'info'}>
+**A Defer application needs a successful build to accept executions
+**
+
+Double check that your Defer application has at least one successful build, otherwise you won't be able to execute your background functions.
+
+</Callout>
+
+Now that your Nest app contains a background function and an API route that calls it, let's ensure that your Defer token is properly configured.
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+### Copy your Defer Token
+
+<DeferToken />
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+### Configure your API deployment
+
+Your API deployment should expose your [Defer Token](/platform/how-defer-works) as an environment variable in order to get your background function deferred when called.
+
+<Accordion title={'Set your Defer Token on Vercel'}>
+
+1. Go to your [Vercel Dashboard](https://vercel.com/)
+1. From your project, go to settings
+1. Then, to "Environment Variables"
+1. Finally, add a new environment variable with Key as `DEFER_TOKEN`:
+
+<div className={"image"}>
+  <div>
+    <Image
+      src="/getting-started/env-var-vercel.png"
+      alt="Setup your Defer Token on Vercel"
+      width={800}
+      height={900}
+    />
+  </div>
+</div>
+
+</Accordion>
+
+<Accordion title={'Set your Defer Token on Heroku'}>
+
+1. Go to your [Heroku Dashboard](https://dashboard.heroku.com/apps)
+1. Select your app, and go to settings
+1. Scroll to "Config Vars" and click on "Reveal Config Vars"
+1. Finally, add a new environment variable with `DEFER_TOKEN` as "key":
+
+<div className={"image"}>
+  <div>
+    <Image
+      src="/getting-started/env-var-heroku.png"
+      alt="Setup your Defer Token on Vercel"
+      width={800}
+      height={900}
+    />
+  </div>
+</div>
+
+</Accordion>
+
+<Accordion title={'Set your Defer Token on Render'}>
+
+1. Go to your [Render Dashboard](https://dashboard.render.com/)
+1. Select a service
+1. Then, go to "Environment" and click on Add Environment Variable
+1. Finally, add a new environment variable with `DEFER_TOKEN` as "key":
+
+<div className={"image"}>
+  <div>
+    <Image
+      src="/getting-started/env-var-render.png"
+      alt="Setup your Defer Token on Vercel"
+      width={800}
+      height={900}
+    />
+  </div>
+</div>
+
+</Accordion>
+
+<Accordion title={'Set your Defer Token on Fly.io'}>
+
+Update your `fly.toml` configuration filename as follow:
+
+<br />
+
+```toml filename="fly.toml" {3} copy
+[env]
+  MY_ENV = "debug"
+  DEFER_TOKEN = "<your defer token>"
+```
+
+</Accordion>
+
+<Accordion title={'Set your Defer Token on other hosting providers'}>
+
+Update your environment variables by adding the following:
+
+- key: `"DEFER_TOKEN"`
+- value: your Defer Token
+
+</Accordion>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+### Deploy
+
+Now, with your API deployment containing your Defer Token and your project's builds ready on the Defer Platform, open your browser and test the Nest Controller route.
+
+In the scenario of the `helloWorld()` background function, visit the `/` route.
+
+You should see that your API answered quickly, and by going to your [Defer Console](https://console.defer.run/), you should see that your background function has 1 execution running - or finished:
+
+<div className={"image"}>
+  <div>
+    <Image
+      src="/getting-started/functions-list.png"
+      alt="Your first function on the Defer Console"
+      width={800}
+      height={900}
+    />
+  </div>
+</div>
+
+By clicking on see executions, you will access the executions list:
+
+<div className={"image"}>
+  <div>
+    <Image
+      src="/getting-started/function-runs.png"
+      alt="Your first successful function un on the Defer Console"
+      width={800}
+      height={900}
+    />
+  </div>
+</div>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+### Next steps
+
+<br />
+
+<NextSteps
+  items={[
+    {
+      title: "Configure Retries",
+      subtitle: "Explore background function advanced options",
+      link: "/features/retries",
+    },
+    {
+      title: "Delay an execution",
+      subtitle: "Schedule a background function in the future",
+      link: "/features/delay",
+    },
+    {
+      title: "CRON",
+      subtitle:
+        "Define a CRON from your code and leverage the power of the Defer Platform",
+      link: "/features/cron",
+    },
+    {
+      title: "Background functions as Workflows",
+      subtitle:
+        "Build complex workflows with by composing background functions",
+      link: "/features/workflows",
+    },
+  ]}
+/>

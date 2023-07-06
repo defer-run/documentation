@@ -1,0 +1,140 @@
+import Image from "next/image";
+import { Callout, Tabs, Tab } from "nextra-theme-docs";
+import { Prerequisites, RepositoryCard } from "~components";
+
+# Local development with Defer
+
+An unified experience, from your local machine to production.
+
+<br />
+
+### Prerequisites
+
+<br />
+
+<Prerequisites
+  items={[
+    {
+      title: "Defer basics",
+      subtitle: "Get familiar with background functions",
+      icon: "layers",
+      link: "/features/background-function",
+    },
+  ]}
+/>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+## Overview
+
+Locally, background functions run in the background leveraging the `Promise` API, providing a behavior similar to production environments (with some [Limitations](#limitations)).
+
+No additional package or local server is required, simply call your background functions and they will run locally, as expected:
+
+<Tabs items={['defer/helloWorld.ts', 'pages/api/helloWorld.ts']}>
+
+  <Tab>
+
+    ```tsx filename="defer/helloWorld.ts" copy
+    // the `defer()` helper will be used to define a background function
+    import { defer } from "@defer/client"
+
+    // a background function must be `async`
+    async function helloWorld(name: string) {
+        return new Promise(
+        (resolve) => {
+            setTimeout(() => {
+            console.log(`Hello ${name}!`)
+            resolve('done')
+            }, 5000)
+        }
+        )
+    }
+
+    // the function must be wrapped with `defer()` and exported as default
+    export default defer(helloWorld)
+    ```
+
+  </Tab>
+
+  <Tab>
+
+    ```tsx filename="pages/api/helloWorld.ts" {3, 14-15} copy
+    import type { NextApiRequest, NextApiResponse } from "next";
+    // we import our `helloWorld()` background function
+    import helloWorld from "../../defer/helloWorld";
+
+    type Data = {
+        ok: boolean;
+    };
+
+    export default async function handler(
+        req: NextApiRequest,
+        res: NextApiResponse<Data>
+    ) {
+
+    // calling a background function will return immediately and execute it in the background
+    await helloWorld("Charly");
+
+    res.status(200).json({ ok: true });
+    }
+    ```
+
+  </Tab>
+
+</Tabs>
+
+<p>&nbsp;</p>
+
+<Callout type={"info"}>
+**What happen if I set a `DEFER_TOKEN` locally?**
+
+We don't recommend doing it.
+
+By setting a `DEFER_TOKEN` locally, all calls to your background functions will run them on the Defer Platform.
+
+It will result in executing the version of your background function present in Git, not locally, which can be confusing.
+
+</Callout>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+## Advanced example: get an execution's result locally
+
+The [`awaitResult()` and `getExecution()`](/features/getting-execution-result/) APIs work as expected locally, returning the status or result of an ongoing or finished local execution.
+
+A complete working example is available on our GitHub:
+
+<br />
+
+<RepositoryCard
+  name={"OpenAI + Next.js + Defer demo"}
+  url={"https://github.com/defer-run/defer-openai-github-profile"}
+/>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+## Limitations
+
+<p>&nbsp;</p>
+
+### API limitations
+
+The following `@defer/client` APIs are not yet supported locally:
+
+- `delay()`: will result in executing the function immediately
+- `defer.cron()`: CRONs are not scheduled locally
+
+<p>&nbsp;</p>
+
+### Behavior limitations
+
+Defer relies on the `Promise` API to execute background functions locally.
+
+It means that all executions are bound to the parent process and will be cancelled if the parent process (ex: server) is force stopped.

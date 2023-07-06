@@ -1,0 +1,51 @@
+{
+  "express-koa-hapi": {
+    "title": "Express/Koa/hapi",
+    "theme": {
+      "breadcrumb": false,
+      "toc": true
+    }
+  },
+  "next": {
+    "title": "Next.js",
+    "theme": {
+      "breadcrumb": false,
+      "toc": true
+    }
+  },
+  "nest": {
+    "title": "Nest",
+    "theme": {
+      "breadcrumb": false,
+      "toc": true
+    }
+  },
+  "sveltekit": {
+    "title": "SvelteKit",
+    "theme": {
+      "breadcrumb": false,
+      "toc": true
+    }
+  },
+  "trpc": {
+    "title": "tRPC",
+    "theme": {
+      "breadcrumb": false,
+      "toc": true
+    }
+  },
+  "remix": {
+    "title": "Remix",
+    "theme": {
+      "breadcrumb": false,
+      "toc": true
+    }
+  },
+  "custom-stack": {
+    "title": "Custom stack",
+    "theme": {
+      "breadcrumb": false,
+      "toc": true
+    }
+  }
+}

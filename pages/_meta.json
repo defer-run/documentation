@@ -1,0 +1,20 @@
+{
+  "index": {
+    "title": "Introduction",
+    "theme": {
+      "breadcrumb": false,
+      "footer": true,
+      "sidebar": true,
+      "toc": false,
+      "pagination": false
+    }
+  },
+  "quickstart": "Quickstart",
+  "features": "Features",
+  "platform": "Platform",
+  "defer-client-changelog": {
+    "title": "@defer/client releases",
+    "href": "https://github.com/defer-run/defer.client/releases",
+    "newWindow": true
+  }
+}
