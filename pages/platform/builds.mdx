@@ -6,7 +6,7 @@ import { Accordion, NextSteps } from "~components";
 
 How the Defer Platform compiles your background functions.
 
-<p>&nbsp;</p>
+<br />
 
 The Defer Platform locates an application's background functions ([How
 Defer works](/platform/how-defer-works)) to:
@@ -18,8 +18,21 @@ Defer works](/platform/how-defer-works)) to:
 
 This page describes all the configurations linked to Defer Builds.
 
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<br />
+<br />
+
+## Background function requirements
+
+In order to compile your background functions, the builder detects files inside your `/defer` folder.
+
+Here are the requirements for those files:
+
+- `(js|jsx|ts|tsx|cjs|cjsx|cts|ctsx|mjs|mjsx|mts|mtsx)` extensions are supported
+- `*.spec.*`, `*.test.*`, `*_spec.*`, `*_test.*` files are ignored
+- `spec`, `test`, `specs`, `tests` nested folders are ignored
+
+<br />
+<br />
 
 ## Configuration and defaults
 
@@ -31,8 +44,8 @@ This page describes all the configurations linked to Defer Builds.
 | **Node Version**       | `18`    | We currently only support LTS node version (16, 18 or 20).                                                           |
 | **TypeScript version** | -       | Our Build pipeline uses the typescript version installed in your project. We support TypeScript in all 4.x versions. |
 
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<br />
+<br />
 
 ## Build lifecycle
 
@@ -59,7 +72,7 @@ branch.
   you need to use them.
 </Callout>
 
-<p>&nbsp;</p>
+<br />
 
 ### 2. Install
 
@@ -74,14 +87,14 @@ work on Ubuntu.
   **Limitations**: We currently don't support private packages.
 </Callout>
 
-<p>&nbsp;</p>
+<br />
 
 ### 3. Pre-build
 
 A pre-build command can be configured for generated TypeScript types,
 ex: Prisma or GraphQL Code Generator.
 
-<p>&nbsp;</p>
+<br />
 
 ### 4. Compile
 
@@ -92,14 +105,14 @@ We support the latest and upcoming TypeScript major versions (4.x, 5);
 however, **we recommend your project to stay up to date with the
 latest stable version**.
 
-<p>&nbsp;</p>
+<br />
 
 ### 5. Publish
 
 Once your background functions compiled and bundled, we archive them
 and store them, encrypted at rest.
 
-<p>&nbsp;</p>
+<br />
 
 Any build error will result in a notification - if configured
 ([Alerting](/platform/alerting)).
@@ -112,8 +125,8 @@ Any build error will result in a notification - if configured
   project takes more than 30 minutes.
 </Callout>
 
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<br />
+<br />
 
 ## Reserved Environment variables
 
@@ -147,8 +160,8 @@ The following Environment variables are reserved and will be overrided if config
 
 <Callout type={"info"}>`NODE_ENV` value is ignored during build.</Callout>
 
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<br />
+<br />
 
 ## FAQ
 
