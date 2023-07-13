@@ -174,11 +174,11 @@ Whenever you choose to use the `helloWorld()` function or create your own, the f
 
 ```tsx filename="src/api.ts" {2, 5}
 import http from "http";
-import helloWorld from "..//defer/helloWorld";
+import helloWorld from "../defer/helloWorld";
 
 http
   .createServer(async function (req, res) {
-    await helloWorld();
+    await helloWorld(req.query.name || "World");
     res.write("Hello World!");
     res.end();
   })
