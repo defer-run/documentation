@@ -4,7 +4,7 @@ import { Prerequisites, Accordion, NextSteps, DeferToken } from "~components";
 
 # Getting started with RedwoodJS
 
-Learn how to setup Defer with Next.js and trigger your first background function.
+Learn how to setup Defer with RedwoodJS and trigger your first background function.
 
 <br />
 
@@ -213,7 +213,7 @@ To test in local development, first start your RedwoodJS development server:
   yarn rw dev
 ```
 
-Then, open your browser and visit the `http://localhost:8910/.redwood/functions/hellow?name=Charly` route.
+Then, open your browser and visit the `http://localhost:8910/.redwood/functions/hellow?name=Charly` function endpoint.
 
 If you are wondering how calling a background function triggers an execution on Defer Platform, please refer to this guide: [How Defer works](/platform/how-defer-works).
 
@@ -392,9 +392,9 @@ Update your environment variables by adding the following:
 
 ### Deploy
 
-Now, with your API deployment containing your Defer Token and your project's builds ready on the Defer Platform, open your browser and test the Next.js API Route.
+Now, with your API deployment containing your Defer Token and your project's builds ready on the Defer Platform, open your browser and test the RedwoodJS function endpoint.
 
-In the scenario of the `helloWorld()` background function, visit the `/.redwood/functions/helloWorld` route of your deployed application.
+In the scenario of the `helloWorld()` background function, visit the `/.redwood/functions/helloWorld` endpoint of your deployed application.
 
 You should see that your API answered quickly, and by going to your [Defer Console](https://console.defer.run/), you should see that your background function has 1 execution running - or finished:
 
