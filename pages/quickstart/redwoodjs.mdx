@@ -263,7 +263,8 @@ Double check that your Defer application has at least one successful build, othe
 
 </Callout>
 
-Now that your RedwoodJS contains a background function and a serverless function that calls it, let's ensure that your Defer token is properly configured.
+Now that your RedwoodJS contains a background function and a serverless function that calls it,
+let's ensure that your Defer token and Build Settings are properly configured.
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
@@ -276,6 +277,27 @@ Now that your RedwoodJS contains a background function and a serverless function
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
+
+## Configure Pre-Build Settings
+
+It's important to configure your Pre-Builds Settings to generate the Prisma client before each build.
+
+In Settings, go to `Advanced options` and then add the following `Pre-build command` to generate the Prisma client:
+
+```bash
+yarn rw prisma generate
+```
+
+<div className={"image"}>
+  <div>
+    <Image
+      src="/getting-started/quickstart-redwoodjs-build-settings.png"
+      alt="Configure your Build Settings on the Defer Console"
+      width={800}
+      height={900}
+    />
+  </div>
+</div>
 
 ### Configure your API deployment
 
