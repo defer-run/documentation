@@ -50,21 +50,28 @@ In a RedwoodJS app, we recommend creating a `jobs/` folder in your project's exi
 to organize both your defer functions and client as follows:
 
 ```txt {4}
-- api
- +-- db
- +-- src
-  +-- functions                // API endpoints to invoke jobs
-      +- <>
-  +-- graphql
-  +== jobs                     // Create a new Jobs folder
-    +== clients
-      += defer.ts              // Configure and export the defer client
-    +== defer                  // Write your defer background, cron, delayed, and workflow functions here
-        +- <>
-  +-- lib
-      +- logger.ts
-  +-- services
-
+.
+├── api
+│   ├── db/
+│   ├── package.json
+│   ├── server.config.js
+│   ├── src/
+│   │   ├── directives/
+│   │   ├── functions/
+│   │   │   ├── runHelloWorld/
+│   │   │   │   └── runHelloWorld.ts <- API endpoint to invoke job
+│   │   ├── graphql/
+│   │   ├── jobs/ <- Create a new Jobs folder
+│   │   │   ├── clients
+│   │   │   │   └── defer.ts <- Configure and export the defer client
+│   │   │   └── defer/ <- Write your defer background, cron, delayed, and workflow functions here
+│   │   │       └── helloWorld.ts
+│   │   ├── lib/
+│   │   │   └── logger.ts
+│   │   └── services/
+├── package.json
+├── redwood.toml
+├── web/
 ```
 
 <br />
