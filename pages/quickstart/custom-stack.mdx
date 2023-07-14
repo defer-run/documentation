@@ -151,7 +151,7 @@ Start by first creating a background function in the `defer/` folder and see how
     }
 
     // the function must be wrapped with `defer()` and exported as default
-    export default defer(helloWorld)
+    export default defer(syncContacts)
     ```
 
   </Tab>
@@ -180,7 +180,7 @@ http
   .createServer(async function (req, res) {
     await helloWorld(req.query.name || "World");
 
-    res.writeHead(200, {"Content-Type": "text/html"});
+    res.writeHead(200, { "Content-Type": "text/html" });
     res.write(JSON.stringify({ ok: true }));
     res.end();
   })
