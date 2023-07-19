@@ -174,6 +174,58 @@ Our background function is ready to be used; let's see how to call it from your 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 
+### Sidenote: How to use your Nest Services
+
+Using Nest Services from background functions requires some minor plumbing work since background functions behave as what Nest calls ["Standalone app"](https://docs.nestjs.com/standalone-applications).
+
+<br />
+
+For example, your Nest application relies on a standard `PrismaService`:
+
+```ts filename="src/prisma.service.ts" copy
+import { Injectable, OnModuleInit } from "@nestjs/common";
+import { PrismaClient } from "@prisma/client";
+
+@Injectable()
+export class PrismaService extends PrismaClient implements OnModuleInit {
+  async onModuleInit() {
+    await this.$connect();
+  }
+}
+```
+
+which you can use from your `src/defer/syncContacts.ts` background function as follows:
+
+```ts {4-5, 7-11, 14}
+import { defer } from "@defer/client";
+import { NestFactory } from "@nestjs/core";
+
+import { AppModule } from "src/app.module";
+import { PrismaService } from "src/prisma.service";
+
+const getPrismaInstance = async () => {
+  const app = await NestFactory.createApplicationContext(AppModule);
+  await app.init();
+  return app.get(PrismaService);
+};
+
+const syncContacts = async () => {
+  const prisma = getPrismaInstance();
+
+  // TODO: use Prisma
+};
+
+export default defer(syncContacts);
+```
+
+The `getPrismaInstance()` initializes a Nest Application context that will initiate the Services with your application configuration.
+
+The same pattern can be applied to retrieve the Nest application logger, configuration, and other injectable elements.
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
 ### Call your background function
 
 Whenever you choose to use the `helloWorld()` function or create your own, the following example showcasing how to call `helloWorld()` from a Nest Controller demonstrates how easily you can trigger a background function execution.
