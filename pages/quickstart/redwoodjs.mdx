@@ -2,9 +2,9 @@ import Image from "next/image";
 import { Callout, Tabs, Tab } from "nextra-theme-docs";
 import { Prerequisites, Accordion, NextSteps, DeferToken } from "~components";
 
-# Getting started with a custom stack
+# Getting started with RedwoodJS
 
-Learn how to setup Defer and trigger your first background function.
+Learn how to setup Defer with RedwoodJS and trigger your first background function.
 
 <br />
 
@@ -28,23 +28,11 @@ Learn how to setup Defer and trigger your first background function.
 
 ### Install the `@defer/client`
 
-<Tabs items={['yarn', 'npm', 'pnpm']}>
-<Tab>
-  ```bash copy
-    yarn add @defer/client
-  ```
-</Tab>
+<Tabs items={['yarn']}>
 <Tab>
 
 ```bash copy
-  npm i @defer/client
-```
-
-</Tab>
-<Tab>
-
-```bash copy
-  pnpm i @defer/client
+  yarn workspace api add @defer/client
 ```
 
 </Tab>
@@ -56,16 +44,34 @@ Learn how to setup Defer and trigger your first background function.
 
 ### Create a `defer/` folder
 
-The Defer Platform expects to find all the background functions in the `defer/` folder:
+The Defer Platform expects to find all the background functions in the `defer/` folder.
 
-```txt {3}
+In a RedwoodJS app, we recommend creating a `jobs/` folder in your project's existing `api` side structure
+to organize both your defer functions and client as follows:
+
+```txt {10, 12, 14, 15}
 .
-|-- src
-|   |-- defer/
-|   |-- api.ts
-|-- package.json
-|-- tsconfig.json
-`-- yarn.lock
+├── api
+│   ├── db/
+│   ├── package.json
+│   ├── server.config.js
+│   ├── src/
+│   │   ├── directives/
+│   │   ├── functions/
+│   │   │   ├── runHelloWorld/
+│   │   │   │   └── runHelloWorld.ts <- API endpoint to invoke job
+│   │   ├── graphql/
+│   │   ├── jobs/ <- Create a new Jobs folder
+│   │   │   ├── clients
+│   │   │   │   └── defer.ts <- Configure and export the defer client
+│   │   │   └── defer/ <- Write your defer background, cron, delayed, and workflow functions here
+│   │   │       └── helloWorld.ts
+│   │   ├── lib/
+│   │   │   └── logger.ts
+│   │   └── services/
+├── package.json
+├── redwood.toml
+├── web/
 ```
 
 <br />
@@ -74,6 +80,8 @@ The Defer Platform expects to find all the background functions in the `defer/` 
 **Notes:**
 - The `defer/` folder can be located anywhere in your project
 - The `defer/` folder can contain nested folders
+
+However, RedwoodJS recommends the above directory structure to organize your background functions.
 
 </Callout>
 
@@ -85,7 +93,7 @@ The Defer Platform expects to find all the background functions in the `defer/` 
 
 A background function is a function equivalent to a background job.
 
-All background functions must live in the `defer/` folder.
+All background functions must live in the `defer/` folder shown above.
 
 Choose how to write your first background function:
 
@@ -95,19 +103,19 @@ Let's add the following `helloWorld.ts` function in your `defer/` folder, as fol
 
 <br />
 
-```tsx filename="src/defer/helloWorld.ts" copy
+```tsx filename="api/src/jobs/defer/helloWorld.ts" copy
 // the `defer()` helper will be used to define a background function
-import { defer } from "@defer/client";
+import { defer } from "src/jobs/clients/defer";
 
 // a background function must be `async`
-async function helloWorld(name: string) {
+const helloWorld = async (name: string) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      console.log(`Hello ${name}!`);
+      logger.info(`Hello ${name}!`);
       resolve("done");
     }, 5000);
   });
-}
+};
 
 // the function must be wrapped with `defer()` and exported as default
 export default defer(helloWorld);
@@ -121,17 +129,18 @@ You already have a use case? Sounds great!
 
 Start by first creating a background function in the `defer/` folder and see how to implement it depending on your use case:
 
-<Tabs items={['Move existing existing slow code to a background function', 'Write a new feature, ex: syncContacts()']}>
+<Tabs items={['Move existing existing slow code or service to a background function', 'Write a new feature, ex: syncContacts()']}>
 
   <Tab>
 
-    ```tsx filename="src/defer/syncContacts.ts" copy
+    ```tsx filename="api/src/jobs/defer/syncContacts.ts" copy
     // the `defer()` helper will be used to define a background function
-    import { defer } from "@defer/client"
+    import { defer } from "src/jobs/clients/defer";
     // the `defer()` helper will be used to define a background function
-    import syncContacts from "../utils/syncContacts"
+    import syncContacts from "/src/services/syncContacts"
 
     // the imported function must be wrapped with `defer()` and re-exported as default
+    // be certain your service is `async`
     export default defer(syncContacts)
     ```
 
@@ -139,14 +148,14 @@ Start by first creating a background function in the `defer/` folder and see how
 
   <Tab>
 
-    ```tsx filename="src/defer/syncContacts.ts" copy
+    ```tsx filename="api/src/jobs/defer/syncContacts.ts" copy
     // the `defer()` helper will be used to define a background function
-    import { defer } from "@defer/client"
+    import { defer } from "src/jobs/clients/defer";
 
     interface Contact { /* ... */ }
 
     // a background function must be `async`
-    async function syncContacts(contacts: Contact) {
+    const syncContacts = async (contacts: Contact) => {
       // ...
     }
 
@@ -168,36 +177,77 @@ Our background function is ready to be used; let's see how to call it from your 
 
 ### Call your background function
 
-Whenever you choose to use the `helloWorld()` function or create your own, the following example showcasing how to call `helloWorld()`, from a `/hello-world` HTTP route, demonstrates how easily you can trigger a background function execution.
+Whenever you choose to use the `helloWorld()` function or create your own,
+the following example showcasing how to call `helloWorld()` from a RedwoodJS serverless function
+demonstrates how easily you can trigger a background function execution.
 
 <br />
 
-```tsx filename="src/api.ts" {2, 5}
-import http from "http";
-import helloWorld from "../defer/helloWorld";
+First, generate a RedwoodJS serverless function:
 
-http
-  .createServer(async function (req, res) {
-    await helloWorld(req.query.name || "World");
+```bash copy
+  yarn rw generate function helloWorld
+```
 
-    res.writeHead(200, { "Content-Type": "text/html" });
-    res.write(JSON.stringify({ ok: true }));
-    res.end();
-  })
-  .listen(8080);
+```tsx filename="api/src/functions/helloWorld/helloWorld.ts" {3, 14-15} copy
+import type { APIGatewayEvent, Context } from "aws-lambda";
+
+import helloWorld from "src/jobs/defer/helloWorld";
+import { logger } from "src/lib/logger";
+
+export const handler = async (event: APIGatewayEvent, _context: Context) => {
+  logger.info(`${event.httpMethod} ${event.path}: runHelloWorld function`);
+
+  await helloWorld(event.queryStringParameters["name"] || "World");
+
+  return {
+    statusCode: 200,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      ok: true,
+    }),
+  };
+};
+```
+
+<br />
+
+To test in local development, first start your RedwoodJS development server:
+
+```bash copy
+  yarn rw dev
+```
+
+Then, open your browser and visit the `http://localhost:8910/.redwood/functions/helloWorld?name=Charly` function endpoint.
+
+
+Your development log should show the following:
+
+```bash copy
+api | 09:09:56 🌲 incoming request GET xxx /helloWorld?name=Charly
+api | 09:09:56 🌲 GET /helloWorld: runHelloWorld function
+api | 09:09:56 🌲 request completed 1ms
+api | 09:10:01 🌲 Hello Charly!
+```
+
+and the response:
+
+```json
+{ "ok": true }
 ```
 
 <Callout type={"info"}>
 **How does Defer work?**
 
 If you are wondering how calling a background function triggers an execution on Defer Platform, please refer to this guide: [How Defer works](/platform/how-defer-works).
-
 </Callout>
 
 <br />
 <br />
 
-Once your HTTP route is defined, please commit and push it to your branch.
+Once your RedwoodJS function is defined, please commit and push it to your branch.
 
 Each Git commit push triggers a Build on the Defer Platform; you can go to the Defer Console to check its status.
 
@@ -213,14 +263,15 @@ Each Git commit push triggers a Build on the Defer Platform; you can go to the D
 </div>
 
 <Callout type={'info'}>
-**A Defer application needs a successful build to accept executions
-**
+**A Defer application needs a successful build to accept executions**
+
 
 Double check that your Defer application has at least one successful build, otherwise you won't be able to execute your background functions.
 
 </Callout>
 
-Now that your app contains a background function and an API route that calls it, let's ensure that your Defer token is properly configured.
+Now that your RedwoodJS contains a background function and a serverless function that calls it,
+let's ensure that your Defer token and Build Settings are properly configured.
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
@@ -229,6 +280,31 @@ Now that your app contains a background function and an API route that calls it,
 ### Copy your Defer Token
 
 <DeferToken />
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+## Configure Pre-Build Settings
+
+It's important to configure your Pre-Builds Settings to generate the Prisma client before each build.
+
+In Settings, go to `Advanced options` and then add the following `Pre-build command` to generate the Prisma client:
+
+```bash
+yarn rw prisma generate
+```
+
+<div className={"image"}>
+  <div>
+    <Image
+      src="/getting-started/quickstart-redwoodjs-build-settings.png"
+      alt="Configure your Build Settings on the Defer Console"
+      width={800}
+      height={900}
+    />
+  </div>
+</div>
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
@@ -327,9 +403,9 @@ Update your environment variables by adding the following:
 
 ### Deploy
 
-Now, with your API deployment containing your Defer Token and your project's builds ready on the Defer Platform, open your browser and test the HTTP route.
+Now, with your API deployment containing your Defer Token and your project's builds ready on the Defer Platform, open your browser and test the RedwoodJS function endpoint.
 
-In the scenario of the `helloWorld()` background function, visit the `/` route.
+In the scenario of the `helloWorld()` background function, visit the `/.redwood/functions/helloWorld` endpoint of your deployed application.
 
 You should see that your API answered quickly, and by going to your [Defer Console](https://console.defer.run/), you should see that your background function has 1 execution running - or finished:
 

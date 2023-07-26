@@ -20,6 +20,13 @@
       "toc": true
     }
   },
+  "redwoodjs": {
+    "title": "RedwoodJS",
+    "theme": {
+      "breadcrumb": false,
+      "toc": true
+    }
+  },
   "sveltekit": {
     "title": "SvelteKit",
     "theme": {
