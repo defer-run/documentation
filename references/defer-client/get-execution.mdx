@@ -6,21 +6,21 @@ icon: function
 The `getExecution()` function retrieves an execution by its ID and may include its result based on the execution state.
 
 <CodeGroup>
+
 ```js Get Execution
 import { getExecution } from "@defer/client";
 import { sayHello } from "./defer/sayHello";
 
 const { id } = await sayHello("John Doe");
-const response = await getExecution(id)
+const response = await getExecution(id);
 
 console.log(response.state, response.result);
-
 ```
 
 ```js defer/sayHello.js
 import { defer } from "@defer/client";
 
-const sayHello = name => `hello ${name}!`
+const sayHello = async (name) => console.log(`hello ${name}!`);
 
 export default defer(sayHello);
 ```

@@ -10,13 +10,13 @@ running. The `force` option allows for the cancellation of a running
 execution.
 
 <CodeGroup>
+
 ```js Cancel Execution
 import { cancelExecution } from "@defer/client";
 import { sayHello } from "./defer/sayHello";
 
 const { id } = await sayHello("John Doe");
-await cancelExecution(id)
-
+await cancelExecution(id);
 ```
 
 ```js Abort Execution
@@ -24,13 +24,13 @@ import { cancelExecution } from "@defer/client";
 import { sayHello } from "./defer/sayHello";
 
 const { id } = await sayHello("John Doe");
-await cancelExecution(id, { force: true })
+await cancelExecution(id, { force: true });
 ```
 
 ```js defer/sayHello.js
 import { defer } from "@defer/client";
 
-const sayHello = (name) => `hello ${name}!`;
+const sayHello = async (name) => console.log(`hello ${name}!`);
 
 export default defer(sayHello);
 ```

@@ -10,7 +10,7 @@ Example:
 ```js
 import { defer } from "@defer/client";
 
-const sayHello = (name) => console.log(`hello ${name}!`);
+const sayHello = async (name) => console.log(`hello ${name}!`);
 
 export default defer(sayHello);
 ```
