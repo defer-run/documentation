@@ -2,3 +2,29 @@
 title: "awaitResult()"
 icon: function
 ---
+
+The `awaitResult(deferFn)` transforms your function into an asynchronous call, waiting for it to be executed on the Defer Platform. You can get its result like your normally do with an `async` function.
+
+Example:
+
+<CodeGroup>
+
+```js defer/sayHello.js
+import { defer } from "@defer/client";
+
+const sayHello = (name) =>
+  new Promise((resolve) => setTimeout(() => resolve(`Hello ${name}!`), 5000));
+
+export default awaitResult(defer(sayHello));
+```
+
+```js src/printHello.js
+import { defer } from "@defer/client";
+
+export const printHello = async () => {
+  const greetMessage = await sayHello("John Doe");
+  console.log(greetMessage);
+};
+```
+
+</CodeGroup>
