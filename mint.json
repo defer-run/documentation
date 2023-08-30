@@ -75,7 +75,7 @@
         "features/cron",
         "features/concurrency-resources",
         "features/retries-throttling",
-        "features/execution-metadata",
+        "features/metadata",
         "features/workflows"
       ]
     },
@@ -175,5 +175,87 @@
     "playground": {
       "mode": "hide"
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/get-started/overview"
+    },
+    {
+      "source": "/quickstart",
+      "destination": "/get-started/overview"
+    },
+    {
+      "source": "/quickstart/express-koa-hapi",
+      "destination": "/get-started/quickstart/express-koa-hapi"
+    },
+    {
+      "source": "/quickstart/next",
+      "destination": "/get-started/quickstart/nextjs"
+    },
+    {
+      "source": "/quickstart/nest",
+      "destination": "/get-started/quickstart/nest"
+    },
+    {
+      "source": "/quickstart/redwoodjs",
+      "destination": "/get-started/quickstart/redwoodjs"
+    },
+    {
+      "source": "/quickstart/sveltekit",
+      "destination": "/get-started/quickstart/sveltekit"
+    },
+    {
+      "source": "/quickstart/trpc",
+      "destination": "/get-started/quickstart/trpc"
+    },
+    {
+      "source": "/quickstart/remix",
+      "destination": "/get-started/quickstart/remix"
+    },
+    {
+      "source": "/quickstart/custom-stack",
+      "destination": "/quickstart/custom-stack"
+    },
+    {
+      "source": "/features/background-function",
+      "destination": "/features/background-functions"
+    },
+    {
+      "source": "/features/concurrency",
+      "destination": "/features/concurrency-resources"
+    },
+    {
+      "source": "/features/retries",
+      "destination": "/features/retries-throttling"
+    },
+    {
+      "source": "/features/retries-concurrency",
+      "destination": "/features/retries-throttling"
+    },
+    {
+      "source": "/features/local-development",
+      "destination": "/get-started/development-testing"
+    },
+    {
+      "source": "/platform/setup-a-defer-application",
+      "destination": "/get-started/overview"
+    },
+    {
+      "source": "/platform/how-defer-works",
+      "destination": "/get-started/concepts"
+    },
+    {
+      "source": "/platform/builds",
+      "destination": "/platform/builder/overview"
+    },
+    {
+      "source": "/platform/executions",
+      "destination": "/platform/runner/overview"
+    },
+    {
+      "source": "/platform/limits",
+      "destination": "/platform/overview"
+    }
+  ]
 }
