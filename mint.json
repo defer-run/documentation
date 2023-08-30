@@ -71,10 +71,10 @@
       "group": "Features",
       "pages": [
         "features/background-functions",
-        "features/delay",
+        "features/delays",
         "features/cron",
-        "features/concurrency-resources",
-        "features/retries-throttling",
+        "features/concurrency",
+        "features/retries",
         "features/metadata",
         "features/workflows"
       ]
@@ -218,16 +218,12 @@
       "destination": "/features/background-functions"
     },
     {
-      "source": "/features/concurrency",
-      "destination": "/features/concurrency-resources"
-    },
-    {
-      "source": "/features/retries",
-      "destination": "/features/retries-throttling"
+      "source": "/features/delay",
+      "destination": "/features/delays"
     },
     {
       "source": "/features/retries-concurrency",
-      "destination": "/features/retries-throttling"
+      "destination": "/features/retries"
     },
     {
       "source": "/features/local-development",
