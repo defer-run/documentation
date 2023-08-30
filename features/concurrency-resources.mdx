@@ -97,7 +97,7 @@ On the other hand, the `retry` option is here to recover some scenarios where mu
 
 Here is an easy rule of thumb to find your perfect `concurrency` value for any API rate limiting scenario:
 
-> `concurrency = Math.floor(callsMaxPerMinute \* AvgDurationInMinutes)`
+> `concurrency = Math.floor(callsMaxPerMinute * AvgDurationInMinutes)`
 
 | `concurrency` | `callsMaxPerMinute` | `AvgDurationInMinutes` |
 | ------------- | ------------------- | ---------------------- |
