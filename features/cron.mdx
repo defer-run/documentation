@@ -1,165 +1,44 @@
 ---
 title: "CRON"
-description: "Define a CRON from your code and leverage the power of the Defer Platform"
+description: "Schedule an execution recurrently."
 ---
-
-## Prerequisites
-
-<Card
-  title="Defer basics"
-  href="/features/scheduled-execution"
-  icon={
-    <>
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 40 41"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="hidden dark:block"
-      >
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M40 0.5V40.5H0V0.5H40ZM15.7143 4.78571H4.28571V16.2143H15.7143V4.78571ZM4.28571 20.5H20V4.78571H25.7143V26.2143H4.28571V20.5ZM4.28571 36.2143V30.5H30V4.78571H35.7143V36.2143H4.28571Z"
-          fill="white"
-        />
-      </svg>
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 40 41"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="block dark:hidden"
-      >
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M40 0.5V40.5H0V0.5H40ZM15.7143 4.78571H4.28571V16.2143H15.7143V4.78571ZM4.28571 20.5H20V4.78571H25.7143V26.2143H4.28571V20.5ZM4.28571 36.2143V30.5H30V4.78571H35.7143V36.2143H4.28571Z"
-          fill="black"
-        />
-      </svg>
-    </>
-  }
->
-  Get familiar with background functions
-</Card>
 
 ## Overview
 
-A CRON is a background function that is defined using `defer.cron()` instead of `defer()`, as follows:
+Defer allows you to schedule periodic execution. This is useful for
+example when you have a weekly newsletter to send to your users every
+monday.
 
-```ts defer/weeklyBrief.ts
+You can schedule a periodic execution using the `defer.cron` function
+rather than `defer`.
+
+```js
+export default defer.cron(myFunc, "* * * * *")
+```
+
+<Warning>
+
+With Defer CRON your schedule is defined in UTC.
+
+</Warning>
+
+## Example
+
+```js
 import { defer } from "@defer/client";
 
-const weeklyBrief = async () => {
-  // ...
-};
+async function sendMondayNewletter() {
+	// business logic here
+}
 
-export default defer.cron(weeklyBrief, "5 0 * * *");
+export default defer.cron(sendMondayNewletter, "0 0 * * MON")
 ```
 
-<br />
+<Tip>
 
-<Info>CRONs schedule is based on UTC time.</Info>
+If you are not an expert of the CRON syntax, no worries! You can use
+the [crontab.guru](https://crontab.guru/) website to build your CRON
+expression!
 
-## Full example: Weekly recommendations
+</Tip>
 
-Defer makes it easy to turn a function into a scheduled (CRON) background function.
-
-In this example, a marketplace wants to send product recommendation to users on a weekly basis.
-
-For this, we will create a scheduled function (`weeklyProductRecommendations()`) that performs the following steps:
-
-1. Gather all the users that opt-in for the weekly product recommendation
-2. For each users, in parallel:
-   - invoke a background function (`computeProductRecommendation(user)`), that will compute the product recommendations and send an email
-
-### CRON background function
-
-A background function can be configured to run at a given frequency using `defer.cron(fn, frequencyStr)`:
-
-```tsx defer/weeklyProductRecommendations.ts
-import { defer } from "@defer/client";
-
-const weeklyProductRecommendations = async () => {
-  // ...
-};
-
-export default defer.cron(weeklyProductRecommendations, "0 8 * * *");
-```
-
-A scheduled background function is similar to a regular background function:
-
-- a scheduled background function **should be async**
-- a scheduled background function file **must be named following the function's name** and **export as default**
-
-With some specificities:
-
-- a scheduled background function **should not take arguments**
-- a scheduled background function **should not be invoked** directly from your App (will result in errors)
-
-Let's now see how to implement our product recommendation scheduled function.
-
-### `weeklyProductRecommendations()` scheduled function
-
-Our weekly product recommendation mechanism is implemented with 2 background functions:
-
-```
-- src/
-  - defer/
-    - weeklyProductRecommendations.ts ⬅
-    - computeProductRecommendation.ts ⬅
-  - ...
-- prisma/
-- package.json
-- .env
-- ...
-```
-
-<CodeGroup>
-
-```tsx defer/weeklyProductRecommendations.ts
-import { defer } from "@defer/client";
-import computeProductRecommendation from "./computeProductRecommendation";
-
-const weeklyProductRecommendations = async () => {
-  const users = await prisma.user.find({
-    where: {
-      weeklyProductRecommendations: true,
-    },
-  });
-
-  users.forEach((user) => computeProductRecommendation(user));
-};
-
-export default defer.cron(weeklyProductRecommendations, "0 8 * * *");
-```
-
-```tsx defer/computeProductRecommendation.ts
-import { defer } from "@defer/client";
-import { User } from "../prisma/generated/client";
-
-const computeProductRecommendation = async (user: User) => {
-  // 1. compute product recommendations ...
-  // 2. send email
-};
-
-export default defer(computeProductRecommendation);
-```
-
-</CodeGroup>
-
-Which translates to the following executions, on each Monday, at 8am:
-
-<Frame>
-  <img src="/images/features/cron/example.png" alt="CRON example" />
-</Frame>
-
-By leveraging the Defer background functions, our weekly product recommendation is:
-
-- **Scalable**: by parallelizing the computation and sending of recommendations, the overall time to send the recommendations won't be exponential over time.
-- **Reliable**: any error during a product recommendation computing or email sending will trigger a Defer Smart Retry.
-- **Observable**: get an overview of the status of the reporting from the Defer dashboard.
-- **Monitored**: get notified on Slack if the app couldn't deliver the product recommendation to a user.
