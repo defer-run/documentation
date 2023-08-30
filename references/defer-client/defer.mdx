@@ -1,0 +1,110 @@
+---
+title: "defer()"
+icon: function
+---
+
+The `defer()` function transforms a named function into a background function by wrapping it.
+
+Example:
+
+```js
+import { defer } from "@defer/client";
+
+const sayHello = (name) => console.log(`hello ${name}!`);
+
+export default defer(sayHello);
+```
+
+## Options
+
+<ResponseField name="retry" type="boolean | integer | object">
+  Determines what happens when this function fails. By default, `retry` is false, meaning the scheduler won't re-execute the function.
+
+When set to `true` the default configuration is applied:
+
+```js
+{
+ maxAttempts: 13,
+ initialInterval: 30,
+ randomizationFactor: 0.5,
+ multiplier: 1.5,
+ maxInterval: 60 * 10,
+}
+```
+
+When set to 'integer' (e.g. 3), the default configuration is applied but with a custom maxAttempts:
+
+```js
+{
+ maxAttempts: 3,
+ initialInterval: 30,
+ randomizationFactor: 0.5,
+ multiplier: 1.5,
+ maxInterval: 60 * 10,
+}
+```
+
+When set to "object", the specified configuration is applied. The object is defined as follows:
+
+- `maxAttempts`: How many retries should we attempt in total.
+- `initialInterval`: How close the first retry should be? (in seconds).
+- `randomizationFactor`: How much randomness should be introduced in the space between retries.
+- `multiplier`: How fast the space between each retry should grow? (exponential back-off).
+- `maxInterval`: What should be the max space between 2 retries? (in seconds).
+
+Examples:
+
+  <CodeGroup>
+  ```js Default
+  export default defer(sayHello, { retry: true });
+  ```
+
+```js Maximum
+export default defer(sayHello, { retry: 10 });
+```
+
+```js Custom
+export default defer(sayHello, {
+  maxAttempts: 0,
+  initialInterval: 30,
+  randomizationFactor: 0.5,
+  multiplier: 1.5,
+  maxInterval: 60 * 10,
+});
+```
+
+  </CodeGroup>
+
+</ResponseField>
+<ResponseField name="concurrency" type="integer">
+  Determines the maximum number of parallel executions that are allowed for this function. There is no limit on concurrency by default.
+
+Examples:
+
+  <CodeGroup>
+  ```js FIFO
+  export default defer(sayHello, { concurrency: 1 });
+  ```
+
+```js 5 parallels
+export default defer(sayHello, { concurrency: 5 });
+```
+
+  </CodeGroup>
+</ResponseField>
+<ResponseField name="maxDuration" type="integer">
+  Determines the maximum allowed execution duration in second for this function, with a default of 30 minutes.
+
+Examples:
+
+  <CodeGroup>
+  ```js 5 minutes
+  export default defer(sayHello, { maxDuration: 5 * 60 });
+  ```
+
+```js 3 hours
+export default defer(sayHello, { maxDuration: 3 * 60 * 60 });
+```
+
+  </CodeGroup>
+</ResponseField>

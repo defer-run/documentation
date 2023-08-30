@@ -1,0 +1,216 @@
+---
+title: "Delayed executions"
+description: "See how to delay the execution of a background function"
+---
+
+## Prerequisites
+
+<Card
+  title="Defer basics"
+  href="/features/scheduled-execution"
+  icon={
+    <>
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 40 41"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="hidden dark:block"
+      >
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M40 0.5V40.5H0V0.5H40ZM15.7143 4.78571H4.28571V16.2143H15.7143V4.78571ZM4.28571 20.5H20V4.78571H25.7143V26.2143H4.28571V20.5ZM4.28571 36.2143V30.5H30V4.78571H35.7143V36.2143H4.28571Z"
+          fill="white"
+        />
+      </svg>
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 40 41"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="block dark:hidden"
+      >
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M40 0.5V40.5H0V0.5H40ZM15.7143 4.78571H4.28571V16.2143H15.7143V4.78571ZM4.28571 20.5H20V4.78571H25.7143V26.2143H4.28571V20.5ZM4.28571 36.2143V30.5H30V4.78571H35.7143V36.2143H4.28571Z"
+          fill="black"
+        />
+      </svg>
+    </>
+  }
+>
+  Get familiar with background functions
+</Card>
+
+## Overview
+
+Given the following background function:
+
+```tsx src/defer/importContacts.ts
+import { defer } from "@defer.run/client";
+
+const importContacts = () => {
+  // ...
+};
+export default defer(importContacts);
+```
+
+Here is how you would trigger a delayed execution of `importContacts()` in an Express API:
+
+```tsx src/api.ts
+import express from "express";
+import { delay } from "@defer.run/client";
+import importContacts from "../defer/importContacts";
+
+// ...
+
+app.post("/hubspot/import", async function (req, res) {
+  const userId = req.session.userId;
+
+  const delayedImportContacts = delay(importContacts, "1h");
+  await delayedImportContacts(userId);
+
+  res.send({ ok: true });
+});
+```
+
+## Full example: Todo reminder
+
+We want to add to a Todo application the "inline Notion-like reminders" feature:
+
+<Frame>
+  <img
+    src="/images/features/delay/notion-reminders.png"
+    alt="Notion inline reminders"
+  />
+</Frame>
+
+For this example, we will assume that the front-end calls a `POST /todos` endpoint on our [Express](https://expressjs.com/) API:
+
+```tsx src/api.ts
+import express from 'express'
+
+const app = express()
+
+interface Todo {
+  userId: string
+  title: string
+  assigneeId?: string
+  remind?: Date
+}
+
+app.post('/todos', async function (req, res) {
+  const todoRecord: Todo = /* ... */
+
+  // ...do some validation...
+
+  const todo = await prisma.todo.create({
+    data: todoRecord,
+  })
+
+  res.send({ todo })
+})
+
+app.listen(3000)
+```
+
+Let's now implement the reminder mail notification as a `sendTodoReminder()` background function.
+
+### The `sendTodoReminder()` background function
+
+As stated in the ["Getting started"](/get-started/overview) guide, we create our `sendTodoReminder()` function in the `defer/` folder:
+
+```
+- src/
+  - defer/
+    - sendTodoReminder.ts ⬅
+  - api.ts
+- package.json
+- .env
+- ...
+```
+
+Here is our `sendTodoReminder()` implementation, sending an email using [Twilio Sengrid SingleMail API](https://docs.sendgrid.com/api-reference/single-sends/create-single-send):
+
+```tsx defer/sendTodoReminder.ts
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+const sendTodoReminder = async (todo: Todo) => {
+  const { email } = await prisma.user.findUnique({
+    where: {
+      id: todo.userId,
+    },
+  });
+  const msg = {
+    to: email,
+    from: "test@todo.app",
+    subject: "TodoApp reminder",
+    text: todo.title,
+    html: todo.title,
+  };
+
+  return sgMail.send(msg);
+};
+```
+
+<br />
+
+<Info>
+**Why use a Defer background function instead of Twilio Sendgrid scheduled Single Send API?**
+
+Mail scheduled with Twilio Sendgrid Single Send API can only be scheduled 3 days in advance.
+
+Also, Defer offers a better developer experience at creating and cancelling scheduled mails.
+
+</Info>
+
+### Schedule reminders when creating a Todo
+
+```tsx src/api.ts
+import express from "express";
+import sendTodoReminder from "./defer/sendTodoReminder";
+
+const app = express()
+
+interface Todo {
+  userId: string
+  title: string
+  assigneeId?: string
+  remind?: Date
+}
+
+app.post('/todos', async function (req, res) {
+  const todoRecord: Todo = /* ... */
+
+  // ...do some validation...
+
+  const todo = await prisma.todo.create({
+    data: todoRecord,
+  })
+
+  await sendTodoReminder.delay(todo, { delay: todo.remind })
+
+  res.send({ todo })
+})
+
+app.listen(3000)
+```
+
+That's it 🎉
+
+Your Todo App now offer resilient reminders sent by email:
+
+- **resilient reminders**: reminders will always happen, no matter the failures along the way, thanks to Defer's smart retries.
+- **stay in control**: Access analytics and logs of your scheduled reminders on the Defer dashboard:
+
+<Frame>
+  <img
+    src="/images/features/delay/defer-scheduled-function.png"
+    alt="Defer dashboard, scheduled function"
+  />
+</Frame>

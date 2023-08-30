@@ -1,0 +1,75 @@
+### Create your Defer application
+
+First, [sign in to the Defer Console](https://console.defer.run/), then, go to the "Setup application page."
+
+<AccordionGroup>
+
+<Accordion title="1. Selecting a repository">
+
+Install Defer on your GitHub account or organization on so Defer can list your repositories:
+
+<Frame caption="Ensure to install Defer on your GitHub account">
+  <img
+    src="/images/platform/get-a-token/install-defer-github.png"
+    alt="Install Defer on your GitHub account"
+  />
+</Frame>
+
+Then, select the GitHub repository of your application:
+
+<Frame>
+  <img
+    src="/images/platform/get-a-token/choose-repo.png"
+    alt="Select a GitHub repository"
+  />
+</Frame>
+
+</Accordion>
+
+<Accordion title="2. Environment variables (ex: Database access)">
+
+The background functions that run in Defer might need to access some externally configured services or databases. For this reason, we recommend using the **same environment variables configuration** for your target API environment and Defer application.
+
+<Info>
+
+**Got a `.env` file?**
+
+Copy the file's content into your clipboard and paste it into the first field of the "Add" line. ✨
+
+</Info>
+</Accordion>
+
+<Accordion title="Note: Monorepo, Prisma">
+
+If your application resides in a mono repo or relies on Prisma, please refer to the [Builds](/platform/builds) page on advanced options.
+
+<Frame>
+  <img
+    src="/images/platform/get-a-token/pre-build-command.png"
+    alt="Pre-build command"
+  />
+</Frame>
+
+</Accordion>
+
+</AccordionGroup>
+
+Once your application is correctly configured, click the “Create” button.
+
+You should land on the application's page with a build running; you can go to the Defer Console to check its status.
+
+<Frame caption="Your first successful build on the Defer Console">
+  <img
+    src="/images/getting-started/build-success.png"
+    alt="Your first successful build on the Defer Console"
+  />
+</Frame>
+
+You can now get a Defer Token by navigating to the _Settings_ page:
+
+<Frame caption="Copy your Defer token for the next step">
+  <img
+    src="/images/platform/get-a-token/copy-token.png"
+    alt="Copy your Defer token"
+  />
+</Frame>

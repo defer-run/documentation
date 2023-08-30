@@ -1,0 +1,76 @@
+---
+title: "Dependencies Installation"
+---
+
+The Builder installs your project dependencies using the detected package
+manager.
+
+## Lockfile
+
+Dependencies are **installed with the exact versions found in
+the lockfile**.
+
+Here are the commands executed, depending on the detected package manager:
+
+| Package Manager | Command                                             |
+| --------------- | --------------------------------------------------- |
+| **NPM**         | `npm ci --no-audit`                                 |
+| **Yarn**        | `yarn install --frozen-lockfile`                    |
+| **PNPM**        | `pnpm install --shamefully-hoist --frozen-lockfile` |
+
+## Custom installation
+
+You cannot customize the above commands, but you can still customize the installation of your dependencies.
+Indeed, you can use an `.npmrc` file or `NPM_CONFIG_` prefixed env variables to customize your package manager behavior.
+
+Example:
+
+To ignore peer dependencies like in npm v3 to v6, you can either:
+
+- add `legacy-peer-deps=true` to your `.npmrc` file
+- set the `NPM_CONFIG_LEGACY_PEER_DEPS` env variable to `"true"`
+
+## Private dependencies
+
+The Builder supports installing private packages.
+To do so, you need to create an access token:
+
+```
+npm token create --read-only
+```
+
+Then, store this token in your environment variable, say `NPM_TOKEN`
+
+Finally, add the following to a new or existing `.npmrc` file:
+
+```
+//registry.npmjs.org/:_authToken=${NPM_TOKEN}
+```
+
+<Tip>
+  More details on how to customize your token
+  [here](https://docs.npmjs.com/using-private-packages-in-a-ci-cd-workflow)
+</Tip>
+
+## Native dependencies
+
+The Builder supports native dependencies to an extent.
+
+- Node builtin native dependencies are supported
+- Node native addons (`.node` files) built using **node-gyp** and/or **node-pre-gyp** should also work out of the box
+
+Some native addons won't work out of the box with our Builder, e.g. when the code reads some file at runtime.
+
+Here is a non-exhaustive list of native dependencies known to work with our Builder:
+
+- [pg](https://www.npmjs.com/package/pg)
+- [prisma](https://www.npmjs.com/package/prisma)
+- [bcrypt](https://www.npmjs.com/package/bcrypt)
+- [vm2](https://www.npmjs.com/package/vm2)
+- [canvas](https://www.npmjs.com/package/canvas)
+- [sharp](https://www.npmjs.com/package/sharp)
+
+<Tip>
+  If you are using a native dependency and your build is failing, please contact
+  us on [Discord](https://discord.gg/x2v84Vqsk6)
+</Tip>

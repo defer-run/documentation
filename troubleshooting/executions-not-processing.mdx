@@ -1,0 +1,66 @@
+---
+title: '"My executions are not processing"'
+description: "Your application's executions are showing as 'Queued' while none are 'Running'."
+sidebarTitle: "Executions are not processing"
+---
+
+## Do not confuse with the following issues
+
+<CardGroup cols={2}>
+
+    <Card title="My executions are stuck" href="/troubleshooting/executions-stuck">
+        Your application's executions are showing as 'Running' for too long.
+    </Card>
+
+    <Card title="My executions are failing" href="/troubleshooting/executions-failing">
+        Your application's executions are marked as 'Failed'.
+    </Card>
+
+</CardGroup>
+
+## Suggested resolutions steps
+
+<AccordionGroup>
+
+    <Accordion title="1. Does your application has one successful build?">
+
+A Defer application needs a successful build to accept executions.
+
+Double-check that your Defer application has at least one successful build. Otherwise, we won't be able to process your executions.
+
+    </Accordion>
+
+    <Accordion title="2. Did you reach your concurrency limit?">
+
+    Each account gets a maximum limit applied across all applications and environments:
+
+    - Free plan: `2` concurrent executions
+    - Pro plan: `10` concurrent executions (or custom)
+
+    Check all your applications and environments for running executions; if no executions are running, please refer to the next step.
+
+    </Accordion>
+
+    <Accordion title="3. Too many executions 'Running'?">
+
+    Workflows, especially on the Free plan -- with a concurrency limit of `2`, can lead to a _deadlock_ situation when a parent execution is waiting on a stuck child execution, exhausting the concurrency limit.
+
+    To resolve such an issue, wait for the child execution to timeout (30min) and consider upgrading to a Pro plan, which is better suited for workflows.
+
+    </Accordion>
+
+    <Accordion title="4. Check status.defer.run">
+
+    We might be facing some processing slow-down or outage.
+
+    Please check on [status.defer.run](https://status.defer.run) and subscribe for future updates to be informed of the resolution.
+
+    </Accordion>
+
+</AccordionGroup>
+
+## Still facing this issue?
+
+Contact us on Discord or at support@defer.run.
+
+<script src="https://status.defer.run/embed/script.js"></script>

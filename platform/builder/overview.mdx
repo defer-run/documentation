@@ -1,0 +1,47 @@
+---
+title: "Overview"
+---
+
+In order to run your background function on its infrastructure, the Defer Platform needs to know about your node background functions. That is the role of the Builder.
+
+Specifically, the Builder is responsible for the following:
+
+- verification of your project compatibility (including defer background functions lookup)
+- bundling of your background functions
+- extraction of your background functions metadata (configuration of retries, concurrency, CRON)
+- storing your background function bundles for later Runner use
+
+A Builder invocation is called a build, and performs all those tasks on your project.
+
+Each build is processed sequentially. This page covers the lifecycle of a build.
+
+## State definitions
+
+- **Created**: the build is enqueued and will soon start
+- **Started**: the build has been picked up by the Builder worker
+- **Cloning**: your project is being cloned
+- **Installing**: your NPM dependencies are installing
+- **Generating**: your pre-build command is executing
+- **Compiling**: the Builder is compiling and bundling your background functions
+- **Publishing**: you background functions bundles and build logs are being stored
+- **Succeed**: the build is finished without any error
+- **Failed**: the build has failed with errors
+
+## Events and transitions
+
+<br />
+
+| Event              | From                                                             | To           | Description                                                                                          |
+| ------------------ | ---------------------------------------------------------------- | ------------ | ---------------------------------------------------------------------------------------------------- |
+| New environment    |                                                                  | `created`    | New environment created from the console                                                             |
+| Environment update |                                                                  | `created`    | Environment updated from the console                                                                 |
+| Rebuild            | `succeed`, `failed`                                              | `created`    | Rebuild triggered from the console                                                                   |
+| Commit             |                                                                  | `created`    | New commit pushed to the environment branch                                                          |
+| Unqueue            | `created`                                                        | `started`    | The Builder has picked up the build from the queue                                                   |
+| Clone              | `started`                                                        | `cloning`    | The Builder starts cloning the project repository                                                    |
+| Install            | `cloning`                                                        | `installing` | The Builder starts installing the project's dependencies                                             |
+| Generate           | `installing`                                                     | `generating` | The Builder executes the pre-build command, if any                                                   |
+| Compile            | `installing`, `generating`                                       | `compiling`  | The Builder compiles background functions                                                            |
+| Publish            | `compiling`                                                      | `publishing` | The Builder stores the background function bundles                                                   |
+| Success            | `publishing`                                                     | `succeed`    | The build has completed successfully                                                                 |
+| Fail               | `cloning`, `installing`, `generating`, `compiling`, `publishing` | `failed`     | The build has failed. Can happen at various steps. Diagnostics and logs are displayed in the console |

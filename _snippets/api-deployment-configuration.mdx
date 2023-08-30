@@ -1,0 +1,76 @@
+### Configure your API deployment
+
+Your API deployment should expose your [Defer Token](/platform/concepts) as an environment variable in order to get your background function deferred when called.
+
+<AccordionGroup>
+
+<Accordion title={'Set your Defer Token on Vercel'}>
+
+1. Go to your [Vercel Dashboard](https://vercel.com/)
+1. From your project, go to settings
+1. Then, to "Environment Variables"
+1. Finally, add a new environment variable with Key as `DEFER_TOKEN`:
+
+<Frame>
+  <img
+    src="/images/getting-started/env-var-vercel.png"
+    alt="Setup your Defer Token on Vercel"
+  />
+</Frame>
+
+</Accordion>
+
+<Accordion title={'Set your Defer Token on Heroku'}>
+
+1. Go to your [Heroku Dashboard](https://dashboard.heroku.com/apps)
+1. Select your app, and go to settings
+1. Scroll to "Config Vars" and click on "Reveal Config Vars"
+1. Finally, add a new environment variable with `DEFER_TOKEN` as "key":
+
+<Frame>
+  <img
+    src="/images/getting-started/env-var-heroku.png"
+    alt="Setup your Defer Token on Vercel"
+  />
+</Frame>
+
+</Accordion>
+
+<Accordion title={'Set your Defer Token on Render'}>
+
+1. Go to your [Render Dashboard](https://dashboard.render.com/)
+1. Select a service
+1. Then, go to "Environment" and click on Add Environment Variable
+1. Finally, add a new environment variable with `DEFER_TOKEN` as "key":
+
+<Frame>
+  <img
+    src="/images/getting-started/env-var-render.png"
+    alt="Setup your Defer Token on Vercel"
+  />
+</Frame>
+
+</Accordion>
+
+<Accordion title={'Set your Defer Token on Fly.io'}>
+
+Update your `fly.toml` configuration filename as follow:
+
+```toml filename="fly.toml" {3} copy
+[env]
+MY_ENV = "debug"
+DEFER_TOKEN = "<your defer token>"
+```
+
+</Accordion>
+
+<Accordion title={'Set your Defer Token on other hosting providers'}>
+
+Update your environment variables by adding the following:
+
+- key: `"DEFER_TOKEN"`
+- value: your Defer Token
+
+</Accordion>
+
+</AccordionGroup>

@@ -1,0 +1,39 @@
+---
+title: '"My executions are failing"'
+description: "Your application's executions are marked as 'Failed'."
+sidebarTitle: "Executions are failing"
+---
+
+## Do not confuse with the following issues
+
+<CardGroup cols={2}>
+
+    <Card title="My executions are not processing" href="/troubleshooting/executions-not-processing">
+        Your application's executions are showing as 'Queued' while none are 'Running'.
+    </Card>
+
+    <Card title="My executions are stuck" href="/troubleshooting/executions-stuck">
+        Your application's executions are showing as 'Running' for too long.
+    </Card>
+
+</CardGroup>
+
+## Suggested resolutions steps
+
+<AccordionGroup>
+
+    <Accordion title="1. Does your application has one successful build?">
+
+A Defer application needs a successful build to accept executions.
+
+Double-check that your Defer application has at least one successful build. Otherwise, we won't be able to process your executions.
+
+    </Accordion>
+
+</AccordionGroup>
+
+## Still facing this issue?
+
+Contact us on Discord or at support@defer.run.
+
+<script src="https://status.defer.run/embed/script.js"></script>

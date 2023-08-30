@@ -1,0 +1,30 @@
+---
+title: "Prebuild command"
+---
+
+The pre-build command is a custom command you can set up. It is executed after the installation of your dependencies,
+and before the compilation of your background functions.
+
+Examples: Prisma client generation or GraphQL Code Generator.
+
+## Example
+
+Here is a simple example of how to use a pre-build command to generate the prisma client.
+
+Let's say you have the following script in your `package.json` file:
+
+```
+{
+  "scripts": {
+    "db:generate": "prisma generate"
+  }
+}
+```
+
+Then you can use the following pre-build command, depending on your package manager:
+
+| Package Manager | Command                |
+| --------------- | ---------------------- |
+| **NPM**         | `npm run db:generate`  |
+| **Yarn**        | `yarn db:generate`     |
+| **PNPM**        | `pnpm run db:generate` |

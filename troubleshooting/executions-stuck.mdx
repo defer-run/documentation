@@ -1,0 +1,69 @@
+---
+title: '"My executions are stuck"'
+description: "Your application's executions are showing as 'Running' for too long."
+sidebarTitle: "Executions are stuck"
+---
+
+## Do not confuse with the following issues
+
+<CardGroup cols={2}>
+
+    <Card title="My executions are not processing" href="/troubleshooting/executions-not-processing">
+        Your application's executions are showing as 'Queued' while none are 'Running'.
+    </Card>
+
+    <Card title="My executions are failing" href="/troubleshooting/executions-failing">
+        Your application's executions are marked as 'Failed'.
+    </Card>
+
+</CardGroup>
+
+## Suggested resolutions steps
+
+<AccordionGroup>
+
+    <Accordion title="1. Check your `@defer/client` version">
+
+        `@defer/client` v1.6.0 introduced a default `maxDuration` of 30 minutes by default.
+
+        Please upgrade your `@defer/client` and can cancel the pending executions from the Console.
+
+    </Accordion>
+
+    <Accordion title="2. Too many executions 'Running'?">
+
+    Workflows, especially on the Free plan -- with a concurrency limit of `2`, can lead to a _deadlock_ situation when a parent execution is waiting on a stuck child execution, exhausting the concurrency limit.
+
+    To resolve such an issue, wait for the child execution to timeout (default: 30min) or cancel it from the Console.
+
+    Please consider upgrading to a Pro plan, which is better suited for workflows.
+
+    </Accordion>
+
+    <Accordion title="3. Check status.defer.run">
+
+    We might be facing some processing slow-down or outage.
+
+    Please check on [status.defer.run](https://status.defer.run) and subscribe for future updates to be informed of the resolution.
+
+    </Accordion>
+
+</AccordionGroup>
+
+## Still facing this issue?
+
+Contact us on Discord or at support@defer.run.
+
+<script src="https://status.defer.run/embed/script.js"></script>
+
+## FAQ
+
+<AccordionGroup>
+
+    <Accordion title="Can I get the logs from a 'Running' execution?">
+
+        We plan to release live logs in August 2023; stay tuned by joining our community!
+
+    </Accordion>
+
+</AccordionGroup>

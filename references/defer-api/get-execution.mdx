@@ -1,0 +1,66 @@
+---
+title: "Get Execution"
+api: "GET https://api.defer.run/public/v1/executions/{executionId}"
+---
+
+<RequestExample>
+
+```bash cURL
+curl \
+  -X GET \
+  -u :<access-token> \
+  https://api.defer.run/public/v1/executions/0ujtsYcgvSTl8PAuAdqWYSMnLOv
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json 2xx
+{
+  "id": "0ujtsYcgvSTl8PAuAdqWYSMnLOv",
+  "state": "failed",
+  "result": "hello John Doe"
+}
+```
+
+```json 4xx
+{
+  "error": "bad request",
+  "message": "invalid execution id"
+}
+```
+
+</ResponseExample>
+
+## Endpoint
+
+GET https://api.defer.run/public/v1/executions/{execution-id}
+
+## Request
+
+### Path Parameters
+
+<ParamField path="execution-id" type="string" required>
+  The execution ID.
+</ParamField>
+
+## Response
+
+### Body
+
+<ResponseField name="id" type="string" required>
+  The state of the execution.
+</ResponseField>
+
+<ResponseField
+  name="state"
+  type="created | running | succeed | failed | aborting | aborted | cancelled"
+  required
+>
+  The ID of the execution.
+</ResponseField>
+
+<ResponseField name="result" type="any">
+  The result returns by the function.
+</ResponseField>

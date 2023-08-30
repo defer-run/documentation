@@ -1,0 +1,33 @@
+---
+title: "Overview"
+---
+
+The Runner orchestrates the execution of your background functions when your application calls them.
+
+A Runner invocation is called an execution. This page covers the lifecycle of an execution.
+
+## State definitions
+
+- **Created**: the execution is enqueued
+- **Started**: the execution is running
+- **Cancelled**: the execution has been Cancelled
+- **Aborting**: the execution is being aborted
+- **Aborted**: the execution has been aborted
+- **Succeed**: the execution has run without any error
+- **Failed**: the execution has failed with errors
+
+## Events and transitions
+
+<br />
+
+| Event   | From                | To          | Description                                                                |
+| ------- | ------------------- | ----------- | -------------------------------------------------------------------------- |
+| Call    |                     | `created`   | Your application calls a background function                               |
+| Retry   | `failed`            | `created`   | The execution has failed and retries are configured                        |
+| Rerun   | `succeed`, `failed` | `created`   | A rerun has been triggered from the console                                |
+| Cancel  | `created`           | `cancelled` | The execution is cancelled from the console or the client                  |
+| Start   | `created`           | `started`   | The Runner has picked up the execution from the queue                      |
+| Abort   | `started`           | `aborting`  | The execution abortion process is triggered from the console or the client |
+| Aborted | `aborting`          | `aborted`   | The execution abortion is complete                                         |
+| Fail    | `started`           | `failed`    | The execution has failed with error                                        |
+| Success | `started`           | `succeed`   | The execution has completed successfully                                   |

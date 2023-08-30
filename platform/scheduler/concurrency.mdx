@@ -1,0 +1,13 @@
+---
+title: "Concurrency"
+---
+
+The concurrency dzetermines the maximum number of parallel executions that are allowed for this function.
+There is no limit on concurrency by default.
+
+The Scheduler is in charge of enforcing the concurrency configured on your background functions.
+
+**FIFO**
+
+When a background function is configured as FIFO (`concurrency: 1`),
+the Scheduler will enforce the sequential processing of its executions.

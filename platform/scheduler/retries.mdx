@@ -1,0 +1,16 @@
+---
+title: "Retries"
+---
+
+The Scheduler orchestrates retries with the following parameters:
+
+- `maxAttempts`: How many retries should we attempt in total.
+- `initialInterval`: How close the first retry should be? (in seconds).
+- `randomizationFactor`: How much randomness should be introduced in the space between retries.
+- `multiplier`: How fast the space between each retry should grow? (exponential back-off).
+- `maxInterval`: What should be the max space between 2 retries? (in seconds).
+
+<Tip>
+  For practical examples, please read our ["A deep dive into Function's retry
+  strategies"](https://www.defer.run/blog/function-retry-strategies/) blog post
+</Tip>

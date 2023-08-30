@@ -1,0 +1,61 @@
+---
+title: "Enqueue Execution"
+api: "POST https://api.defer.run/public/v1/enqueue"
+---
+
+<RequestExample>
+
+```bash cURL
+curl \
+  -X POST \
+  -u :<access-token> \
+  -d '{"name": "sayHello", "arguments": ["John Doe"], "metadata": { "foo": "bar" }}' \
+  https://api.defer.run/public/v1/enqueue
+```
+</RequestExample>
+
+<ResponseExample>
+
+```json 2xx
+{
+ "id": "0ujtsYcgvSTl8PAuAdqWYSMnLOv"
+}
+```
+
+```json 4xx
+{
+ "error": "bad request",
+ "message": "invalid function name"
+}
+```
+
+</ResponseExample>
+
+## Endpoint
+
+POST https://api.defer.run/public/v1/enqueue
+
+## Request
+
+### Body Parameters
+
+<ParamField path="name" type="string" required>
+  The name of the function.
+</ParamField>
+<ParamField path="arguments" type="array<any>">
+  The arguments of the function.
+</ParamField>
+<ParamField path="scheduled_for" type="string">
+  The datetime when the execution should be executed.
+</ParamField>
+<ParamField path="metadata" type="object">
+  Metadata to add on the execution.
+</ParamField>
+
+## Response
+
+### Body
+
+<ResponseField name="id" type="string" required>
+  The ID of the execution.
+</ResponseField>

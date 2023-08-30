@@ -1,0 +1,74 @@
+---
+title: "Arguments and Result"
+---
+
+## Arguments
+
+The arguments passed to a background function **must be serializable**.
+They will be serialized using `JSON.stringify` upon enqueuing.
+
+Here are some examples of serializable arguments:
+
+<CodeGroup>
+```javascript number
+myFunction(42)
+```
+
+```javascript string
+myFunction("foo");
+```
+
+```javascript boolean
+myFunction(false);
+```
+
+```javascript Object with serializable values
+myFunction({
+  myNumber: 42,
+  myString: "foo",
+  myBoolean: false,
+});
+```
+
+</CodeGroup>
+
+<br />
+
+<Warning>
+  If you pass a Date to your background function, `JSON.stringify()` will
+  convert it to a string. So if your background function body expects a Date, it
+  will fail. You'll at least need to deserialize it yourself.
+</Warning>
+
+Here are some examples of non serializable arguments:
+
+<CodeGroup>
+```javascript Class
+myFunction(new MyClass())
+```
+
+```javascript RegExp
+myFunction(/myRegExp?/);
+```
+
+```javascript Date
+myFunction(new Date());
+```
+
+```javascript Object with non serializable values
+myFunction({
+  myClass: new MyClass(),
+  myRegExp: /myRegExp?/,
+  myDate: new Date(),
+});
+```
+
+</CodeGroup>
+
+## Result
+
+The value returned by a background function should be a non-null value
+(`void` is permitted).
+
+Please note that the execution result (return value) **must be serializable**.
+They will be serialized using `JSON.stringify` and stored after the execution is done.

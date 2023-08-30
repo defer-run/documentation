@@ -1,0 +1,218 @@
+---
+title: Overview
+---
+
+Start _queueing without plumbing_ with Defer's open-source [Scheduler](/platform/scheduler) and [Console](/platform/console) that enable:
+
+- **Queued executions** to [receive webhooks, handle OpenAI rate limiting or Vercel timeouts](/guides/background-tasks).
+- **Scheduled executions** to [schedule email campaigns or batch processing](/guides/scheduled-tasks).
+- **Workflows** to perform [LLM-chaining or long-running transactions](/guides/workflows).
+
+**Get started in under 5 minutes** and scale without any infrastructure work.
+
+## Get started
+
+<CardGroup cols={2}>
+  <Card
+    title="Set up with Next.js"
+    icon={
+      <svg
+        className="fill"
+        width="24"
+        height="24"
+        viewBox=".5 -.2 1023 1024.1"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="m478.5.6c-2.2.2-9.2.9-15.5 1.4-145.3 13.1-281.4 91.5-367.6 212-48 67-78.7 143-90.3 223.5-4.1 28.1-4.6 36.4-4.6 74.5s.5 46.4 4.6 74.5c27.8 192.1 164.5 353.5 349.9 413.3 33.2 10.7 68.2 18 108 22.4 15.5 1.7 82.5 1.7 98 0 68.7-7.6 126.9-24.6 184.3-53.9 8.8-4.5 10.5-5.7 9.3-6.7-.8-.6-38.3-50.9-83.3-111.7l-81.8-110.5-102.5-151.7c-56.4-83.4-102.8-151.6-103.2-151.6-.4-.1-.8 67.3-1 149.6-.3 144.1-.4 149.9-2.2 153.3-2.6 4.9-4.6 6.9-8.8 9.1-3.2 1.6-6 1.9-21.1 1.9h-17.3l-4.6-2.9c-3-1.9-5.2-4.4-6.7-7.3l-2.1-4.5.2-200.5.3-200.6 3.1-3.9c1.6-2.1 5-4.8 7.4-6.1 4.1-2 5.7-2.2 23-2.2 20.4 0 23.8.8 29.1 6.6 1.5 1.6 57 85.2 123.4 185.9s157.2 238.2 201.8 305.7l81 122.7 4.1-2.7c36.3-23.6 74.7-57.2 105.1-92.2 64.7-74.3 106.4-164.9 120.4-261.5 4.1-28.1 4.6-36.4 4.6-74.5s-.5-46.4-4.6-74.5c-27.8-192.1-164.5-353.5-349.9-413.3-32.7-10.6-67.5-17.9-106.5-22.3-9.6-1-75.7-2.1-84-1.3zm209.4 309.4c4.8 2.4 8.7 7 10.1 11.8.8 2.6 1 58.2.8 183.5l-.3 179.8-31.7-48.6-31.8-48.6v-130.7c0-84.5.4-132 1-134.3 1.6-5.6 5.1-10 9.9-12.6 4.1-2.1 5.6-2.3 21.3-2.3 14.8 0 17.4.2 20.7 2z"></path>
+        <path d="m784.3 945.1c-3.5 2.2-4.6 3.7-1.5 2 2.2-1.3 5.8-4 5.2-4.1-.3 0-2 1-3.7 2.1zm-6.9 4.5c-1.8 1.4-1.8 1.5.4.4 1.2-.6 2.2-1.3 2.2-1.5 0-.8-.5-.6-2.6 1.1zm-5 3c-1.8 1.4-1.8 1.5.4.4 1.2-.6 2.2-1.3 2.2-1.5 0-.8-.5-.6-2.6 1.1zm-5 3c-1.8 1.4-1.8 1.5.4.4 1.2-.6 2.2-1.3 2.2-1.5 0-.8-.5-.6-2.6 1.1zm-7.6 4c-3.8 2-3.6 2.8.2.9 1.7-.9 3-1.8 3-2 0-.7-.1-.6-3.2 1.1z"></path>
+      </svg>
+    }
+    href="/get-started/quickstart/nextjs"
+  >
+    Powerful long-running CRONs, with retries.
+  </Card>
+  <Card
+    title="Set up with Express"
+    icon={
+      <svg
+        className="fill"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 32 32"
+        width="24"
+        height="24"
+      >
+        <path d="M32 24.795c-1.164.296-1.884.013-2.53-.957l-4.594-6.356-.664-.88-5.365 7.257c-.613.873-1.256 1.253-2.4.944l6.87-9.222-6.396-8.33c1.1-.214 1.86-.105 2.535.88l4.765 6.435 4.8-6.4c.615-.873 1.276-1.205 2.38-.883l-2.48 3.288-3.36 4.375c-.4.5-.345.842.023 1.325L32 24.795zM.008 15.427l.562-2.764C2.1 7.193 8.37 4.92 12.694 8.3c2.527 1.988 3.155 4.8 3.03 7.95H1.48c-.214 5.67 3.867 9.092 9.07 7.346 1.825-.613 2.9-2.042 3.438-3.83.273-.896.725-1.036 1.567-.78-.43 2.236-1.4 4.104-3.45 5.273-3.063 1.75-7.435 1.184-9.735-1.248C1 21.6.434 19.812.18 17.9c-.04-.316-.12-.617-.18-.92q.008-.776.008-1.552zm1.498-.38h12.872c-.084-4.1-2.637-7.012-6.126-7.037-3.83-.03-6.58 2.813-6.746 7.037z"></path>
+      </svg>
+    }
+    href="/get-started/quickstart/express-koa-hapi"
+  >
+    Build fast and resilient APIs.
+  </Card>
+  <Card
+    title="Get rid of Vercel's timeout"
+    icon={
+      <>
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 76 65"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="hidden dark:block"
+        >
+          <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="#FFF" />
+        </svg>
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 76 65"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="dark:hidden"
+        >
+          <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="#000" />
+        </svg>
+      </>
+    }
+    href="/guides/vercel-timeout"
+  >
+    Offload long-running work on Defer.
+  </Card>
+  <Card
+    title="Handle OpenAI rate-limiting"
+    icon={
+      <>
+        <svg
+          fill="#FFF"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          role="img"
+          xmlns="http://www.w3.org/2000/svg"
+          className="hidden dark:block"
+        >
+          <title>OpenAI icon</title>
+          <path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z" />
+        </svg>
+        <svg
+          fill="#000"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          role="img"
+          xmlns="http://www.w3.org/2000/svg"
+          className="dark:hidden"
+        >
+          <title>OpenAI icon</title>
+          <path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z" />
+        </svg>
+      </>
+    }
+    href="/guides/open-ai-rate-limit"
+  >
+    Goodbye rate limits. Resilient LLM calls.
+  </Card>
+</CardGroup>
+
+## Explore
+
+<CardGroup cols={2}>
+  <Card
+    title="How Defer works"
+    icon={
+      <>
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 40 41"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="hidden dark:block"
+        >
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M40 0.5V40.5H0V0.5H40ZM15.7143 4.78571H4.28571V16.2143H15.7143V4.78571ZM4.28571 20.5H20V4.78571H25.7143V26.2143H4.28571V20.5ZM4.28571 36.2143V30.5H30V4.78571H35.7143V36.2143H4.28571Z"
+            fill="white"
+          />
+        </svg>
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 40 41"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="block dark:hidden"
+        >
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M40 0.5V40.5H0V0.5H40ZM15.7143 4.78571H4.28571V16.2143H15.7143V4.78571ZM4.28571 20.5H20V4.78571H25.7143V26.2143H4.28571V20.5ZM4.28571 36.2143V30.5H30V4.78571H35.7143V36.2143H4.28571Z"
+            fill="black"
+          />
+        </svg>
+      </>
+    }
+    href="/platform"
+  >
+    Learn Defer's platform core concepts.
+  </Card>
+  <Card
+    title="Scheduled Execution"
+    icon={"clock"}
+    iconType={"light"}
+    href="/features/scheduled-execution"
+  >
+    One-off or recurring future execution.
+  </Card>
+  <Card
+    title="Configuring Retries & Throttling"
+    icon={"repeat"}
+    iconType={"light"}
+    href="/guides/vercel-timeout"
+  >
+    Gain resilience with retries.
+  </Card>
+  <Card
+    title="Concurrency & Resources"
+    icon={"wave-square"}
+    iconType={"light"}
+    href="/guides/open-ai-rate-limit"
+  >
+    Speed up your background functions.
+  </Card>
+  <Card
+    title="Plans & Limits"
+    icon={"bolt"}
+    iconType={"light"}
+    href="/platform/limits"
+  >
+    Fitting all usage.
+  </Card>
+  <Card
+    title="Changelogs"
+    icon={"book"}
+    iconType={"light"}
+    href="/platform/changelog"
+  >
+    Stay on track.
+  </Card>
+</CardGroup>
+
+## Community
+
+<CardGroup cols={3}>
+  <Card title="Discord" icon={"discord"} href="https://discord.gg/x2v84Vqsk6">
+    Chat with us.
+  </Card>
+  <Card title="Twitter" icon={"twitter"} href="https://twitter.com/defer_run">
+    Get our latest news.
+  </Card>
+  <Card
+    title="GitHub"
+    icon={"github"}
+    href="https://github.com/defer-run/defer"
+  >
+    Follow our progress.
+  </Card>
+</CardGroup>

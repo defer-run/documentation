@@ -1,0 +1,30 @@
+---
+title: "delay()"
+icon: function
+---
+
+The `delay()` function takes a deferred function and applies a custom
+`scheduled_for` attribute. By default, the `scheduled_for` is set to
+the current time.
+
+Example:
+
+<CodeGroup>
+```js index.js
+import { delay } from "@defer/client";
+import { sayHello } from "./defer/sayHello";
+
+const delayedSayHello = delay(sayHello, "1h");
+await delayedSayHello("John Doe");
+
+```
+
+```js defer/sayHello.js
+import { defer } from "@defer/client";
+
+const sayHello = name => console.log(`hello ${name}!`)
+
+export default defer(sayHello);
+```
+
+</CodeGroup>

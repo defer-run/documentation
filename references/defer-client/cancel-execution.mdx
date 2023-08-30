@@ -1,0 +1,44 @@
+---
+title: "cancelExecution()"
+icon: function
+---
+
+The `cancelExecution` function cancels a pending or running execution
+by its ID. By default, `cancelExecution` can only cancel pending
+executions and throws an error if the execution is already
+running. The `force` option allows for the cancellation of a running
+execution.
+
+<CodeGroup>
+```js Cancel Execution
+import { cancelExecution } from "@defer/client";
+import { sayHello } from "./defer/sayHello";
+
+const { id } = await sayHello("John Doe");
+await cancelExecution(id)
+
+```
+
+```js Abort Execution
+import { cancelExecution } from "@defer/client";
+import { sayHello } from "./defer/sayHello";
+
+const { id } = await sayHello("John Doe");
+await cancelExecution(id, { force: true })
+```
+
+```js defer/sayHello.js
+import { defer } from "@defer/client";
+
+const sayHello = (name) => `hello ${name}!`;
+
+export default defer(sayHello);
+```
+
+</CodeGroup>
+
+## Options
+
+<ResponseField name="force" type="boolean">
+  Force the cancellation even if the execution is in running state.
+</ResponseField>

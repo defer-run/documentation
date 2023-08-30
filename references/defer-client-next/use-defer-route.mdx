@@ -1,0 +1,22 @@
+---
+title: "useDeferRoute()"
+icon: react
+description: "`@defer/client/next` package"
+---
+
+<RequestExample>
+
+    ```tsx
+    import { useDeferRoute } from "@defer/client/next"
+    import createThumbnails from "../defer/createThumbnails"
+
+    const [
+        uploadFile,
+        { loading, result: fileName, error }
+    ] = useDeferRoute<typeof createThumbnails>(
+        "/api/upload",
+        { refreshInterval: 1000 }
+    );
+    ```
+
+</RequestExample>

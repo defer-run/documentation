@@ -1,0 +1,177 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "Defer docs",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "modeToggle": {
+    "default": "dark"
+  },
+  "feedback": {
+    "raiseIssue": true,
+    "suggestEdit": true
+  },
+  "favicon": "/favicon.png",
+  "colors": {
+    "primary": "#303030",
+    "light": "#e5e5e5",
+    "dark": "#303030",
+    "background": {
+      "dark": "#141414",
+      "light": "#fcfcfc"
+    }
+  },
+  "topbarCtaButton": {
+    "type": "github",
+    "url": "https://github.com/defer-run/defer.client"
+  },
+  "topbarLinks": [
+    {
+      "name": "Console",
+      "url": "https://console.defer.run"
+    }
+  ],
+  "tabs": [
+    {
+      "name": "Platform",
+      "url": "platform"
+    },
+    {
+      "name": "References",
+      "url": "references"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "",
+      "pages": ["overview"]
+    },
+    {
+      "group": "Get Started",
+      "pages": [
+        "get-started/concepts",
+        {
+          "group": "Quickstart",
+          "pages": [
+            "get-started/quickstart/express-koa-hapi",
+            "get-started/quickstart/nextjs",
+            "get-started/quickstart/nest",
+            "get-started/quickstart/redwoodjs",
+            "get-started/quickstart/remix",
+            "get-started/quickstart/sveltekit",
+            "get-started/quickstart/trpc",
+            "get-started/quickstart/custom-stack"
+          ]
+        },
+        "get-started/development-testing"
+      ]
+    },
+    {
+      "group": "Features",
+      "pages": [
+        "features/background-functions",
+        "features/delay",
+        "features/cron",
+        "features/concurrency-resources",
+        "features/retries-throttling",
+        "features/execution-metadata",
+        "features/workflows"
+      ]
+    },
+    {
+      "group": "Troubleshooting",
+      "pages": [
+        {
+          "group": "Executions",
+          "pages": [
+            "troubleshooting/executions-not-processing",
+            "troubleshooting/executions-stuck",
+            "troubleshooting/executions-failing"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "",
+      "pages": ["contribute", "defer-run"]
+    },
+    {
+      "group": "",
+      "pages": ["platform/overview"]
+    },
+    {
+      "group": "Builder",
+      "pages": [
+        "platform/builder/overview",
+        "platform/builder/requirements",
+        "platform/builder/environment",
+        "platform/builder/cloning",
+        "platform/builder/dependencies",
+        "platform/builder/prebuild-command",
+        "platform/builder/compilation",
+        "platform/builder/limits"
+      ]
+    },
+    {
+      "group": "Scheduler",
+      "pages": [
+        "platform/scheduler/overview",
+        "platform/scheduler/retries",
+        "platform/scheduler/concurrency"
+      ]
+    },
+    {
+      "group": "Runner",
+      "pages": [
+        "platform/runner/overview",
+        "platform/runner/environment",
+        "platform/runner/arguments-result",
+        "platform/runner/errors",
+        "platform/runner/network-containers",
+        "platform/runner/limits"
+      ]
+    },
+    {
+      "group": "",
+      "pages": ["references/overview"]
+    },
+    {
+      "group": "`@defer/client`",
+      "pages": [
+        "references/defer-client/defer",
+        "references/defer-client/defer-cron",
+        "references/defer-client/delay",
+        "references/defer-client/add-metadata",
+        "references/defer-client/get-execution",
+        "references/defer-client/cancel-execution",
+        "references/defer-client/await-result"
+      ]
+    },
+    {
+      "group": "`@defer/client/next`",
+      "pages": [
+        "references/defer-client-next/as-next-route",
+        "references/defer-client-next/use-defer-route"
+      ]
+    },
+    {
+      "group": "REST API",
+      "pages": [
+        "references/defer-api/enqueue",
+        "references/defer-api/get-execution",
+        "references/defer-api/cancel-execution"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "twitter": "https://twitter.com/defer_run",
+    "github": "https://github.com/defer-run/",
+    "linkedin": "https://www.linkedin.com/company/defer-inc/"
+  },
+  "api": {
+    "playground": {
+      "mode": "hide"
+    }
+  }
+}

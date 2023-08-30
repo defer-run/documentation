@@ -1,0 +1,42 @@
+---
+title: "Building Environment"
+---
+
+## Reserved environment variables
+
+The following Environment variables are reserved and will be overrided if configured on the environment's settings.
+
+- `DEFER_TOKEN`
+- `NODE_ENV`
+- `FORCE_COLOR`
+- `NODE_DEBUG`
+- `NODE_DEBUG_NATIVE`
+- `NODE_DISABLE_COLORS`
+- `NODE_EXTRA_CA_CERTS`
+- `NODE_ICU_DATA`
+- `NODE_NO_WARNINGS`
+- `NODE_OPTIONS`
+- `NODE_PATH`
+- `NODE_PENDING_DEPRECATION`
+- `NODE_PENDING_PIPE_INSTANCES`
+- `NODE_PRESERVE_SYMLINKS`
+- `NODE_REDIRECT_WARNINGS`
+- `NODE_REPL_HISTORY`
+- `NODE_REPL_EXTERNAL_MODULE`
+- `NODE_SKIP_PLATFORM_CHECK`
+- `NODE_TLS_REJECT_UNAUTHORIZED`
+- `NODE_V8_COVERAGE`
+- `NO_COLOR`
+- `OPENSSL_CONF`
+- `SSL_CERT_DIR`
+- `SSL_CERT_FILE`
+- `UV_THREADPOOL_SIZE`
+
+## NODE_ENV
+
+`NODE_ENV` value is ignored during a build. It is set to `development` so the Builder can target your TS lib, for example.
+
+## Doppler integration
+
+Our builder supports **Doppler**. If you set up the `DOPPLER_TOKEN` environment variable on your Defer environment,
+the Builder will recognize it and use **Doppler** to populate its env.

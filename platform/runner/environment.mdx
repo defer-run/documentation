@@ -1,0 +1,64 @@
+---
+title: "Running Environment"
+---
+
+When an execution is dequeued by the Scheduler, it is passed to a new Runner.
+Each execution gets its own environment, inside a **Docker** container.
+
+## Binaries
+
+The Runner environment ships with the following binaries:
+
+- `google-chrome-stable`
+- `doppler`
+- `ffmpeg`
+- `audiowaveform`
+- `sox`
+
+## Reserved environment variables
+
+The following Environment variables are reserved and will be overrided
+if configured on the environment's settings.
+
+- `DEFER_TOKEN`
+- `FORCE_COLOR`
+- `NODE_DEBUG`
+- `NODE_DEBUG_NATIVE`
+- `NODE_DISABLE_COLORS`
+- `NODE_EXTRA_CA_CERTS`
+- `NODE_ICU_DATA`
+- `NODE_NO_WARNINGS`
+- `NODE_OPTIONS`
+- `NODE_PATH`
+- `NODE_PENDING_DEPRECATION`
+- `NODE_PENDING_PIPE_INSTANCES`
+- `NODE_PRESERVE_SYMLINKS`
+- `NODE_REDIRECT_WARNINGS`
+- `NODE_REPL_HISTORY`
+- `NODE_REPL_EXTERNAL_MODULE`
+- `NODE_SKIP_PLATFORM_CHECK`
+- `NODE_TLS_REJECT_UNAUTHORIZED`
+- `NODE_V8_COVERAGE`
+- `NO_COLOR`
+- `OPENSSL_CONF`
+- `SSL_CERT_DIR`
+- `SSL_CERT_FILE`
+- `UV_THREADPOOL_SIZE`
+
+## Doppler integration
+
+The Runner supports **Doppler**. If you set up the `DOPPLER_TOKEN` environment variable on your Defer environment,
+the Runner will recognize it and use **Doppler** to populate its env.
+
+## Puppeteer support
+
+The Runner ships with **Google Chrome**, allowing you to use **Puppetter** inside your background functions.
+
+## Date and time
+
+Inside a Runner container, the timezone is `UTC`.
+
+<Note>
+  Please take this in consideration when writing date/time-related logic in your
+  background functions
+</Note>

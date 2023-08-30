@@ -1,0 +1,35 @@
+---
+title: "Errors"
+---
+
+The Runner differentiates between errors related to the execution of a background function.
+
+## Timeout
+
+<ResponseField name="name" type="TimeoutError">
+  <ResponseField name="code" type="ER0001" />
+  This error is thrown by the Runner when an execution exceeds the max duration configured
+  on the corresponding background function.
+</ResponseField>
+
+## Out of Memory
+
+<ResponseField name="name" type="OOMError">
+  <ResponseField name="code" type="ER0002" />
+  This error is thrown by the Runner when an execution is using more memory than
+  the allowed maximum configured on the corresponding background function.
+</ResponseField>
+
+## Non Zero Exit Code
+
+<ResponseField name="name" type="NonZeroExitCodeError">
+  <ResponseField name="code" type="ER0003" />
+  This error is thrown when the Runner exit code is different than `0`. It means
+  your execution failed, and that there's an error in your code
+</ResponseField>
+
+<Info>
+  The Builder emits
+  [sourcemaps](/platform/builder/compilation#bundles-and-sourcemaps), so you are
+  able to identify the root cause and fix your code fast{" "}
+</Info>
