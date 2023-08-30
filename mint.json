@@ -133,7 +133,7 @@
       "pages": ["references/overview"]
     },
     {
-      "group": "`@defer/client`",
+      "group": "@defer/client",
       "pages": [
         "references/defer-client/defer",
         "references/defer-client/defer-cron",
@@ -145,7 +145,7 @@
       ]
     },
     {
-      "group": "`@defer/client/next`",
+      "group": "@defer/client/next",
       "pages": [
         "references/defer-client-next/as-next-route",
         "references/defer-client-next/use-defer-route"

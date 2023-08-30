@@ -2,3 +2,40 @@
 title: "defer.cron()"
 icon: function
 ---
+
+The `defer.cron(schedule, options)` function allows to run a function recurrently in the brackground.
+
+Example:
+
+```js
+import { defer } from "@defer/client";
+
+const sayHello = () => console.log(`hello!`);
+
+export default defer.cron(sayHello, "5 0 * * *");
+```
+
+## Schedule expression
+
+<ResponseField name="schedule" type="string">
+A valid CRON expression. Determines the schedule for your background job.
+
+Examples:
+
+  <CodeGroup>
+
+```js Every 5 minutes
+export default defer.cron(sayHello, "*/5 * * * *");
+```
+
+```js Every weekday from Monday to Friday
+export default defer.cron(sayHello, "0 0 * * 1-5");
+```
+
+  </CodeGroup>
+
+</ResponseField>
+
+## Options
+
+The `defer.cron()` function takes the [same options as `defer()`](/defer-client/defer#options).
