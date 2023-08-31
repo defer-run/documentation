@@ -1,112 +1,45 @@
 ---
 title: "Concurrency"
-description: "See how to configure your background function execution behavior"
+description: "Control the number of parallel executions"
 ---
-
-## Prerequisites
-
-<Card
-  title="Defer basics"
-  href="/features/scheduled-execution"
-  icon={
-    <>
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 40 41"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="hidden dark:block"
-      >
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M40 0.5V40.5H0V0.5H40ZM15.7143 4.78571H4.28571V16.2143H15.7143V4.78571ZM4.28571 20.5H20V4.78571H25.7143V26.2143H4.28571V20.5ZM4.28571 36.2143V30.5H30V4.78571H35.7143V36.2143H4.28571Z"
-          fill="white"
-        />
-      </svg>
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 40 41"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="block dark:hidden"
-      >
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M40 0.5V40.5H0V0.5H40ZM15.7143 4.78571H4.28571V16.2143H15.7143V4.78571ZM4.28571 20.5H20V4.78571H25.7143V26.2143H4.28571V20.5ZM4.28571 36.2143V30.5H30V4.78571H35.7143V36.2143H4.28571Z"
-          fill="black"
-        />
-      </svg>
-    </>
-  }
->
-  Get familiar with background functions
-</Card>
 
 ## Overview
 
-By default, Defer Platform will execute background functions using your account limits (Free: 2, Pro: 10 to custom).
-All executions are picked up on the right order, however, if you need to process things in a **FIFO** way, please use the `{ concurrency: 1 }` configuration.
+Limiting the maximum number of parallel executions is a common
+practice. For instance, when third-party services restrict the number
+of concurrent calls to their service. This also helps distributing the
+global concurrency limit into function limits, preventing one function
+from consuming all the concurrency.
 
-## Configure concurrency
+<Info>
 
-```tsx defer/importContacts.ts
-import { defer } from "@defer.run/client";
+By default, concurrency limit is not configured on background
+function.
 
-const importContacts = () => {
-  // ...
-};
-export default defer(importContacts, {
-  concurrency: 2,
-});
+</Info>
+
+## Examples
+
+<CodeGroup>
+
+```js FIFO
+import { defer } from "@defer/client";
+
+async function reIndexElasticRecords() {
+      // business logic here
+}
+
+export default defer(reIndexElasticRecords, { concurrency: 1 })
 ```
 
-### Important notes on concurrency limits
+```js Concurrent
+import { defer } from "@defer/client";
 
-Each account gets a maximum concurrency (Hobby: 2, Pro: 10) that take precedence on the configured background functions concurrency.
+async function importCurrencyRates() {
+      // business logic here
+}
 
-For example, on a Pro Plan, if two background functions with `concurrency: 10` trigger 100 executions each,
-the Defer Platform will take 5 of each concurrently, matching the account's maximum concurrency (`10`).
-
-## Combine concurrency and retries for API rate limiting
-
-The combination of `retry` and `concurrency` is perfect for fixed API rate limiting.
-
-For example, an `askOpenAI()` background function is limited to 10 calls per minute.
-
-Knowing that `askOpenAI()` runs, on average, for 1min, the following configuration would be perfect to optimize the performance while
-matching the OpenAI API rate limits:
-
-```tsx defer/importContacts.ts
-import { defer } from "@defer.run/client";
-
-const importContacts = () => {
-  // ...
-};
-export default defer(importContacts, {
-  concurrency: 10,
-  retry: 5,
-});
+export default defer(importCurrencyRates, { concurrency: 5 })
 ```
 
-The `concurrency` ensures we don't cross the 10 calls per minute with our ~1min per call.
-On the other hand, the `retry` option is here to recover some scenarios where multiple sequential calls would execute under 1min.
-
-Here is an easy rule of thumb to find your perfect `concurrency` value for any API rate limiting scenario:
-
-> `concurrency = Math.floor(callsMaxPerMinute * AvgDurationInMinutes)`
-
-| `concurrency` | `callsMaxPerMinute` | `AvgDurationInMinutes` |
-| ------------- | ------------------- | ---------------------- |
-| `10`          | `10`                | `1` (1 min)            |
-| `5`           | `10`                | `0.5` (30 secs)        |
-| `0`           | `10`                | `0.08` (5 secs)        |
-
-The last line is a perfect example of the limitation of this approach.
-
-Moreover, as many public 3rd party APIs rely on dynamic rate limiting
-using the [leaky bucket algorithm](https://en.wikipedia.org/wiki/Leaky_bucket) and other algorithms,
-we will soon roll out a `throttling` option to better configure rate limiting.
+</CodeGroup>
