@@ -1,243 +1,131 @@
 ---
 title: "Retries"
-description: "See how to leverage retries to improve your background function's reliability"
+description: "Let execution crash"
 ---
-
-## Prerequisites
-
-<Card
-  title="Concepts: how Defer works"
-  href="/get-started/concepts"
-  icon={
-    <>
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 40 41"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="hidden dark:block"
-      >
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M40 0.5V40.5H0V0.5H40ZM15.7143 4.78571H4.28571V16.2143H15.7143V4.78571ZM4.28571 20.5H20V4.78571H25.7143V26.2143H4.28571V20.5ZM4.28571 36.2143V30.5H30V4.78571H35.7143V36.2143H4.28571Z"
-          fill="white"
-        />
-      </svg>
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 40 41"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="block dark:hidden"
-      >
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M40 0.5V40.5H0V0.5H40ZM15.7143 4.78571H4.28571V16.2143H15.7143V4.78571ZM4.28571 20.5H20V4.78571H25.7143V26.2143H4.28571V20.5ZM4.28571 36.2143V30.5H30V4.78571H35.7143V36.2143H4.28571Z"
-          fill="black"
-        />
-      </svg>
-    </>
-  }
->
-  Ensure to be fluent with Defer's Concepts before proceeding with this page.
-</Card>
 
 ## Overview
 
-### When and how to leverage Retries?
+A job can fail for multiple reasons, such as network outage or
+bugs. That's why Defer allows you to set up automatic retries for
+failed executions.
 
-Configuring Retries is essential to counter failures linked to external interactions (ex: 3rd party APIs, dependencies, system).
+Before deep diving in the different retry strategies, it is important
+to understand the concept of
+idempotency. [Idempotency](https://en.wikipedia.org/wiki/Idempotence)
+means that a job can be safely executed multiple times, which is
+crucial since a job may be half-processed, throw an error, and then be
+re-executed repeatedly.
 
-The Retries cheatsheet below is a good starting point:
+In general you can consider your function idempotent if:
+- it can safely run multiple times with the same arguments
+- side effects are expected to happen only once
+  
 
-<Frame>
-  <img src="/images/features/retries/cheatsheet.png" alt="Retries cheatsheet" />
-</Frame>
+Defer allows you to configure two types of retry strategies: the
+exponential backoff strategy and the linear retry strategy.
 
-For more practical examples, please read our ["A deep dive into Function's retry strategies"](https://www.defer.run/blog/function-retry-strategies/) blog post.
+### Exponential backoff
 
-### Configure retries
+In a backoff retry strategy, the system increases the delay between
+consecutive retries after each attempt. The delay is increasing
+exponentially. This approach helps prevent overwhelming the service
+with too many retries in quick succession, and it gives the service
+more time to recover from transient issues.
 
-Retries are configured with `defer()` from `@defer/client`:
+```js
+export default defer(myFunc, {
+	retry: {
+		maxAttempts: 5,
+		initialInterval: 30,
+		randomizationFactor: 0.5,
+		multiplier: 1.5,
+		maxInterval: 600
+	}
+})
+```
 
-```ts
+### Linear
+
+In a linear retry strategy, the system retries the operation with a
+consistent delay between attempts. For example, the system might retry
+the operation with a interval of 5 seconds between each attempts.
+
+```js
+export default defer(myFunc, {
+	retry: {
+		maxAttempts: 7,
+		initialInterval: 5,
+		randomizationFactor: 0,
+		multiplier: 1,
+		maxInterval: 5
+	}
+})
+```
+
+## Choosing the right strategy
+
+Here is a simple diagram to assist you in deciding which strategy to apply.
+
+![strategy decision tree](/images/features/retries/strategy-decision-tree.svg)
+
+<Tip>
+
+You can find more information on how to use different retry strategies
+in our [dedicated blog
+post](https://www.defer.run/blog/function-retry-strategies/).
+
+</Tip>
+
+
+## Examples
+
+
+<CodeGroup>
+
+```js default
 import { defer } from "@defer/client";
 
-async function importContacts(/* ... */) {
-  // ...
+async function sendEmail(endpoint, data) {
+	// business logic here
 }
 
-export default defer(importContacts, {
-  retry: true,
-});
+export default defer(sendEmail, { retry: true })
 ```
 
-Please note that retries are disabled by default.
-
-Defer offers two ways to configure Retries:
-
-**Retries Shorthands**
-
-`defer()` offers three shorthands configuration for `retries`:
-
-- `{ retries: false }`: Disables retries, equivalent to not passing the `retry` option.
-- `{ retries: true }`: Enabled exponential back-off retries with 13 retries, up to 1.3h.
-- `{ retries: 5 }`: Enabled exponential back-off retries with 5 retries (any positive number can be passed).
-
-_You can test the shorthands in the Defer Retry playground below._
-
-**Retries advanced options**
-
-`retry` offers five options to configure your Retries strategy.
-Head out to our [client reference](/references/defer-client/defer#options) for more information.
-
-## Full example: Batch contact imports
-
-### Introduction
-
-Most modern web applications provide rich product integrations that require fetching large amounts of data from third-party APIs.
-
-For example, enabling users to sync their Hubspot contacts with your web application.
-
-While calling the Hubspot API directly from your API's controller would work, it might not for all use cases.
-
-<Frame>
-  <img
-    src="/images/features/retries/hubspot-example.png"
-    alt="Hubspot example"
-  />
-</Frame>
-
-Eventually, some users will start importing large sets of contacts, leading to:
-
-- **poor user experience** (your user is waiting for your API response, without any progress indication)
-- **global degradation of your API performance** (one of your API's worker process will be unavailable during the whole import)
-- **failure to complete the import** (the request to your API did timeout)
-
-Moving the Hubspot API calls in a background function would provide a better user-experience:
-
-- **resilient product integration**: an unavailable third party API won't impact your API, the background function will retry in case of rate limiting
-- **continous feedback to the users**: inform the user of the progress and status of the import
-
-This example will show you how to implement and run a background function to batch import contacts from the Hubspot API from a web-app built with [Express](https://expressjs.com/).
-
-### The `importContactsFromHubspot()` background function
-
-As stated in the ["Getting started"](/quickstart) guide, we create our `importContactsFromHubspot()` function in the `defer/` folder:
-
-```
-- src/
-  - defer/
-    - importContactsFromHubspot.ts ⬅
-  - api.ts
-  - hubspotClient.ts
-- package.json
-- .env
-- ...
-```
-
-Here is our `importContactsFromHubspot()` implementation (_inspired from [Hubspot official Node.js tutorial](https://developers.hubspot.com/docs/api/idea-tracker-tutorial-part-1)_):
-
-```tsx defer/importContactsFromHubspot.ts
-import { hubspotClient } from "../hubspotClient";
-
-const importContactsFromHubspot = async (userId: string) => {
-  // ... get hubspot access token from user with Prisma
-  const { hubspotAccessToken } = await prisma.user.findUnique({
-    where: {
-      id: userId,
-    },
-  });
-
-  hubspotClient.setAccessToken(hubspotAccessToken);
-  const getAllContacts = async (offset, startingContacts) => {
-    // `console.log()` can be seen from Defer's dashboard
-    console.log(`fetching contacts from offset: ${offset}`);
-
-    const pageOfContacts = await hubspotClient.crm.contacts.basicApi.getPage(
-      100,
-      offset
-    );
-
-    const endingContacts = startingContacts.concat(pageOfContacts.body.results);
-
-    if (pageOfContacts.body.paging) {
-      return await getAllContacts(
-        pageOfContacts.body.paging.next.after,
-        endingContacts
-      );
-    } else {
-      return endingContacts;
-    }
-  };
-  const contacts = await getAllContacts(0, []);
-
-  console.log(`fetched ${contacts.length} contacts`);
-
-  // ...inserts contacts in DB...
-
-  return contacts.length;
-};
-```
-
-The `importContactsFromHubspot()` function fetches all contacts sequentially by batches of 100 contacts.
-
-Once implemented, we wrap `importContactsFromHubspot()` with `defer()` and export it as `default`:
-
-```tsx defer/importContactsFromHubspot.ts
+```js exponential
 import { defer } from "@defer/client";
-import { hubspotClient } from "../hubspotClient";
 
-const importContactsFromHubspot = async (userId: string) => {
-  // ...hubspot contacts API logic...
-};
+async function sendWebhook(endpoint, data) {
+	// business logic here
+}
 
-export default defer(importContactsFromHubspot, { retry: 5 });
+export default defer(sendWebhook, {
+	retry: {
+		maxAttempts: 5,
+		initialInterval: 30,
+		randomizationFactor: 0.5,
+		multiplier: 1.5,
+		maxInterval: 600
+	}
+})
 ```
 
-Moved in a background function, the Hubspot APIs call will not affect your application's performance, and will be retried by Defer in case of failure. Offering a **resilient and responsive user experience**.
+```js linear
+import { defer } from "@defer/client";
 
-The `{ retry: 5 }` is a shorthand for up to 5 exponential back-off retries, as showcased below:
+async function fetchRepositoryCommit(repoOwner, repoName) {
+	// business logic here
+}
 
-<Frame>
-  <img
-    src="/images/features/retries/hubspot-retry-5.png"
-    alt="Retry strategy hubspot"
-  />
-</Frame>
-
-Our background function is now ready to be called from the API!
-
-### Calling `importContactsFromHubspot()` from the API
-
-Let's now call our `importContactsFromHubspot()` background function from our API.
-
-```tsx defer/importContactsFromHubspot.ts
-import express from "express";
-import importContacts from "./defer/importContacts";
-
-const app = express();
-
-app.post("/hubspot/import", async function (req, res) {
-  const userId = req.session.userId;
-
-  await importContacts(userId);
-
-  res.send({ ok: true });
-});
-
-app.listen(3000);
+export default defer(fetchRepositoryCommit, {
+	retry: {
+		maxAttempts: 7,
+		initialInterval: 30,
+		randomizationFactor: 0,
+		multiplier: 1,
+		maxInterval: 30
+	}
+})
 ```
 
-That's it 🎉
-
-Your application now offers an improved Hubspot contacts integration:
-
-- **great user experience**: the import is performed in the background without impacting your application's overall performance.
-- **resilient import**: the import will work for any number of contacts and will resume in case of Hubspot API rate limiting or outage.
-
-This example will be soon updated to showcase how to integrate the progress of a background function in your product to keep the users in the loop (ex: display the status of the Hubspot contacts import in your application).
+</CodeGroup>
