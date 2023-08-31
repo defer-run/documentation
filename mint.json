@@ -38,6 +38,10 @@
       "url": "platform"
     },
     {
+      "name": "Guides",
+      "url": "guides"
+    },
+    {
       "name": "References",
       "url": "references"
     }
@@ -126,6 +130,23 @@
         "platform/runner/errors",
         "platform/runner/network-containers",
         "platform/runner/limits"
+      ]
+    },
+    {
+      "group": "",
+      "pages": [
+        "guides/overview"
+      ]
+    },
+    {
+      "group": "Background jobs",
+      "pages": [
+        "guides/api-rate-limiting",
+        "guides/bulk-import-contacts",
+        "guides/todo-reminders",
+        "guides/weekly-recommendations",
+        "guides/onboarding-workflow",
+        "guides/fifo-queue"
       ]
     },
     {

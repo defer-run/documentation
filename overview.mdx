@@ -1,12 +1,12 @@
 ---
 title: Overview
+description: Overview of the Defer documentation
 ---
 
-Start _queueing without plumbing_ with Defer's open-source [Scheduler](/platform/scheduler) and [Console](/platform/console) that enable:
+Defer is a cloud platform for developers, allowing the creation, deployment and management of background jobs on NodeJS.
+Queue, schedule, compose background jobs. Avoid timeouts, improve your user experience and performance with no infrastructure work.
 
-- **Queued executions** to [receive webhooks, handle OpenAI rate limiting or Vercel timeouts](/guides/background-tasks).
-- **Scheduled executions** to [schedule email campaigns or batch processing](/guides/scheduled-tasks).
-- **Workflows** to perform [LLM-chaining or long-running transactions](/guides/workflows).
+Focus on your code: Defer is Framework agnostic and is compatible from Express to NextJS, and with monorepos.
 
 **Get started in under 5 minutes** and scale without any infrastructure work.
 
@@ -48,7 +48,7 @@ Start _queueing without plumbing_ with Defer's open-source [Scheduler](/platform
   >
     Build fast and resilient APIs.
   </Card>
-  <Card
+  {/* <Card
     title="Get rid of Vercel's timeout"
     icon={
       <>
@@ -76,49 +76,10 @@ Start _queueing without plumbing_ with Defer's open-source [Scheduler](/platform
     }
     href="/guides/vercel-timeout"
   >
-    Offload long-running work on Defer.
-  </Card>
+    Offload long-running work on Defer
+  </Card> */}
   <Card
-    title="Handle OpenAI rate-limiting"
-    icon={
-      <>
-        <svg
-          fill="#FFF"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          role="img"
-          xmlns="http://www.w3.org/2000/svg"
-          className="hidden dark:block"
-        >
-          <title>OpenAI icon</title>
-          <path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z" />
-        </svg>
-        <svg
-          fill="#000"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          role="img"
-          xmlns="http://www.w3.org/2000/svg"
-          className="dark:hidden"
-        >
-          <title>OpenAI icon</title>
-          <path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z" />
-        </svg>
-      </>
-    }
-    href="/guides/open-ai-rate-limit"
-  >
-    Goodbye rate limits. Resilient LLM calls.
-  </Card>
-</CardGroup>
-
-## Explore
-
-<CardGroup cols={2}>
-  <Card
-    title="How Defer works"
+    title="Defer 101"
     icon={
       <>
         <svg
@@ -153,53 +114,134 @@ Start _queueing without plumbing_ with Defer's open-source [Scheduler](/platform
         </svg>
       </>
     }
-    href="/platform"
+    href="/get-started/concepts"
   >
-    Learn Defer's platform core concepts.
+    Learn Defer basics
   </Card>
   <Card
-    title="Scheduled Execution"
-    icon={"clock"}
-    iconType={"light"}
-    href="/features/scheduled-execution"
+    title="Job guides and examples"
+    icon="box"
+    iconType="light"
+    href="/guides/overview"
   >
-    One-off or recurring future execution.
+    Find your use case in our catalog
+  </Card>
+  {/* <Card
+    title="Handle OpenAI rate-limiting"
+    icon={
+      <>
+        <svg
+          fill="#FFF"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          role="img"
+          xmlns="http://www.w3.org/2000/svg"
+          className="hidden dark:block"
+        >
+          <title>OpenAI icon</title>
+          <path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z" />
+        </svg>
+        <svg
+          fill="#000"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          role="img"
+          xmlns="http://www.w3.org/2000/svg"
+          className="dark:hidden"
+        >
+          <title>OpenAI icon</title>
+          <path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z" />
+        </svg>
+      </>
+    }
+    href="/guides/open-ai-rate-limiting"
+  >
+    Goodbye rate limits. Resilient LLM calls
+  </Card> */}
+</CardGroup>
+
+## Explore
+
+<CardGroup cols={2}>
+  <Card
+    title="Defer, under the hood"
+    icon={
+      <>
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 40 41"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="hidden dark:block"
+        >
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M40 0.5V40.5H0V0.5H40ZM15.7143 4.78571H4.28571V16.2143H15.7143V4.78571ZM4.28571 20.5H20V4.78571H25.7143V26.2143H4.28571V20.5ZM4.28571 36.2143V30.5H30V4.78571H35.7143V36.2143H4.28571Z"
+            fill="white"
+          />
+        </svg>
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 40 41"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="block dark:hidden"
+        >
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M40 0.5V40.5H0V0.5H40ZM15.7143 4.78571H4.28571V16.2143H15.7143V4.78571ZM4.28571 20.5H20V4.78571H25.7143V26.2143H4.28571V20.5ZM4.28571 36.2143V30.5H30V4.78571H35.7143V36.2143H4.28571Z"
+            fill="black"
+          />
+        </svg>
+      </>
+    }
+    href="/platform/overview"
+  >
+    Learn Defer's platform core concepts
   </Card>
   <Card
-    title="Configuring Retries & Throttling"
-    icon={"repeat"}
-    iconType={"light"}
-    href="/guides/vercel-timeout"
+    title="Recurring jobs"
+    icon="clock"
+    iconType="light"
+    href="/features/cron"
   >
-    Gain resilience with retries.
+    Backround jobs on a schedule
   </Card>
   <Card
-    title="Concurrency & Resources"
-    icon={"wave-square"}
-    iconType={"light"}
-    href="/guides/open-ai-rate-limit"
+    title="Configuring Retries"
+    icon="repeat"
+    iconType="light"
+    href="/features/retries"
   >
-    Speed up your background functions.
+    Gain resilience with retries
   </Card>
-  <Card
+  {/* <Card
     title="Plans & Limits"
     icon={"bolt"}
     iconType={"light"}
     href="/platform/limits"
   >
     Fitting all usage.
-  </Card>
-  <Card
+  </Card> */}
+  {/* <Card
     title="Changelogs"
     icon={"book"}
     iconType={"light"}
     href="/platform/changelog"
   >
     Stay on track.
-  </Card>
+  </Card> */}
 </CardGroup>
 
 ## Community
+
+Ask for help or give us your feedback anytime! We'd be happy to see you join our Discord.
 
 <CardGroup cols={3}>
   <Card title="Discord" icon={"discord"} href="https://discord.gg/x2v84Vqsk6">

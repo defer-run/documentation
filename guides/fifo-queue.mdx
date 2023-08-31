@@ -1,0 +1,18 @@
+---
+title: "FIFO queue"
+---
+
+Nothing more simple with the `concurrency` option:
+
+<Info>Concurrency is defined at the function level</Info>
+
+```tsx defer/importContacts.ts
+import { defer } from "@defer.run/client";
+
+const importContacts = () => {
+  // ...
+};
+export default defer(importContacts, {
+  concurrency: 1,
+});
+```
