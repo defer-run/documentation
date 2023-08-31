@@ -58,8 +58,8 @@
         {
           "group": "Quickstart",
           "pages": [
-            "get-started/quickstart/express-koa-hapi",
             "get-started/quickstart/nextjs",
+            "get-started/quickstart/express-koa-hapi",
             "get-started/quickstart/nest",
             "get-started/quickstart/redwoodjs",
             "get-started/quickstart/remix",
