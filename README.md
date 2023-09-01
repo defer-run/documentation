@@ -1,7 +1,7 @@
 <p align="center">
     <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="logo/dark.svg">
-        <img alt="Defer logo" src="logo/light.svg">
+        <source media="(prefers-color-scheme: dark)" srcset="logo/dark.svg"/>
+        <img alt="Defer logo" src="logo/light.svg"/>
     </picture>
 </p>
 <p align="center">
@@ -16,7 +16,7 @@
     <span>&nbsp;·&nbsp;</span>
     <a href="https://github.com/defer-run/defer.client/discussions/categories/roadmap">Roadmap / RFCs</a>
 </p>
-<br>
+<br/>
 
 ## Introduction
 
