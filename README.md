@@ -22,3 +22,17 @@
 
 This repository contains the documentation of Defer. The documentation
 is built and deployed using [Mintlify](https://mintlify.com/).
+
+## Quickstart
+
+Install dependencies with:
+
+	npm ci
+	
+Start local server with:
+
+	npm run start
+	
+Format `.json` and `.mdx` files with:
+
+	npm run fmt
