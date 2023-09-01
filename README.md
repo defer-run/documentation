@@ -36,3 +36,7 @@ Start local server with:
 Format `.json` and `.mdx` files with:
 
 	npm run fmt
+
+Check broken links with:
+
+	npm run check
