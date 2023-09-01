@@ -80,10 +80,10 @@
       "group": "Features",
       "pages": [
         "features/background-functions",
-        "features/delays",
         "features/cron",
         "features/concurrency",
         "features/retries",
+        "features/delays",
         "features/metadata",
         "features/workflows"
       ]
