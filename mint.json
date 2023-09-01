@@ -24,7 +24,7 @@
   },
   "analytics": {
     "posthog": {
-        "apiKey": "phc_OvXJ09veanDSZGeTqaRa5FKHxnpxvAKLJx0m2Y8yWO"
+      "apiKey": "phc_OvXJ09veanDSZGeTqaRa5FKHxnpxvAKLJx0m2Y8yWO"
     }
   },
   "topbarCtaButton": {
@@ -139,9 +139,7 @@
     },
     {
       "group": "",
-      "pages": [
-        "guides/overview"
-      ]
+      "pages": ["guides/overview"]
     },
     {
       "group": "Background jobs",
