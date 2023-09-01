@@ -1,7 +1,7 @@
 <p align="center">
     <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="docs/logo-horizontal.png">
-        <img alt="Defer logo" src="docs/logo-horizontal.png">
+        <source media="(prefers-color-scheme: dark)" srcset="logo/dark.svg">
+        <img alt="Defer logo" src="logo/light.svg">
     </picture>
 </p>
 <p align="center">
