@@ -267,6 +267,10 @@
     {
       "source": "/platform/limits",
       "destination": "/platform/overview"
+    },
+    {
+      "source": "/examples/recurring-report",
+      "destination": "/guides/weekly-recommendations"
     }
   ]
 }
