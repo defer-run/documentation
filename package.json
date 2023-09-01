@@ -1,0 +1,9 @@
+{
+  "name": "@defer/documentation",
+  "scripts": {
+    "start": "mintlify dev --port 3333"
+  },
+  "dependencies": {
+    "mintlify": "^4.0.11"
+  }
+}
