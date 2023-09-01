@@ -219,7 +219,7 @@ async function userOnboarding(user: User) {
 
   const sendTutorialsEmailIfNoActionsDelayed = delay(
     sendTutorialsEmailIfNoActions,
-    "1 day"
+    "1 day",
   );
   await sendTutorialsEmailIfNoActionsDelayed(user);
 }

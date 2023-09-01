@@ -77,7 +77,7 @@ const importContactsFromHubspot = async (userId: string) => {
 
     const pageOfContacts = await hubspotClient.crm.contacts.basicApi.getPage(
       100,
-      offset
+      offset,
     );
 
     const endingContacts = startingContacts.concat(pageOfContacts.body.results);
@@ -85,7 +85,7 @@ const importContactsFromHubspot = async (userId: string) => {
     if (pageOfContacts.body.paging) {
       return await getAllContacts(
         pageOfContacts.body.paging.next.after,
-        endingContacts
+        endingContacts,
       );
     } else {
       return endingContacts;
