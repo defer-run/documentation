@@ -269,6 +269,10 @@
     {
       "source": "/examples/recurring-report",
       "destination": "/guides/weekly-recommendations"
+    },
+    {
+      "source": "/features/getting-execution-result",
+      "destination": "/references/defer-client/get-execution"
     }
   ]
 }
