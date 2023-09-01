@@ -2,6 +2,7 @@
   "name": "@defer/documentation",
   "scripts": {
     "start": "mintlify dev --port 3333",
+    "fmt": "prettier -w --prose-wrap always **/*.mdx && prettier -w **/*.json",
     "check": "mintlify broken-links"
   },
   "devDependencies": {
