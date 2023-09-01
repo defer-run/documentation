@@ -4,18 +4,24 @@ title: "Onboarding workflow"
 
 ## Introduction
 
-Application user onboardings tend to compose multiple actions (sending emails) that might spread across multiple steps over time.
+Application user onboardings tend to compose multiple actions (sending emails)
+that might spread across multiple steps over time.
 
 For example, when a user onboards, we might want to immediately:
 
 - send a welcome email
 - trigger a Hubspot contacts sync
 
-then, make the user as onboarded and, a few days later: send a tutorial if the user is not engaged.
+then, make the user as onboarded and, a few days later: send a tutorial if the
+user is not engaged.
 
-While such workflow can be implemented in a distributed way, in a event-based architecture, or with CRONs, **Defer offers a context-switch free and code-first way to implement such workflows**.
+While such workflow can be implemented in a distributed way, in a event-based
+architecture, or with CRONs, **Defer offers a context-switch free and code-first
+way to implement such workflows**.
 
-Before jumping into the user onboarding workflow implementation, let's see how Defer enables to run background functions in parallel while waiting for their result, as needed in:
+Before jumping into the user onboarding workflow implementation, let's see how
+Defer enables to run background functions in parallel while waiting for their
+result, as needed in:
 
 > when a user onboards, we might want to immediately:
 >
@@ -41,7 +47,8 @@ Given the following project:
 - ...
 ```
 
-We want to call trigger and wait for the execution of `importContactsFromHubspot()` and `sendWelcomeEmail()`, in parallel.
+We want to call trigger and wait for the execution of
+`importContactsFromHubspot()` and `sendWelcomeEmail()`, in parallel.
 
 For this, will use the `awaitResult()` API, as follows:
 
@@ -63,17 +70,22 @@ async function myDemo() {
 }
 ```
 
-If the background function execution succeded, `awaitResult()` will return the value returned by the function.
+If the background function execution succeded, `awaitResult()` will return the
+value returned by the function.
 
-If it failed, it will raise an error (the one raised by the background function or a generic one.)
+If it failed, it will raise an error (the one raised by the background function
+or a generic one.)
 
-Now that we saw how to run multiple background functions in parallel to get their results, let's see how to write our user onboarding workflow.
+Now that we saw how to run multiple background functions in parallel to get
+their results, let's see how to write our user onboarding workflow.
 
 ## Writing a workflow with Defer
 
-Writing workflows with Defer is simple, **just call other background functions** from your main background function.
+Writing workflows with Defer is simple, **just call other background functions**
+from your main background function.
 
-Our `userOnboarding()` function would call other functions and execute as follow:
+Our `userOnboarding()` function would call other functions and execute as
+follow:
 
 <Frame>
   <img
@@ -82,7 +94,8 @@ Our `userOnboarding()` function would call other functions and execute as follow
   />
 </Frame>
 
-As stated earlier, implementing such a workflow is achieved with simple background functions calls:
+As stated earlier, implementing such a workflow is achieved with simple
+background functions calls:
 
 ```tsx src/userOnboarding.ts
 import { delay, defer } from "@defer/client";
@@ -115,7 +128,8 @@ export default defer(userOnboarding);
 
 Congrats, you implemented your first workflow with Defer 🎉
 
-You can start this workflow from your application's API like any background function: `userOnboarding(user)`.
+You can start this workflow from your application's API like any background
+function: `userOnboarding(user)`.
 
 Your workflow will benefit of all Defer's features:
 

@@ -47,20 +47,30 @@ title: "Local Development & Testing"
 
 ## Local Development
 
-The good news is that Defer works locally by default; without a specific command.
+The good news is that Defer works locally by default; without a specific
+command.
 
 **How?**
 
-Locally, background functions run in the background leveraging the [Promise API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise), providing a behavior similar to production environments, with some limitations.
+Locally, background functions run in the background leveraging the
+[Promise API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise),
+providing a behavior similar to production environments, with some limitations.
 
 ### Development Limitations
 
-Defer relies on the [Promise API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) to execute background functions locally; it means that all executions are bound to the parent process and will be canceled if the parent process (ex: local server) crashed or is stopped.
+Defer relies on the
+[Promise API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+to execute background functions locally; it means that all executions are bound
+to the parent process and will be canceled if the parent process (ex: local
+server) crashed or is stopped.
 
-Given this limitation, the following [`@defer/client`](/references/defer-client) APIs are supported locally:
+Given this limitation, the following [`@defer/client`](/references/defer-client)
+APIs are supported locally:
 
-- [`delay()`](/references/defer-client/delay): will result in executing the function immediately
-- [`defer.cron()`](/references/defer-client/defer-cron): CRONs do not get scheduled locally
+- [`delay()`](/references/defer-client/delay): will result in executing the
+  function immediately
+- [`defer.cron()`](/references/defer-client/defer-cron): CRONs do not get
+  scheduled locally
 
 ### Troubleshooting
 
@@ -68,11 +78,14 @@ Given this limitation, the following [`@defer/client`](/references/defer-client)
 
 <Accordion title="How do I debug my background functions without the Defer Console?">
 
-Locally, background functions get executed on your machine using the JavaScript Promise API.
+Locally, background functions get executed on your machine using the JavaScript
+Promise API.
 
-Local executions won't appear on your Defer Dashboard; however, all logs printed by your background functions will show in your local API server terminal.
+Local executions won't appear on your Defer Dashboard; however, all logs printed
+by your background functions will show in your local API server terminal.
 
-Similarly, when executed locally, background functions can benefit from any [Node.js breakpoints](https://nodejs.org/api/debugger.html).
+Similarly, when executed locally, background functions can benefit from any
+[Node.js breakpoints](https://nodejs.org/api/debugger.html).
 
 </Accordion>
 
@@ -80,9 +93,11 @@ Similarly, when executed locally, background functions can benefit from any [Nod
 
 We don't recommend doing it.
 
-By setting a `DEFER_TOKEN` locally, all calls to your background functions will run on the Defer Platform.
+By setting a `DEFER_TOKEN` locally, all calls to your background functions will
+run on the Defer Platform.
 
-It will result in executing the version of your background function present on GitHub, not locally, which can be confusing.
+It will result in executing the version of your background function present on
+GitHub, not locally, which can be confusing.
 
 </Accordion>
 

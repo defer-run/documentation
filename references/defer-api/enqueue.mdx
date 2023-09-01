@@ -12,20 +12,21 @@ curl \
   -d '{"name": "sayHello", "arguments": ["John Doe"], "metadata": { "foo": "bar" }}' \
   https://api.defer.run/public/v1/enqueue
 ```
+
 </RequestExample>
 
 <ResponseExample>
 
 ```json 2xx
 {
- "id": "0ujtsYcgvSTl8PAuAdqWYSMnLOv"
+  "id": "0ujtsYcgvSTl8PAuAdqWYSMnLOv"
 }
 ```
 
 ```json 4xx
 {
- "error": "bad request",
- "message": "invalid function name"
+  "error": "bad request",
+  "message": "invalid function name"
 }
 ```
 

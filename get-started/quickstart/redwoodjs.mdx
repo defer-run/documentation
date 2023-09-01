@@ -1,6 +1,7 @@
 ---
 title: "Getting started with RedwoodJS"
-description: "Learn how to setup Defer and trigger your first background function."
+description:
+  "Learn how to setup Defer and trigger your first background function."
 sidebarTitle: "RedwoodJS"
 ---
 
@@ -16,8 +17,9 @@ sidebarTitle: "RedwoodJS"
 
 Defer expects to find all the background functions in the `defer/` folder.
 
-In a RedwoodJS app, we recommend creating a `jobs/` folder in your project's existing `api` side structure
-to organize both your background functions and client as follows:
+In a RedwoodJS app, we recommend creating a `jobs/` folder in your project's
+existing `api` side structure to organize both your background functions and
+client as follows:
 
 ```txt
 .
@@ -49,7 +51,8 @@ to organize both your background functions and client as follows:
 - The `defer/` folder can be located anywhere in your project
 - The `defer/` folder can contain nested folders
 
-However, RedwoodJS recommends the above directory structure to organize your background functions.
+However, RedwoodJS recommends the above directory structure to organize your
+background functions.
 
 </Callout>
 
@@ -65,7 +68,8 @@ Choose how to write your first background function:
 
 <Accordion title={"Start with the helloWorld() demo function"}>
 
-Let's add the following `helloWorld.ts` function in your `defer/` folder, as follows:
+Let's add the following `helloWorld.ts` function in your `defer/` folder, as
+follows:
 
 ```tsx api/src/jobs/defer/helloWorld.ts
 // the `defer()` helper will be used to define a background function
@@ -91,7 +95,8 @@ export default defer(helloWorld);
 
 You already have a use case? Sounds great!
 
-Start by first creating a background function in the `defer/` folder and see how to implement it depending on your use case:
+Start by first creating a background function in the `defer/` folder and see how
+to implement it depending on your use case:
 
 <Tabs>
 
@@ -135,13 +140,15 @@ Start by first creating a background function in the `defer/` folder and see how
 
 </AccordionGroup>
 
-Our background function is ready to be used; let's see how to call it from your application.
+Our background function is ready to be used; let's see how to call it from your
+application.
 
 ### Call your background function
 
-Whenever you choose to use the `helloWorld()` function or create your own,
-the following example showcasing how to call `helloWorld()` from a RedwoodJS serverless function
-demonstrates how easily you can trigger a background function execution.
+Whenever you choose to use the `helloWorld()` function or create your own, the
+following example showcasing how to call `helloWorld()` from a RedwoodJS
+serverless function demonstrates how easily you can trigger a background
+function execution.
 
 First, generate a RedwoodJS serverless function:
 
@@ -178,7 +185,9 @@ To test in local development, first start your RedwoodJS development server:
   yarn rw dev
 ```
 
-Then, open your browser and visit the `http://localhost:8910/.redwood/functions/helloWorld?name=Charly` function endpoint.
+Then, open your browser and visit the
+`http://localhost:8910/.redwood/functions/helloWorld?name=Charly` function
+endpoint.
 
 Your development log should show the following:
 
@@ -199,26 +208,31 @@ and the response:
 
 **How does Defer work locally?**
 
-If you are wondering how calling a background function behaves locally, please refer to this guide: [Development & Testing](/get-started/development-testing).
+If you are wondering how calling a background function behaves locally, please
+refer to this guide: [Development & Testing](/get-started/development-testing).
 
 </Info>
 
-Once your RedwoodJS function is defined, please commit and push it to your branch.
+Once your RedwoodJS function is defined, please commit and push it to your
+branch.
 
-Now that your RedwoodJS contains a background function and a serverless function that calls it,
-let's ensure that your Defer token and Build Settings are correctly configured.
+Now that your RedwoodJS contains a background function and a serverless function
+that calls it, let's ensure that your Defer token and Build Settings are
+correctly configured.
 
 ## Configure
 
 ### Create your Defer application
 
-First, [sign in to the Defer Console](https://console.defer.run/), then, go to the "Setup application page."
+First, [sign in to the Defer Console](https://console.defer.run/), then, go to
+the "Setup application page."
 
 <AccordionGroup>
 
 <Accordion title="1. Selecting a repository">
 
-Install Defer on your GitHub account or organization on so Defer can list your repositories:
+Install Defer on your GitHub account or organization on so Defer can list your
+repositories:
 
 <Frame caption="Ensure to install Defer on your GitHub account">
   <img
@@ -240,22 +254,28 @@ Then, select the GitHub repository of your application:
 
 <Accordion title="2. Environment variables (ex: Database access)">
 
-The background functions that run in Defer might need to access some externally configured services or databases. For this reason, we recommend using the **same environment variables configuration** for your target API environment and Defer application.
+The background functions that run in Defer might need to access some externally
+configured services or databases. For this reason, we recommend using the **same
+environment variables configuration** for your target API environment and Defer
+application.
 
 <Info>
 
 **Got a `.env` file?**
 
-Copy the file's content into your clipboard and paste it into the first field of the "Add" line. ✨
+Copy the file's content into your clipboard and paste it into the first field of
+the "Add" line. ✨
 
 </Info>
 </Accordion>
 
 <Accordion title="3. Prisma generate command">
 
-It's important to configure your Pre-Builds Settings to generate the Prisma client before each build.
+It's important to configure your Pre-Builds Settings to generate the Prisma
+client before each build.
 
-In Settings, go to `Advanced options` and then add the following `Pre-build command` to generate the Prisma client:
+In Settings, go to `Advanced options` and then add the following
+`Pre-build command` to generate the Prisma client:
 
 ```bash
 yarn rw prisma generate
@@ -274,7 +294,8 @@ yarn rw prisma generate
 
 Once your application is correctly configured, click the “Create” button.
 
-You should land on the application's page with a build running; you can go to the Defer Console to check its status.
+You should land on the application's page with a build running; you can go to
+the Defer Console to check its status.
 
 <Frame caption="Your first successful build on the Defer Console">
   <img
@@ -296,11 +317,16 @@ You can now get a Defer Token by navigating to the _Settings_ page:
 
 ## Deploy
 
-Now, with your API deployment containing your Defer Token and your project's builds ready on Defer, open your browser and test the RedwoodJS function endpoint.
+Now, with your API deployment containing your Defer Token and your project's
+builds ready on Defer, open your browser and test the RedwoodJS function
+endpoint.
 
-In the scenario of the `helloWorld()` background function, visit the `/.redwood/functions/helloWorld` endpoint of your deployed application.
+In the scenario of the `helloWorld()` background function, visit the
+`/.redwood/functions/helloWorld` endpoint of your deployed application.
 
-You should see that your API answered quickly, and by going to your [Defer Console](https://console.defer.run/), you should see that your background function has 1 execution running - or finished:
+You should see that your API answered quickly, and by going to your
+[Defer Console](https://console.defer.run/), you should see that your background
+function has 1 execution running - or finished:
 
 <Frame>
   <img

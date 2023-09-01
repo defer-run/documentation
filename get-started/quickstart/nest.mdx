@@ -1,6 +1,7 @@
 ---
 title: "Getting started with Nest"
-description: "Learn how to setup Defer and trigger your first background function."
+description:
+  "Learn how to setup Defer and trigger your first background function."
 sidebarTitle: "Nest"
 ---
 
@@ -51,7 +52,8 @@ Choose how to write your first background function:
 
 <Accordion title={"Start with the helloWorld() demo function"}>
 
-Let's add the following `helloWorld.ts` function in your `defer/` folder, as follows:
+Let's add the following `helloWorld.ts` function in your `defer/` folder, as
+follows:
 
 ```tsx src/defer/helloWorld.ts
 // the `defer()` helper will be used to define a background function
@@ -77,7 +79,8 @@ export default defer(helloWorld);
 
 You already have a use case? Sounds great!
 
-Start by first creating a background function in the `defer/` folder and see how to implement it depending on your use case:
+Start by first creating a background function in the `defer/` folder and see how
+to implement it depending on your use case:
 
 <Tabs items={['Move existing existing slow code to a background function', 'Write a new feature, ex: syncContacts()']}>
 
@@ -120,11 +123,14 @@ Start by first creating a background function in the `defer/` folder and see how
 
 </AccordionGroup>
 
-Our background function is ready to be used; let's see how to call it from your application.
+Our background function is ready to be used; let's see how to call it from your
+application.
 
 ### Sidenote: How to use your Nest Services
 
-Using Nest Services from background functions requires some minor plumbing work since background functions behave as what Nest calls ["Standalone app"](https://docs.nestjs.com/standalone-applications).
+Using Nest Services from background functions requires some minor plumbing work
+since background functions behave as what Nest calls
+["Standalone app"](https://docs.nestjs.com/standalone-applications).
 
 For example, your Nest application relies on a standard `PrismaService`:
 
@@ -140,7 +146,8 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
 }
 ```
 
-which you can use from your `src/defer/syncContacts.ts` background function as follows:
+which you can use from your `src/defer/syncContacts.ts` background function as
+follows:
 
 ```ts src/defer/syncContacts.ts
 import { defer } from "@defer/client";
@@ -164,13 +171,17 @@ const syncContacts = async () => {
 export default defer(syncContacts);
 ```
 
-The `getPrismaInstance()` initializes a Nest Application context that will initiate the Services with your application configuration.
+The `getPrismaInstance()` initializes a Nest Application context that will
+initiate the Services with your application configuration.
 
-The same pattern can be applied to retrieve the Nest application logger, configuration, and other injectable elements.
+The same pattern can be applied to retrieve the Nest application logger,
+configuration, and other injectable elements.
 
 ### Call your background function
 
-Whenever you choose to use the `helloWorld()` function or create your own, the following example showcasing how to call `helloWorld()` from a Nest Controller demonstrates how easily you can trigger a background function execution.
+Whenever you choose to use the `helloWorld()` function or create your own, the
+following example showcasing how to call `helloWorld()` from a Nest Controller
+demonstrates how easily you can trigger a background function execution.
 
 ```tsx src/app.controller.ts
 import { Controller, Get } from "@nestjs/common";
@@ -192,13 +203,17 @@ export class AppController {
 <Callout type={"info"}>
 **How does Defer work?**
 
-If you are wondering how calling a background function triggers an execution on Defer Platform, please refer to this guide: [How Defer works](/get-started/concepts).
+If you are wondering how calling a background function triggers an execution on
+Defer Platform, please refer to this guide:
+[How Defer works](/get-started/concepts).
 
 </Callout>
 
-Once your Nest Controller route is defined, please commit and push it to your branch.
+Once your Nest Controller route is defined, please commit and push it to your
+branch.
 
-Now that your Nest app contains a background function and an API route that calls it, let's ensure that your Defer token is configured correctly.
+Now that your Nest app contains a background function and an API route that
+calls it, let's ensure that your Defer token is configured correctly.
 
 ## Configure
 
@@ -208,11 +223,14 @@ Now that your Nest app contains a background function and an API route that call
 
 ## Deploy
 
-Now, with your API deployment containing your Defer Token and your project's builds ready on Defer, open your browser and test the Nest Controller route.
+Now, with your API deployment containing your Defer Token and your project's
+builds ready on Defer, open your browser and test the Nest Controller route.
 
 In the `helloWorld()` background function scenario, visit the `/` route.
 
-You should see that your API answered quickly, and by going to your [Defer Console](https://console.defer.run/), you should see that your background function has 1 execution running - or finished:
+You should see that your API answered quickly, and by going to your
+[Defer Console](https://console.defer.run/), you should see that your background
+function has 1 execution running - or finished:
 
 <Frame>
   <img

@@ -12,20 +12,21 @@ curl \
   -d '{ "force": true }' \
   https://api.defer.run/public/v1/executions/0ujtsYcgvSTl8PAuAdqWYSMnLOv/cancel
 ```
+
 </RequestExample>
 
 <ResponseExample>
 
 ```json 2xx
 {
- "id": "0ujtsYcgvSTl8PAuAdqWYSMnLOv"
+  "id": "0ujtsYcgvSTl8PAuAdqWYSMnLOv"
 }
 ```
 
 ```json 4xx
 {
- "error": "bad request",
- "message": "invalid execution id"
+  "error": "bad request",
+  "message": "invalid execution id"
 }
 ```
 

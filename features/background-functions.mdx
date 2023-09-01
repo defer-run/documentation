@@ -48,9 +48,12 @@ description: "Learn the conventions around background function definition"
 
 ## Overview
 
-A Background function is the unit of work introduced to define a piece of code that will execute in the background on the [Defer Platform](/platform/overview).
+A Background function is the unit of work introduced to define a piece of code
+that will execute in the background on the [Defer Platform](/platform/overview).
 
-A Background functions can be defined as a [CRON](/features/cron), [executed as delayed](/features/delays), and composed to build a [Workflow](/features/workflows).
+A Background functions can be defined as a [CRON](/features/cron),
+[executed as delayed](/features/delays), and composed to build a
+[Workflow](/features/workflows).
 
 ## Conventions
 
@@ -97,9 +100,7 @@ export const weeklyBrief = defer.cron(
 ```ts Correct
 import { defer } from "@defer/client";
 
-const weeklyBrief = async () => {
-// ...
-};
+const weeklyBrief = async () => { // ... };
 
 export default defer.cron(weeklyBrief, "5 0 * * *");
 ```
@@ -150,7 +151,8 @@ export default defer.cron(async function () {
 <Warning>
 **A Background function's name should be unique in a project**
 
-The Background function's name is used as a unique identifier when triggering and listing executions.
+The Background function's name is used as a unique identifier when triggering
+and listing executions.
 
 </Warning>
 
@@ -160,9 +162,8 @@ The Background function's name is used as a unique identifier when triggering an
 ```tsx Correct
 import { defer } from "@defer.run/client";
 
-async function importContacts(userId: string) {
-// ... query information using `userId`...
-}
+async function importContacts(userId: string) { // ... query information using
+`userId`... }
 
 export default defer(importContacts, {
 concurrency: 10,
@@ -191,8 +192,9 @@ export default defer(importContacts, {
 <Info>
 **Why should arguments be serializable?**
 
-As covered in ["How Defer works?"](/platform/overview), a call to a Background function
-triggers a call to the Defer Platform API with the environment token, function name, and arguments.
+As covered in ["How Defer works?"](/platform/overview), a call to a Background
+function triggers a call to the Defer Platform API with the environment token,
+function name, and arguments.
 
 Hence the necessity to have serializable arguments.
 
@@ -200,11 +202,13 @@ Hence the necessity to have serializable arguments.
 
 ## Motivation
 
-The concept of the Background function brings seamless integration with all codebases, allowing you to _move existing parts of your code in the background_
+The concept of the Background function brings seamless integration with all
+codebases, allowing you to _move existing parts of your code in the background_
 without refactoring and writing new use cases without restrictions.
 
-Contrary to Lambdas and Edge Functions, the Background function can leverage all installed dependencies (natives included) and import local files,
-without any build configuration.
+Contrary to Lambdas and Edge Functions, the Background function can leverage all
+installed dependencies (natives included) and import local files, without any
+build configuration.
 
 The following example works out of the box:
 
@@ -225,5 +229,7 @@ const bcryptPassword = async () => {
 export default defer(bcryptPassword);
 ```
 
-The unified experience around Background functions unlocks easy access to execution configuration ([retries](/features/retries),
-[concurrency](/features/concurrency)) and [workflow development patterns](/features/workflows).
+The unified experience around Background functions unlocks easy access to
+execution configuration ([retries](/features/retries),
+[concurrency](/features/concurrency)) and
+[workflow development patterns](/features/workflows).

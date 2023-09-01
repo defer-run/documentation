@@ -5,16 +5,14 @@ description: "Control the number of parallel executions"
 
 ## Overview
 
-Limiting the maximum number of parallel executions is a common
-practice. For instance, when third-party services restrict the number
-of concurrent calls to their service. This also helps distributing the
-global concurrency limit into function limits, preventing one function
-from consuming all the concurrency.
+Limiting the maximum number of parallel executions is a common practice. For
+instance, when third-party services restrict the number of concurrent calls to
+their service. This also helps distributing the global concurrency limit into
+function limits, preventing one function from consuming all the concurrency.
 
 <Info>
 
-By default, concurrency limit is not configured on background
-function.
+By default, concurrency limit is not configured on background function.
 
 </Info>
 
@@ -26,20 +24,20 @@ function.
 import { defer } from "@defer/client";
 
 async function reIndexElasticRecords() {
-      // business logic here
+  // business logic here
 }
 
-export default defer(reIndexElasticRecords, { concurrency: 1 })
+export default defer(reIndexElasticRecords, { concurrency: 1 });
 ```
 
 ```js Concurrent
 import { defer } from "@defer/client";
 
 async function importCurrencyRates() {
-      // business logic here
+  // business logic here
 }
 
-export default defer(importCurrencyRates, { concurrency: 5 })
+export default defer(importCurrencyRates, { concurrency: 5 });
 ```
 
 </CodeGroup>
@@ -48,12 +46,22 @@ export default defer(importCurrencyRates, { concurrency: 5 })
 
 <CardGroup cols="2">
 
-<Card icon="function" iconType="light" title="@defer/client" href="/references/defer-client/defer#options">
-Defer client reference
+<Card
+  icon="function"
+  iconType="light"
+  title="@defer/client"
+  href="/references/defer-client/defer#options"
+>
+  Defer client reference
 </Card>
 
-<Card icon="book" iconType="light" title="API rate limiting" href="/guides/api-rate-limiting">
-How to leverage concurrency for your jobs
+<Card
+  icon="book"
+  iconType="light"
+  title="API rate limiting"
+  href="/guides/api-rate-limiting"
+>
+  How to leverage concurrency for your jobs
 </Card>
 
 </CardGroup>

@@ -17,12 +17,15 @@ export default defer(importContacts, {
 
 ## Combine concurrency and retries for API rate limiting
 
-The combination of `retry` and `concurrency` is perfect for fixed API rate limiting.
+The combination of `retry` and `concurrency` is perfect for fixed API rate
+limiting.
 
-For example, an `askOpenAI()` background function is limited to 10 calls per minute.
+For example, an `askOpenAI()` background function is limited to 10 calls per
+minute.
 
-Knowing that `askOpenAI()` runs, on average, for 1min, the following configuration would be perfect to optimize the performance while
-matching the OpenAI API rate limits:
+Knowing that `askOpenAI()` runs, on average, for 1min, the following
+configuration would be perfect to optimize the performance while matching the
+OpenAI API rate limits:
 
 ```tsx defer/importContacts.ts
 import { defer } from "@defer.run/client";
@@ -36,10 +39,12 @@ export default defer(importContacts, {
 });
 ```
 
-The `concurrency` ensures we don't cross the 10 calls per minute with our ~1min per call.
-On the other hand, the `retry` option is here to recover some scenarios where multiple sequential calls would execute under 1min.
+The `concurrency` ensures we don't cross the 10 calls per minute with our ~1min
+per call. On the other hand, the `retry` option is here to recover some
+scenarios where multiple sequential calls would execute under 1min.
 
-Here is an easy rule of thumb to find your perfect `concurrency` value for any API rate limiting scenario:
+Here is an easy rule of thumb to find your perfect `concurrency` value for any
+API rate limiting scenario:
 
 > `concurrency = Math.floor(callsMaxPerMinute * AvgDurationInMinutes)`
 
@@ -51,6 +56,7 @@ Here is an easy rule of thumb to find your perfect `concurrency` value for any A
 
 The last line is a perfect example of the limitation of this approach.
 
-Moreover, as many public 3rd party APIs rely on dynamic rate limiting
-using the [leaky bucket algorithm](https://en.wikipedia.org/wiki/Leaky_bucket) and other algorithms,
-we will soon roll out a `throttling` option to better configure rate limiting.
+Moreover, as many public 3rd party APIs rely on dynamic rate limiting using the
+[leaky bucket algorithm](https://en.wikipedia.org/wiki/Leaky_bucket) and other
+algorithms, we will soon roll out a `throttling` option to better configure rate
+limiting.

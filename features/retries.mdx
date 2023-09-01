@@ -5,38 +5,35 @@ description: "Let execution crash"
 
 ## Overview
 
-A job can fail for multiple reasons, such as network outage or
-bugs. That's why Defer allows you to set up automatic retries for
-failed executions.
+A job can fail for multiple reasons, such as network outage or bugs. That's why
+Defer allows you to set up automatic retries for failed executions.
 
-Before deep diving in the different retry strategies, it is important
-to understand the concept of
-idempotency. [Idempotency](https://en.wikipedia.org/wiki/Idempotence)
-means that a job can be safely executed multiple times, which is
-crucial since a job may be half-processed, throw an error, and then be
-re-executed repeatedly.
+Before deep diving in the different retry strategies, it is important to
+understand the concept of idempotency.
+[Idempotency](https://en.wikipedia.org/wiki/Idempotence) means that a job can be
+safely executed multiple times, which is crucial since a job may be
+half-processed, throw an error, and then be re-executed repeatedly.
 
 In general you can consider your function idempotent if:
+
 - it can safely run multiple times with the same arguments
 - side effects are expected to happen only once
-  
 
-Defer allows you to configure two types of retry strategies: the
-exponential backoff strategy and the linear retry strategy.
+Defer allows you to configure two types of retry strategies: the exponential
+backoff strategy and the linear retry strategy.
 
 ### Exponential backoff
 
-In a backoff retry strategy, the system increases the delay between
-consecutive retries after each attempt. The delay is increasing
-exponentially. This approach helps prevent overwhelming the service
-with too many retries in quick succession, and it gives the service
-more time to recover from transient issues.
+In a backoff retry strategy, the system increases the delay between consecutive
+retries after each attempt. The delay is increasing exponentially. This approach
+helps prevent overwhelming the service with too many retries in quick
+succession, and it gives the service more time to recover from transient issues.
 
 ### Linear
 
-In a linear retry strategy, the system retries the operation with a
-consistent delay between attempts. For example, the system might retry
-the operation with a interval of 5 seconds between each attempts.
+In a linear retry strategy, the system retries the operation with a consistent
+delay between attempts. For example, the system might retry the operation with a
+interval of 5 seconds between each attempts.
 
 ## Choosing the right strategy
 
@@ -46,19 +43,17 @@ Here is a simple diagram to assist you in deciding which strategy to apply.
 
 <Tip>
 
-You can find more information on how to use different retry strategies
-in our [dedicated blog
-post](https://www.defer.run/blog/function-retry-strategies/).
+You can find more information on how to use different retry strategies in our
+[dedicated blog post](https://www.defer.run/blog/function-retry-strategies/).
 
 </Tip>
-
 
 ## Configuration
 
 The retry behavior is set up using the following key.
 
 | Field                 | Type      | Default | Description                                                                |
-|-----------------------|-----------|---------|----------------------------------------------------------------------------|
+| --------------------- | --------- | ------- | -------------------------------------------------------------------------- |
 | `maxAttempts`         | `Integer` | 0       | How many retries should we attempt in total                                |
 | `initialInterval`     | `Integer` | 30      | How close the first retry should be? (in seconds)                          |
 | `randomizationFactor` | `Float`   | 0.5     | How much randomness should be introduced in the space between retries.     |
@@ -73,46 +68,46 @@ The retry behavior is set up using the following key.
 import { defer } from "@defer/client";
 
 async function sendEmail(endpoint, data) {
-	// business logic here
+  // business logic here
 }
 
-export default defer(sendEmail, { retry: true })
+export default defer(sendEmail, { retry: true });
 ```
 
 ```js exponential
 import { defer } from "@defer/client";
 
 async function sendWebhook(endpoint, data) {
-	// business logic here
+  // business logic here
 }
 
 export default defer(sendWebhook, {
-	retry: {
-		maxAttempts: 5,
-		initialInterval: 30,
-		randomizationFactor: 0.5,
-		multiplier: 1.5,
-		maxInterval: 600
-	}
-})
+  retry: {
+    maxAttempts: 5,
+    initialInterval: 30,
+    randomizationFactor: 0.5,
+    multiplier: 1.5,
+    maxInterval: 600,
+  },
+});
 ```
 
 ```js linear
 import { defer } from "@defer/client";
 
 async function fetchRepositoryCommit(repoOwner, repoName) {
-	// business logic here
+  // business logic here
 }
 
 export default defer(fetchRepositoryCommit, {
-	retry: {
-		maxAttempts: 7,
-		initialInterval: 30,
-		randomizationFactor: 0,
-		multiplier: 1,
-		maxInterval: 30
-	}
-})
+  retry: {
+    maxAttempts: 7,
+    initialInterval: 30,
+    randomizationFactor: 0,
+    multiplier: 1,
+    maxInterval: 30,
+  },
+});
 ```
 
 </CodeGroup>
@@ -121,12 +116,22 @@ export default defer(fetchRepositoryCommit, {
 
 <CardGroup cols="2">
 
-<Card icon="function" iconType="light" title="@defer/client" href="/references/defer-client/defer#options">
-Defer client reference
+<Card
+  icon="function"
+  iconType="light"
+  title="@defer/client"
+  href="/references/defer-client/defer#options"
+>
+  Defer client reference
 </Card>
 
-<Card icon="book" iconType="light" title="API rate limiting" href="/guides/api-rate-limiting">
-How to leverage retry for your jobs
+<Card
+  icon="book"
+  iconType="light"
+  title="API rate limiting"
+  href="/guides/api-rate-limiting"
+>
+  How to leverage retry for your jobs
 </Card>
 
 </CardGroup>

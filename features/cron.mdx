@@ -5,15 +5,14 @@ description: "Schedule an execution recurrently"
 
 ## Overview
 
-Defer allows you to schedule periodic execution. This is useful for
-example when you have a weekly newsletter to send to your users every
-monday.
+Defer allows you to schedule periodic execution. This is useful for example when
+you have a weekly newsletter to send to your users every monday.
 
-You can schedule a periodic execution using the `defer.cron` function
-rather than `defer`.
+You can schedule a periodic execution using the `defer.cron` function rather
+than `defer`.
 
 ```js
-export default defer.cron(myFunc, "* * * * *")
+export default defer.cron(myFunc, "* * * * *");
 ```
 
 <Warning>
@@ -28,17 +27,16 @@ With Defer CRON your schedule is defined in UTC.
 import { defer } from "@defer/client";
 
 async function sendMondayNewletter() {
-	// business logic here
+  // business logic here
 }
 
-export default defer.cron(sendMondayNewletter, "0 0 * * MON")
+export default defer.cron(sendMondayNewletter, "0 0 * * MON");
 ```
 
 <Tip>
 
-If you are not an expert of the CRON syntax, no worries! You can use
-the [crontab.guru](https://crontab.guru/) website to build your CRON
-expression!
+If you are not an expert of the CRON syntax, no worries! You can use the
+[crontab.guru](https://crontab.guru/) website to build your CRON expression!
 
 </Tip>
 
@@ -46,12 +44,22 @@ expression!
 
 <CardGroup cols="2">
 
-<Card icon="function" iconType="light" title="@defer/client" href="/references/defer-client/defer#options">
-Defer client reference
+<Card
+  icon="function"
+  iconType="light"
+  title="@defer/client"
+  href="/references/defer-client/defer#options"
+>
+  Defer client reference
 </Card>
 
-<Card icon="book" iconType="light" title="Weekly recommendations" href="/guides/weekly-recommendations">
-How to create periodic jobs
+<Card
+  icon="book"
+  iconType="light"
+  title="Weekly recommendations"
+  href="/guides/weekly-recommendations"
+>
+  How to create periodic jobs
 </Card>
 
 </CardGroup>

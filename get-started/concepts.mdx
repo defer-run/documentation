@@ -5,7 +5,8 @@ description: "How Defer works"
 
 ## Background Functions
 
-Contrary to the Queue's _status-quo_ of _Producers_ and _Consumers_, Defer brings the concept of _Background Functions_ as a basic unit of work:
+Contrary to the Queue's _status-quo_ of _Producers_ and _Consumers_, Defer
+brings the concept of _Background Functions_ as a basic unit of work:
 
 ```tsx defer/importContacts.ts
 import { defer } from "@defer/client";
@@ -17,7 +18,8 @@ async function importContacts(userId: string) {
 export default defer(importContacts, { concurrency: 2, retry: 2 });
 ```
 
-Enqueuing an execution is achieved by simply calling _Background Functions_ (_Producer_ pattern):
+Enqueuing an execution is achieved by simply calling _Background Functions_
+(_Producer_ pattern):
 
 ```tsx api.ts
 import express from "express";
@@ -36,7 +38,9 @@ app.get("/", (req, res) => {
 app.listen(3000);
 ```
 
-Calling a _Background Function_ (`await importContacts();`) triggers a call to the [Defer API](/references/defer-api) to enqueue an _Execution_ on [The Defer Platform](/platform/runner/overview).
+Calling a _Background Function_ (`await importContacts();`) triggers a call to
+the [Defer API](/references/defer-api) to enqueue an _Execution_ on
+[The Defer Platform](/platform/runner/overview).
 
 <Frame caption="The lifecycle of a Background Function call.">
   <img src="/images/getting-started/concepts/how-defer-works.png" />
@@ -46,9 +50,13 @@ Calling a _Background Function_ (`await importContacts();`) triggers a call to t
 
 ### Builds
 
-Defer [builds your _Background Function_ into optimized bundles](/platform/builder/compilation) to run pending _Executions_ in [isolated containers](/platform/runner/environment).
+Defer
+[builds your _Background Function_ into optimized bundles](/platform/builder/compilation)
+to run pending _Executions_ in
+[isolated containers](/platform/runner/environment).
 
-A Defer Build extracts the _Background Function_ defined in your project with their configuration:
+A Defer Build extracts the _Background Function_ defined in your project with
+their configuration:
 
 <Frame caption="Background Functions identified in a project.">
   <img src="/images/getting-started/concepts/defer-build.png" />
@@ -56,11 +64,14 @@ A Defer Build extracts the _Background Function_ defined in your project with th
 
 ### Executions
 
-_Executions_ get processed based on their [schedule](/features/cron) and available account [concurrency capacity](/features/concurrency).
+_Executions_ get processed based on their [schedule](/features/cron) and
+available account [concurrency capacity](/features/concurrency).
 
-Each _Execution_ benefits from dedicated resources and rich runtime supporting native dependencies and local imports.
+Each _Execution_ benefits from dedicated resources and rich runtime supporting
+native dependencies and local imports.
 
-Finally, _Executions_ comes with detailed timings, logs in the Console, and quick actions such as rerun or cancel:
+Finally, _Executions_ comes with detailed timings, logs in the Console, and
+quick actions such as rerun or cancel:
 
 <Frame caption="A successful execution with logs and detailed timings.">
   <img src="/images/getting-started/concepts/defer-execution.png" />

@@ -7,8 +7,7 @@ manager.
 
 ## Lockfile
 
-Dependencies are **installed with the exact versions found in
-the lockfile**.
+Dependencies are **installed with the exact versions found in the lockfile**.
 
 Here are the commands executed, depending on the detected package manager:
 
@@ -20,8 +19,9 @@ Here are the commands executed, depending on the detected package manager:
 
 ## Custom installation
 
-You cannot customize the above commands, but you can still customize the installation of your dependencies.
-Indeed, you can use an `.npmrc` file or `NPM_CONFIG_` prefixed env variables to customize your package manager behavior.
+You cannot customize the above commands, but you can still customize the
+installation of your dependencies. Indeed, you can use an `.npmrc` file or
+`NPM_CONFIG_` prefixed env variables to customize your package manager behavior.
 
 Example:
 
@@ -32,8 +32,8 @@ To ignore peer dependencies like in npm v3 to v6, you can either:
 
 ## Private dependencies
 
-The Builder supports installing private packages.
-To do so, you need to create an access token:
+The Builder supports installing private packages. To do so, you need to create
+an access token:
 
 ```
 npm token create --read-only
@@ -57,11 +57,14 @@ Finally, add the following to a new or existing `.npmrc` file:
 The Builder supports native dependencies to an extent.
 
 - Node builtin native dependencies are supported
-- Node native addons (`.node` files) built using **node-gyp** and/or **node-pre-gyp** should also work out of the box
+- Node native addons (`.node` files) built using **node-gyp** and/or
+  **node-pre-gyp** should also work out of the box
 
-Some native addons won't work out of the box with our Builder, e.g. when the code reads some file at runtime.
+Some native addons won't work out of the box with our Builder, e.g. when the
+code reads some file at runtime.
 
-Here is a non-exhaustive list of native dependencies known to work with our Builder:
+Here is a non-exhaustive list of native dependencies known to work with our
+Builder:
 
 - [pg](https://www.npmjs.com/package/pg)
 - [prisma](https://www.npmjs.com/package/prisma)

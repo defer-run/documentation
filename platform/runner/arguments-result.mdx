@@ -4,8 +4,8 @@ title: "Arguments and Result"
 
 ## Arguments
 
-The arguments passed to a background function **must be serializable**.
-They will be serialized using `JSON.stringify` upon enqueuing.
+The arguments passed to a background function **must be serializable**. They
+will be serialized using `JSON.stringify` upon enqueuing.
 
 Here are some examples of serializable arguments:
 
@@ -67,8 +67,9 @@ myFunction({
 
 ## Result
 
-The value returned by a background function should be a non-null value
-(`void` is permitted).
+The value returned by a background function should be a non-null value (`void`
+is permitted).
 
 Please note that the execution result (return value) **must be serializable**.
-They will be serialized using `JSON.stringify` and stored after the execution is done.
+They will be serialized using `JSON.stringify` and stored after the execution is
+done.

@@ -2,15 +2,18 @@
 title: "Compilation"
 ---
 
-The Builder uses the [rollup](https://rollupjs.org/) JS API to compile and bundle your background functions.
+The Builder uses the [rollup](https://rollupjs.org/) JS API to compile and
+bundle your background functions.
 
 ## Entrypoints
 
-Each file in your `defer` folder should export a Defer background function as its `default` export.
+Each file in your `defer` folder should export a Defer background function as
+its `default` export.
 
 Here are the requirements for those files:
 
-- `.js`, `.jsx`, `.ts`, `.tsx`, `.cjs`, `.cjsx`, `.cts`, `.ctsx`, `.mjs`, `.mjsx`, `.mts`, `.mtsx` extensions are supported
+- `.js`, `.jsx`, `.ts`, `.tsx`, `.cjs`, `.cjsx`, `.cts`, `.ctsx`, `.mjs`,
+  `.mjsx`, `.mts`, `.mtsx` extensions are supported
 - `*.spec.*`, `*.test.*`, `*_spec.*`, `*_test.*` files are ignored
 - `spec`, `test`, `specs`, `tests` nested folders are skipped
 
@@ -18,7 +21,8 @@ Here are the requirements for those files:
 
 Version `4.x` and `5.x` are supported.
 
-The Builder detects your version of TS and uses it to compile your background functions.
+The Builder detects your version of TS and uses it to compile your background
+functions.
 
 <Note>
   TS errors will only result in warnings (as per the TS compiler default

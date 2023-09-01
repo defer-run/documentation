@@ -13,7 +13,8 @@ We want to add to a Todo application the "inline Notion-like reminders" feature:
   />
 </Frame>
 
-For this example, we will assume that the front-end calls a `POST /todos` endpoint on our [Express](https://expressjs.com/) API:
+For this example, we will assume that the front-end calls a `POST /todos`
+endpoint on our [Express](https://expressjs.com/) API:
 
 ```tsx src/api.ts
 import express from 'express'
@@ -42,11 +43,13 @@ app.post('/todos', async function (req, res) {
 app.listen(3000)
 ```
 
-Let's now implement the reminder mail notification as a `sendTodoReminder()` background function.
+Let's now implement the reminder mail notification as a `sendTodoReminder()`
+background function.
 
 ## The `sendTodoReminder()` background function
 
-As stated in the ["Getting started"](/overview) guide, we create our `sendTodoReminder()` function in the `defer/` folder:
+As stated in the ["Getting started"](/overview) guide, we create our
+`sendTodoReminder()` function in the `defer/` folder:
 
 ```
 - src/
@@ -58,7 +61,8 @@ As stated in the ["Getting started"](/overview) guide, we create our `sendTodoRe
 - ...
 ```
 
-Here is our `sendTodoReminder()` implementation, sending an email using [Twilio Sengrid SingleMail API](https://docs.sendgrid.com/api-reference/single-sends/create-single-send):
+Here is our `sendTodoReminder()` implementation, sending an email using
+[Twilio Sengrid SingleMail API](https://docs.sendgrid.com/api-reference/single-sends/create-single-send):
 
 ```tsx defer/sendTodoReminder.ts
 const sgMail = require("@sendgrid/mail");
@@ -87,9 +91,11 @@ const sendTodoReminder = async (todo: Todo) => {
 <Info>
 **Why use a Defer background function instead of Twilio Sendgrid scheduled Single Send API?**
 
-Mail scheduled with Twilio Sendgrid Single Send API can only be scheduled 3 days in advance.
+Mail scheduled with Twilio Sendgrid Single Send API can only be scheduled 3 days
+in advance.
 
-Also, Defer offers a better developer experience at creating and cancelling scheduled mails.
+Also, Defer offers a better developer experience at creating and cancelling
+scheduled mails.
 
 </Info>
 
@@ -129,8 +135,10 @@ That's it 🎉
 
 Your Todo App now offer resilient reminders sent by email:
 
-- **resilient reminders**: reminders will always happen, no matter the failures along the way, thanks to Defer's smart retries.
-- **stay in control**: Access analytics and logs of your scheduled reminders on the Defer dashboard:
+- **resilient reminders**: reminders will always happen, no matter the failures
+  along the way, thanks to Defer's smart retries.
+- **stay in control**: Access analytics and logs of your scheduled reminders on
+  the Defer dashboard:
 
 <Frame>
   <img

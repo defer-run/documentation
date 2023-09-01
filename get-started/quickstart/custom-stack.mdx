@@ -1,7 +1,8 @@
 ---
 title: "Getting started with a custom stack"
 sidebarTitle: "Custom stack"
-description: "Learn how to setup Defer and trigger your first background function."
+description:
+  "Learn how to setup Defer and trigger your first background function."
 ---
 
 ## Setup
@@ -27,8 +28,7 @@ Defer expects to find all the background functions in the `defer/` folder:
 **Notes:**
 
 - The `defer/` folder can be located anywhere in your project
-- The `defer/`
-  folder can contain nested folders
+- The `defer/` folder can contain nested folders
 
 </Note>
 
@@ -44,7 +44,8 @@ Choose how to write your first background function:
 
 <Accordion title={"Start with the helloWorld() demo function"}>
 
-Let's add the following `helloWorld.ts` function in your `defer/` folder, as follows:
+Let's add the following `helloWorld.ts` function in your `defer/` folder, as
+follows:
 
 ```tsx src/defer/helloWorld.ts
 // the `defer()` helper will be used to define a background function
@@ -70,7 +71,8 @@ export default defer(helloWorld);
 
 You already have a use case? Sounds great!
 
-Start by first creating a background function in the `defer/` folder and see how to implement it depending on your use case:
+Start by first creating a background function in the `defer/` folder and see how
+to implement it depending on your use case:
 
 <Tabs>
 
@@ -113,11 +115,15 @@ Start by first creating a background function in the `defer/` folder and see how
 
 </AccordionGroup>
 
-Our background function is ready for use; let's see how to call it from your application.
+Our background function is ready for use; let's see how to call it from your
+application.
 
 ### Call your background function
 
-Whenever you choose to use the `helloWorld()` function or create your own, the following example showcasing how to call `helloWorld()`, from a `/hello-world` HTTP route, demonstrates how easily you can trigger a background function execution.
+Whenever you choose to use the `helloWorld()` function or create your own, the
+following example showcasing how to call `helloWorld()`, from a `/hello-world`
+HTTP route, demonstrates how easily you can trigger a background function
+execution.
 
 ```tsx src/api.ts
 import http from "http";
@@ -137,13 +143,15 @@ http
 <Note>
 **How does Defer work?**
 
-If you are wondering how calling a background function triggers an execution on Defer, please refer to this guide: [How Defer works](/get-started/concepts).
+If you are wondering how calling a background function triggers an execution on
+Defer, please refer to this guide: [How Defer works](/get-started/concepts).
 
 </Note>
 
 Once your HTTP route is defined, please commit and push it to your branch.
 
-Now that your app contains a background function and an API route that calls it; let's ensure your Defer token is configured correctly.
+Now that your app contains a background function and an API route that calls it;
+let's ensure your Defer token is configured correctly.
 
 ## Configure
 
@@ -153,11 +161,14 @@ Now that your app contains a background function and an API route that calls it;
 
 ## Deploy
 
-Now, with your API deployment containing your Defer Token and your project's builds ready on Defer, open your browser and test the HTTP route.
+Now, with your API deployment containing your Defer Token and your project's
+builds ready on Defer, open your browser and test the HTTP route.
 
 In the `helloWorld()` background function scenario, visit the `/` route.
 
-You should see that your API answered quickly, and by going to your [Defer Console](https://console.defer.run/), you should see that your background function has 1 execution running - or finished:
+You should see that your API answered quickly, and by going to your
+[Defer Console](https://console.defer.run/), you should see that your background
+function has 1 execution running - or finished:
 
 <Frame caption="Your first function on the Defer Console">
   <img

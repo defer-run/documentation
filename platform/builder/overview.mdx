@@ -2,16 +2,21 @@
 title: "Overview"
 ---
 
-In order to run your background function on its infrastructure, the Defer Platform needs to know about your node background functions. That is the role of the Builder.
+In order to run your background function on its infrastructure, the Defer
+Platform needs to know about your node background functions. That is the role of
+the Builder.
 
 Specifically, the Builder is responsible for the following:
 
-- verification of your project compatibility (including defer background functions lookup)
+- verification of your project compatibility (including defer background
+  functions lookup)
 - bundling of your background functions
-- extraction of your background functions metadata (configuration of retries, concurrency, CRON)
+- extraction of your background functions metadata (configuration of retries,
+  concurrency, CRON)
 - storing your background function bundles for later Runner use
 
-A Builder invocation is called a build, and performs all those tasks on your project.
+A Builder invocation is called a build, and performs all those tasks on your
+project.
 
 Each build is processed sequentially. This page covers the lifecycle of a build.
 
@@ -23,10 +28,10 @@ Each build is processed sequentially. This page covers the lifecycle of a build.
 - **Installing**: your NPM dependencies are installing
 - **Generating**: your pre-build command is executing
 - **Compiling**: the Builder is compiling and bundling your background functions
-- **Publishing**: you background functions bundles and build logs are being stored
+- **Publishing**: you background functions bundles and build logs are being
+  stored
 - **Succeed**: the build is finished without any error
 - **Failed**: the build has failed with errors
-
 
 ## State machine diagram
 

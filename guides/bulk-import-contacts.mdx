@@ -4,11 +4,14 @@ title: "Bulk import contacts"
 
 ## Introduction
 
-Most modern web applications provide rich product integrations that require fetching large amounts of data from third-party APIs.
+Most modern web applications provide rich product integrations that require
+fetching large amounts of data from third-party APIs.
 
-For example, enabling users to sync their Hubspot contacts with your web application.
+For example, enabling users to sync their Hubspot contacts with your web
+application.
 
-While calling the Hubspot API directly from your API's controller would work, it might not for all use cases.
+While calling the Hubspot API directly from your API's controller would work, it
+might not for all use cases.
 
 <Frame>
   <img
@@ -19,20 +22,28 @@ While calling the Hubspot API directly from your API's controller would work, it
 
 Eventually, some users will start importing large sets of contacts, leading to:
 
-- **poor user experience** (your user is waiting for your API response, without any progress indication)
-- **global degradation of your API performance** (one of your API's worker process will be unavailable during the whole import)
+- **poor user experience** (your user is waiting for your API response, without
+  any progress indication)
+- **global degradation of your API performance** (one of your API's worker
+  process will be unavailable during the whole import)
 - **failure to complete the import** (the request to your API did timeout)
 
-Moving the Hubspot API calls in a background function would provide a better user-experience:
+Moving the Hubspot API calls in a background function would provide a better
+user-experience:
 
-- **resilient product integration**: an unavailable third party API won't impact your API, the background function will retry in case of rate limiting
-- **continous feedback to the users**: inform the user of the progress and status of the import
+- **resilient product integration**: an unavailable third party API won't impact
+  your API, the background function will retry in case of rate limiting
+- **continous feedback to the users**: inform the user of the progress and
+  status of the import
 
-This example will show you how to implement and run a background function to batch import contacts from the Hubspot API from a web-app built with [Express](https://expressjs.com/).
+This example will show you how to implement and run a background function to
+batch import contacts from the Hubspot API from a web-app built with
+[Express](https://expressjs.com/).
 
 ## The `importContactsFromHubspot()` background function
 
-As stated in the ["Getting started"](/get-started/quickstart/nextjs) guide, we create our `importContactsFromHubspot()` function in the `defer/` folder:
+As stated in the ["Getting started"](/get-started/quickstart/nextjs) guide, we
+create our `importContactsFromHubspot()` function in the `defer/` folder:
 
 ```
 - src/
@@ -45,7 +56,8 @@ As stated in the ["Getting started"](/get-started/quickstart/nextjs) guide, we c
 - ...
 ```
 
-Here is our `importContactsFromHubspot()` implementation (_inspired from [Hubspot official Node.js tutorial](https://developers.hubspot.com/docs/api/idea-tracker-tutorial-part-1)_):
+Here is our `importContactsFromHubspot()` implementation (_inspired from
+[Hubspot official Node.js tutorial](https://developers.hubspot.com/docs/api/idea-tracker-tutorial-part-1)_):
 
 ```tsx defer/importContactsFromHubspot.ts
 import { hubspotClient } from "../hubspotClient";
@@ -89,9 +101,11 @@ const importContactsFromHubspot = async (userId: string) => {
 };
 ```
 
-The `importContactsFromHubspot()` function fetches all contacts sequentially by batches of 100 contacts.
+The `importContactsFromHubspot()` function fetches all contacts sequentially by
+batches of 100 contacts.
 
-Once implemented, we wrap `importContactsFromHubspot()` with `defer()` and export it as `default`:
+Once implemented, we wrap `importContactsFromHubspot()` with `defer()` and
+export it as `default`:
 
 ```tsx defer/importContactsFromHubspot.ts
 import { defer } from "@defer/client";
@@ -104,9 +118,12 @@ const importContactsFromHubspot = async (userId: string) => {
 export default defer(importContactsFromHubspot, { retry: 5 });
 ```
 
-Moved in a background function, the Hubspot APIs call will not affect your application's performance, and will be retried by Defer in case of failure. Offering a **resilient and responsive user experience**.
+Moved in a background function, the Hubspot APIs call will not affect your
+application's performance, and will be retried by Defer in case of failure.
+Offering a **resilient and responsive user experience**.
 
-The `{ retry: 5 }` is a shorthand for up to 5 exponential back-off retries, as showcased below:
+The `{ retry: 5 }` is a shorthand for up to 5 exponential back-off retries, as
+showcased below:
 
 <Frame>
   <img
@@ -119,7 +136,8 @@ Our background function is now ready to be called from the API!
 
 ## Calling `importContactsFromHubspot()` from the API
 
-Let's now call our `importContactsFromHubspot()` background function from our API.
+Let's now call our `importContactsFromHubspot()` background function from our
+API.
 
 ```tsx defer/importContactsFromHubspot.ts
 import express from "express";
@@ -142,7 +160,11 @@ That's it 🎉
 
 Your application now offers an improved Hubspot contacts integration:
 
-- **great user experience**: the import is performed in the background without impacting your application's overall performance.
-- **resilient import**: the import will work for any number of contacts and will resume in case of Hubspot API rate limiting or outage.
+- **great user experience**: the import is performed in the background without
+  impacting your application's overall performance.
+- **resilient import**: the import will work for any number of contacts and will
+  resume in case of Hubspot API rate limiting or outage.
 
-This example will be soon updated to showcase how to integrate the progress of a background function in your product to keep the users in the loop (ex: display the status of the Hubspot contacts import in your application).
+This example will be soon updated to showcase how to integrate the progress of a
+background function in your product to keep the users in the loop (ex: display
+the status of the Hubspot contacts import in your application).

@@ -3,7 +3,8 @@ title: "defer()"
 icon: function
 ---
 
-The `defer(fn, options)` function transforms a named function into a background function.
+The `defer(fn, options)` function transforms a named function into a background
+function.
 
 Example:
 
@@ -32,7 +33,8 @@ When set to `true` the default configuration is applied:
 }
 ```
 
-When set to 'integer' (e.g. 3), the default configuration is applied but with a custom maxAttempts:
+When set to 'integer' (e.g. 3), the default configuration is applied but with a
+custom maxAttempts:
 
 ```js
 {
@@ -44,12 +46,15 @@ When set to 'integer' (e.g. 3), the default configuration is applied but with a 
 }
 ```
 
-When set to "object", the specified configuration is applied. The object is defined as follows:
+When set to "object", the specified configuration is applied. The object is
+defined as follows:
 
 - `maxAttempts`: How many retries should we attempt in total.
 - `initialInterval`: How close the first retry should be? (in seconds).
-- `randomizationFactor`: How much randomness should be introduced in the space between retries.
-- `multiplier`: How fast the space between each retry should grow? (exponential back-off).
+- `randomizationFactor`: How much randomness should be introduced in the space
+  between retries.
+- `multiplier`: How fast the space between each retry should grow? (exponential
+  back-off).
 - `maxInterval`: What should be the max space between 2 retries? (in seconds).
 
 Examples:

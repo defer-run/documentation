@@ -5,12 +5,12 @@ description: "Schedule an execution for later"
 
 ## Overview
 
-Defer allows you to schedule the time at which a execution will be
-executed. This is useful for example if you want send to a user an
-email 1 day after they sign up.
+Defer allows you to schedule the time at which a execution will be executed.
+This is useful for example if you want send to a user an email 1 day after they
+sign up.
 
-You can schedule a job in the future by using the `delay` function
-with a specific datetime or duration.
+You can schedule a job in the future by using the `delay` function with a
+specific datetime or duration.
 
 <CodeGroup>
 
@@ -24,13 +24,13 @@ const delayFunc = delay(myFunc, "1h");
 
 </CodeGroup>
 
-<br/>
+<br />
 
 <Info>
 
-The Defer scheduler only works with UTC datetime, so all datetime will
-be converted to UTC. For example if you delay something to 1 hour
-later, it will be align with your current timezone.
+The Defer scheduler only works with UTC datetime, so all datetime will be
+converted to UTC. For example if you delay something to 1 hour later, it will be
+align with your current timezone.
 
 </Info>
 
@@ -50,16 +50,15 @@ await delayedSendOnboardingEmail(userId);
 import { defer } from "@defer/client";
 
 async function sendOnboardingEmail(userId) {
-	// business logic here
+  // business logic here
 }
 
-export default defer(sendOnboardingEmail)
+export default defer(sendOnboardingEmail);
 ```
 
 </CodeGroup>
 
-
 ## Console
 
-Even if the execution is scheduled for later you can still see it on
-the Console under the "Execution" tab.
+Even if the execution is scheduled for later you can still see it on the Console
+under the "Execution" tab.
