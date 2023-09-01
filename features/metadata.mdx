@@ -1,124 +1,34 @@
 ---
 title: "Metadata"
-description: "Assign metadata to executions for better filtering"
+description: "Looking for an execution? Let's find it!"
 ---
-
-## Prerequisites
-
-<Card
-  title="Defer basics"
-  href="/features/scheduled-execution"
-  icon={
-    <>
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 40 41"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="hidden dark:block"
-      >
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M40 0.5V40.5H0V0.5H40ZM15.7143 4.78571H4.28571V16.2143H15.7143V4.78571ZM4.28571 20.5H20V4.78571H25.7143V26.2143H4.28571V20.5ZM4.28571 36.2143V30.5H30V4.78571H35.7143V36.2143H4.28571Z"
-          fill="white"
-        />
-      </svg>
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 40 41"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="block dark:hidden"
-      >
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M40 0.5V40.5H0V0.5H40ZM15.7143 4.78571H4.28571V16.2143H15.7143V4.78571ZM4.28571 20.5H20V4.78571H25.7143V26.2143H4.28571V20.5ZM4.28571 36.2143V30.5H30V4.78571H35.7143V36.2143H4.28571Z"
-          fill="black"
-        />
-      </svg>
-    </>
-  }
->
-  Get familiar with background functions
-</Card>
 
 ## Overview
 
-As your usage of Defer grows, finding specific executions (for example, executions linked to a particular user email) gets more complicated:
+Defer enables you to attach metadata (key/value pairs) to an
+execution. This is useful for example if you want search all
+executions for a specific user.
 
-<Frame>
-  <img
-    src="/images/features/execution-metadata/list.png"
-    alt="Executions list can get hard to narrow to a smaller set"
-  />
-</Frame>
+## Limitation
 
-Attaching metadata to your executions makes it easier to filter them on the Defer Console:
+Below the list of limitation we apply on metadata.
 
-<Frame>
-  <img
-    src="/images/features/execution-metadata/filter.png"
-    alt="Metadata enables a quick filtering of the executions"
-  />
-</Frame>
+- No more than 25 metadata (key/value pairs) peer exection
+- The metatdata key and value:
+  - Must be a string.
+  - Must have lenght between 1 and 256
+  - Must only only contain printable ASCII characters (ASCII code must
+    be between 32 and 127).
 
-## Usage
+## Example
 
-Attaching metadata to execution is achieved by using `addMetadata()` from `@defer/client` (from `1.4.0`):
-
-```tsx src/sendEmails.ts
-import type { NextApiRequest, NextApiResponse } from "next";
+```js
 import { addMetadata } from "@defer/client";
+import { sayHello } from "./defer/sayHello";
 
-import sendEmailsFn from "../../../defer/sendEmails";
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<{ ok: boolean }>
-) {
-  const sendEmails = addMetadata(sendEmailsFn, { email: req.body.email });
-  await sendEmails(req.body.email);
-
-  res.status(200).json({ ok: true });
-}
+const delayedSayHello = addMetadata(sayHello, {
+	userId: "7",
+	email: "john@example.com",
+});
+await delayedSayHello("John Doe");
 ```
-
-_A working example is available [in the `defer.demo` repository](https://github.com/defer-run/defer.demo/blob/master/nextjs/pages/api/emails/succeed.ts#L14)._
-
-<Info>
-
-**Limitations**
-
-There is no limit to the number of metadata assignable to an execution; however, for now, **values must be `string`**.
-
-</Info>
-
-The _Metadata_ filter should appear on your Defer Console Executions List once new executions with metadata are received:
-
-<Frame>
-  <img
-    src="/images/features/execution-metadata/filters-with-metadata.png"
-    alt="The Metadata filter should appear as soon as new executions with metadata are received"
-  />
-</Frame>
-
-<br />
-
-<Tip>
-
-Multiple metadata filters can be combined in the same filtering.
-
-Get the full powering of Execution List filters by combining _Metadata_ with _Status_ and/or _Executed At_ filters.
-
-</Tip>
-
-<Frame>
-  <img
-    src="/images/features/execution-metadata/combine-filters.png"
-    alt="Filters can and should be combined for better relevance"
-  />
-</Frame>
