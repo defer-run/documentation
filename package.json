@@ -1,10 +1,11 @@
 {
   "name": "@defer/documentation",
   "scripts": {
-      "start": "mintlify dev --port 3333",
-      "check": "mintlify broken-links"
+    "start": "mintlify dev --port 3333",
+    "check": "mintlify broken-links"
   },
-    "dependencies": {
-    "mintlify": "^4.0.11"
+  "devDependencies": {
+    "mintlify": "^4.0.11",
+    "prettier": "^3.0.3"
   }
 }
