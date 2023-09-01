@@ -7,7 +7,7 @@ description: "Learn the conventions around background function definition"
 
 <Card
   title="Setup Defer"
-  href="/get-started/overview"
+  href="/overview"
   icon={
     <>
       <svg
@@ -50,7 +50,7 @@ description: "Learn the conventions around background function definition"
 
 A Background function is the unit of work introduced to define a piece of code that will execute in the background on the [Defer Platform](/platform/overview).
 
-A Background functions can be defined as a [CRON](/features/cron), [executed as delayed](/features/delay), and composed to build a [Workflow](/features/workflows).
+A Background functions can be defined as a [CRON](/features/cron), [executed as delayed](/features/delays), and composed to build a [Workflow](/features/workflows).
 
 ## Conventions
 
@@ -191,7 +191,7 @@ export default defer(importContacts, {
 <Info>
 **Why should arguments be serializable?**
 
-As covered in ["How Defer works?"](/platform/how-defer-works/), a call to a Background function
+As covered in ["How Defer works?"](/platform/overview), a call to a Background function
 triggers a call to the Defer Platform API with the environment token, function name, and arguments.
 
 Hence the necessity to have serializable arguments.
@@ -226,4 +226,4 @@ export default defer(bcryptPassword);
 ```
 
 The unified experience around Background functions unlocks easy access to execution configuration ([retries](/features/retries),
-[concurrency](/features/concurrency-resources)) and [workflow development patterns](/features/workflows).
+[concurrency](/features/concurrency)) and [workflow development patterns](/features/workflows).
