@@ -9,14 +9,14 @@ Defer enables you to attach metadata (key/value pairs) to an
 execution. This is useful for example if you want search all
 executions for a specific user.
 
-## Limitation
+## Requirements
 
-Below the list of limitation we apply on metadata.
+Below the list of requirements we apply on metadata:
 
-- No more than 25 metadata (key/value pairs) peer exection
-- The metatdata key and value:
+- No more than 25 metadata (key/value pairs) per exection
+- key & value format:
   - Must be a string.
-  - Must have lenght between 1 and 256
+  - Must have lenght between 1 and 256.
   - Must only only contain printable ASCII characters (ASCII code must
     be between 32 and 127).
 
@@ -27,8 +27,8 @@ import { addMetadata } from "@defer/client";
 import { sayHello } from "./defer/sayHello";
 
 const delayedSayHello = addMetadata(sayHello, {
-	userId: "7",
-	email: "john@example.com",
+  userId: "7",
+  email: "john@example.com",
 });
 await delayedSayHello("John Doe");
 ```

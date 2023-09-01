@@ -22,6 +22,11 @@
       "light": "#fcfcfc"
     }
   },
+  "analytics": {
+    "posthog": {
+        "apiKey": "phc_OvXJ09veanDSZGeTqaRa5FKHxnpxvAKLJx0m2Y8yWO"
+    }
+  },
   "topbarCtaButton": {
     "type": "github",
     "url": "https://github.com/defer-run/defer.client"
