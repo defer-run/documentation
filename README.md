@@ -1,34 +1,24 @@
-# Mintlify Starter Kit
+<p align="center">
+    <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="docs/logo-horizontal.png">
+        <img alt="Defer logo" src="docs/logo-horizontal.png">
+    </picture>
+</p>
+<p align="center">
+    Zero infrastructure Node.js background jobs
+</p>
+<p align="center">
+    <a href="https://docs.defer.run/">Documentation</a>
+    <span>&nbsp;·&nbsp;</span>
+    <a href="https://www.defer.run/blog">Blog</a>
+    <span>&nbsp;·&nbsp;</span>
+    <a href="https://discord.gg/x2v84Vqsk6">Community</a>
+    <span>&nbsp;·&nbsp;</span>
+    <a href="https://github.com/defer-run/defer.client/discussions/categories/roadmap">Roadmap / RFCs</a>
+</p>
+<br>
 
-Click on `Use this template` to copy the Mintlify starter kit. The starter kit contains examples including
+## Introduction
 
-- Guide pages
-- Navigation
-- Customizations
-- API Reference pages
-- Use of popular components
-
-### 👩‍💻 Development
-
-Install the [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the documentation changes locally. To install, use the following command
-
-```
-npm i -g mintlify
-```
-
-Run the following command at the root of your documentation (where mint.json is)
-
-```
-mintlify dev
-```
-
-### 😎 Publishing Changes
-
-Changes will be deployed to production automatically after pushing to the default branch.
-
-You can also preview changes using PRs, which generates a preview link of the docs.
-
-#### Troubleshooting
-
-- Mintlify dev isn't running - Run `mintlify install` it'll re-install dependencies.
-- Page loads as a 404 - Make sure you are running in a folder with `mint.json`
+This repository contains the documentation of Defer. The documentation
+is built and deployed using [Mintlify](https://mintlify.com/).
