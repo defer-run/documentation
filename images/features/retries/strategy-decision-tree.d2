@@ -2,8 +2,7 @@
 
 title: |md
   # Backoff Retry vs. Linear Retry Strategy
-| { near: top-center }
-
+| {near: top-center}
 
 a: Is the error transient and likely to be resolved after a retry?
 b: Consider Linear Retry Strategy for immediate, consistent retries.
@@ -11,7 +10,6 @@ c: Is the error possibly due to a temporary service overload or instability?
 
 a -> b: Yes
 a -> c: No
-
 
 ca: Consider Backoff Retry Strategy to give the service more time to recover.
 cb: Consider alternative error handling strategies.
