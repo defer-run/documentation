@@ -31,12 +31,12 @@ Install dependencies with:
 	
 Start local server with:
 
-	npm run start
+	make start
 	
 Format `.json` and `.mdx` files with:
 
-	npm run fmt
+	make fmt
 
-Check broken links with:
+Check formatting and broken links with:
 
-	npm run check
+	make check
