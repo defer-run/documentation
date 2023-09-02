@@ -4,7 +4,6 @@ D2?=	d2
 MINTLIFY=	$(NPX) mintlify
 PRETTIER=	$(NPX) prettier
 
-
 PORT?=	3333
 
 D2_FILES=	$(shell find images -name '*.d2')
