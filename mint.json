@@ -79,7 +79,7 @@
     {
       "group": "Features",
       "pages": [
-        "features/basic",
+        "features/basics",
         "features/cron",
         "features/concurrency",
         "features/retries",
@@ -232,11 +232,11 @@
     },
     {
       "source": "/features/background-function",
-      "destination": "/features/basic"
+      "destination": "/features/basics"
     },
     {
       "source": "/features/background-functions",
-      "destination": "/features/basic"
+      "destination": "/features/basics"
     },
     {
       "source": "/features/delay",

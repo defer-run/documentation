@@ -1,0 +1,60 @@
+---
+title: "Basics"
+description: ""
+---
+
+## Overview
+
+A background job is a task or process that runs independently of the main
+program, typically running in the background without user interaction. It allows
+you to scale your application by performing work in the background.
+
+Creating a background job in Defer is as simple as wrapping your existing code
+with the Defer client.
+
+```js myJob.js
+import { defer } from "@defer/client";
+
+async function myJob() {
+  // business logic here
+}
+
+export default defer(myJob);
+```
+
+## Conventions
+
+Your function must adhere to the conventions below to be considered a valid
+background function.
+
+- The function must be located in the `defer/` folder to be built by the
+  [Defer Builder](/platform/builder/overview).
+- The function must be a `named` function. The function must be named uniquely
+  across all Defer functions (this is a limitation on our end and will be
+  resolved in the future).
+- The function must return a `Promise`.
+- The function must be the `default` export (this is a limitation on our end and
+  will be resolved in the future).
+- The function must only use JSON serializable arguments. This means that your
+  arguments must be simple JSON datatypes such as `numbers`, `strings`,
+  `boolean`, `arrays`, and `objects`. Complex JavaScript objects like `Date`,
+  `RegExp`, `Class`, etc. will not be serialized.
+
+## Related
+
+<CardGroup cols="2">
+
+<Card
+  icon="function"
+  iconType="light"
+  title="@defer/client"
+  href="/references/defer-client/defer#options"
+>
+  Defer client reference
+</Card>
+
+<Card icon="book" iconType="light" title="Periodic job" href="/features/cron">
+  Creating recurring jobs
+</Card>
+
+</CardGroup>
