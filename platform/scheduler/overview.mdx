@@ -5,3 +5,36 @@ title: "Overview"
 The Scheduler handles the queue of your background functions. It ensures the
 enqueuing and dequeuing happens in accordance to your configuration choices. It
 feeds executions to Runner instances, and checks the results.
+
+The Scheduler orchestrates the Runner to create an execution. This
+page covers the lifecycle of an execution.
+
+## State definitions
+
+- **Created**: the execution is enqueued
+- **Started**: the execution is running
+- **Cancelled**: the execution has been Cancelled
+- **Aborting**: the execution is being aborted
+- **Aborted**: the execution has been aborted
+- **Succeed**: the execution has run without any error
+- **Failed**: the execution has failed with errors
+
+## State machine diagram
+
+![runner state machine diagram](/images/platform/scheduler/state-machine.svg)
+
+## Events and transitions
+
+<br />
+
+| Event   | From                | To          | Description                                                                |
+| ------- | ------------------- | ----------- | -------------------------------------------------------------------------- |
+| Call    |                     | `created`   | Your application calls a background function                               |
+| Retry   | `failed`            | `created`   | The execution has failed and retries are configured                        |
+| Rerun   | `succeed`, `failed` | `created`   | A rerun has been triggered from the console                                |
+| Cancel  | `created`           | `cancelled` | The execution is cancelled from the console or the client                  |
+| Start   | `created`           | `started`   | The Runner has picked up the execution from the queue                      |
+| Abort   | `started`           | `aborting`  | The execution abortion process is triggered from the console or the client |
+| Aborted | `aborting`          | `aborted`   | The execution abortion is complete                                         |
+| Fail    | `started`           | `failed`    | The execution has failed with error                                        |
+| Success | `started`           | `succeed`   | The execution has completed successfully                                   |
