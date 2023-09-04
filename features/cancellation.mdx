@@ -1,0 +1,45 @@
+---
+title: "Cancellation"
+description: ""
+---
+
+## Overview
+
+Defer enables you to cancel a delayed execution or abort a running one.
+Canceling a delayed execution comes in handy when you have a reminder system and
+you need to remove one of them. Aborting a running execution is useful, for
+instance, when you have an infinite loop in your function.
+
+### Cancel
+
+Since the execution has not started, we can preempt it, making the cancellation
+process safe. Cancelling an execution is a synchronous operation, which means
+you will receive the result of the operation immediately.
+
+### Abort
+
+Since the execution is running aborting it is inherently unsafe as it is
+impossible to preempt what the execution is currently doing. That's why we
+decided to not abort by default and give you the responsibility of making this
+choice. Aborting an executions is an asynchronous operation. In most cases, it
+takes less than a second, but in some contexts, it can take longer. Once a
+request to abort an execution has been made, it is not possible to revoke the
+request.
+
+## Examples
+
+<CodeGroup>
+
+```js cancel
+import { cancelExecution } from "@defer/client";
+
+cancelExecution("0uk1Hbc9dQ9pxyTqJ93IUrfhdGq");
+```
+
+```js abort
+import { cancelExecution } from "@defer/client";
+
+cancelExecution("0uk1Hbc9dQ9pxyTqJ93IUrfhdGq", { force: true });
+```
+
+</CodeGroup>
