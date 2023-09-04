@@ -29,5 +29,5 @@ check:
 	$(MINTLIFY) broken-links
 
 $(SVG_FILES): $(D2_FILES)
-	$(D2) --theme=300 --dark-theme=200 $< $@
+	$(D2) --theme=0 --dark-theme=200 $(@:.svg=.d2) $@
 
