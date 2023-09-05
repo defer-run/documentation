@@ -1,0 +1,21 @@
+message: Message {
+  pg: PostgreSQL {
+    shape: sql_table
+
+    scheduled_at: timestamp with time zone
+    max_duration: interval
+    function_id: ksuid
+    stated_at: timestamp with time zone
+    retry_current_interval: interval
+    retry_attempts_count: interval
+    retry_of: ksuid
+    function_arguments: s3 key name
+    function_result: s3 key name
+  }
+
+  s3: Arguments / Result {
+    icon: "https://icons.terrastruct.com/aws%2FStorage%2FAmazon-Simple-Storage-Service-S3_Bucket_light-bg.svg"
+  }
+
+  pg -> s3
+}

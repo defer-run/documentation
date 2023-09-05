@@ -1,0 +1,11 @@
+---
+title: "Persistence"
+description: ""
+---
+
+The scheduler is built on top of two storage systems: PostgreSQL and
+S3. PostgreSQL is used to store consumer configuration, queue
+configuration, and message metadata, while S3 is used to store the
+message payload.
+
+![Message Store Diagram](/images/platform/scheduler/message-store.svg)

@@ -123,6 +123,8 @@
       "group": "Scheduler",
       "pages": [
         "platform/scheduler/overview",
+        "platform/scheduler/timezone",
+        "platform/scheduler/persistence",
         "platform/scheduler/retries",
         "platform/scheduler/concurrency"
       ]
