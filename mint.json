@@ -230,7 +230,7 @@
     },
     {
       "source": "/quickstart/custom-stack",
-      "destination": "/quickstart/custom-stack"
+      "destination": "/get-started/quickstart/custom-stack"
     },
     {
       "source": "/features/background-function",
