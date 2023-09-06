@@ -269,12 +269,28 @@
       "destination": "/platform/runner/overview"
     },
     {
+      "source": "/defer-client/in-a-nutshell",
+      "destination": "/references/defer-client/defer"
+    },
+    {
       "source": "/platform/limits",
       "destination": "/platform/overview"
     },
     {
+      "source": "/examples",
+      "destination": "/guides"
+    },
+    {
       "source": "/examples/recurring-report",
       "destination": "/guides/weekly-recommendations"
+    },
+    {
+      "source": "/examples/onboarding-workflow",
+      "destination": "/guides/onboarding-workflow"
+    },
+    {
+      "source": "/examples/schedule-reminders",
+      "destination": "/guides/todo-reminders"
     },
     {
       "source": "/features/getting-execution-result",
