@@ -136,8 +136,7 @@
         "platform/runner/environment",
         "platform/runner/arguments-result",
         "platform/runner/errors",
-        "platform/runner/network-containers",
-        "platform/runner/limits"
+        "platform/runner/network-containers"
       ]
     },
     {
