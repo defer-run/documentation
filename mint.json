@@ -85,8 +85,7 @@
         "features/retries",
         "features/delays",
         "features/metadata",
-        "features/cancellation",
-        "features/workflows"
+        "features/cancellation"
       ]
     },
     {
@@ -286,6 +285,10 @@
     },
     {
       "source": "/examples/onboarding-workflow",
+      "destination": "/guides/onboarding-workflow"
+    },
+    {
+      "source": "/features/workflows",
       "destination": "/guides/onboarding-workflow"
     },
     {
