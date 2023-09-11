@@ -57,7 +57,7 @@ The retry behavior is set up using the following key.
 | `maxAttempts`         | `Integer` | 0       | How many retries should we attempt in total                                |
 | `initialInterval`     | `Integer` | 30      | How close the first retry should be? (in seconds)                          |
 | `randomizationFactor` | `Float`   | 0.5     | How much randomness should be introduced in the space between retries.     |
-| `multiple`            | `Float`   | 1.5     | How fast the space between each retry should grow? (exponential back-off). |
+| `multiplier`          | `Float`   | 1.5     | How fast the space between each retry should grow? (exponential back-off). |
 | `maxInterval`         | `Integer` | 600     | What should be the max space between 2 retries? (in seconds)               |
 
 ## Examples
