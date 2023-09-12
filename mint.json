@@ -145,6 +145,7 @@
     {
       "group": "Use cases",
       "pages": [
+        "guides/monorepo",
         "guides/api-rate-limiting",
         "guides/bulk-import-contacts",
         "guides/todo-reminders",

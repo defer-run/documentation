@@ -12,21 +12,22 @@ In this guide we will show you how to:
 - Understand the Defer build process
 
 <Note>
-  To illustrate this guide with code examples, a new project has been initiated with:
-  ```bash
-    pnpm dlx create-turbo@latest
-  ```
-  You don't have to use Turborepo or pnpm to follow this guide though.
+  To illustrate this guide with code examples, a new project has been initiated
+  with: ```bash pnpm dlx create-turbo@latest ``` You don't have to use Turborepo
+  or pnpm to follow this guide though.
 </Note>
 
 ## 1. Identifying your workspaces
 
-If you already have a monorepo setup, you can skip to [2. Create a defer folder](#create-a-defer-folder).
+If you already have a monorepo setup, you can skip to
+[2. Create a defer folder](#create-a-defer-folder).
 
-Monorepos use workspaces to keep track of the different your different projects or apps.
-Depending on which package manager you are using, defining workspaces is done differently.
+Monorepos use workspaces to keep track of the different your different projects
+or apps. Depending on which package manager you are using, defining workspaces
+is done differently.
 
-Here is an overview of the definitions of pnpm, npm & yarn workspaces in our example:
+Here is an overview of the definitions of pnpm, npm & yarn workspaces in our
+example:
 
 <CodeGroup>
 
@@ -42,11 +43,13 @@ packages:
   "packages/*"
 ],
 ```
+
 </CodeGroup>
 
 ## 2. Create a defer folder
 
-The Defer platform uses the `defer/` folder to autodetect your background functions.
+The Defer platform uses the `defer/` folder to autodetect your background
+functions.
 
 <Warning>
   Defer does not yet support multiple `defer/` folders per Defer environment.
@@ -55,8 +58,11 @@ The Defer platform uses the `defer/` folder to autodetect your background functi
 As a result, you should only use one `defer/` folder accross your monorepo.
 
 Here are our recommendations on where this folder should be located:
-- If you will only use defer with one of your workspaces, you might want to add it to this workspace.
-- Alternatively, if you'd like to keep things separated and plan on using Defer with multiple workspaces, you can also add it in a dedicated workspace.
+
+- If you will only use defer with one of your workspaces, you might want to add
+  it to this workspace.
+- Alternatively, if you'd like to keep things separated and plan on using Defer
+  with multiple workspaces, you can also add it in a dedicated workspace.
 
 Please take a look at the monorepo structures below for reference:
 
@@ -121,7 +127,8 @@ Please take a look at the monorepo structures below for reference:
 
 ## 3. Install the @defer/client
 
-The Defer client is used to communicate with the Defer API. You will need it to execute your background functions on the Defer Platform.
+The Defer client is used to communicate with the Defer API. You will need it to
+execute your background functions on the Defer Platform.
 
 <CodeGroup>
 
@@ -153,13 +160,13 @@ yarn workspace packages/defer add @defer/client
 Before writing complex business logic, let's write a simple background function.
 
 ```ts
-import { defer } from "@defer/client"
+import { defer } from "@defer/client";
 
 const greet: (name) => Promise<any> = async () => {
-  console.log(`Hello ${name}!`)
-}
+  console.log(`Hello ${name}!`);
+};
 
-export default defer(greet)
+export default defer(greet);
 ```
 
 ## 5. Call your background function
@@ -171,42 +178,49 @@ Here is an example on how you can call it in
 <CodeGroup>
 
 ```ts Existing workspace - apps/web/app/route.ts
-import { NextResponse } from 'next/server'
+import { NextResponse } from "next/server";
 import greet from "../defer/greet";
 
 export async function POST() {
   // calling a background function triggers an execution on Defer Platform
   const res = await greet("John Doe");
-  const data = await res.json()
+  const data = await res.json();
 
-  return NextResponse.json({ data })
+  return NextResponse.json({ data });
 }
 ```
 
 ```ts Existing workspace - apps/web/app/route.ts
-import { NextResponse } from 'next/server'
+import { NextResponse } from "next/server";
 import greet from "defer/greet";
 
 export async function POST() {
   // calling a background function triggers an execution on Defer Platform
   const res = await greet("John Doe");
-  const data = await res.json()
+  const data = await res.json();
 
-  return NextResponse.json({ data })
+  return NextResponse.json({ data });
 }
 ```
+
 </CodeGroup>
 
 ## 6. Configure & Deploy a Defer environment
 
-Head up to our [quickstart](/get-started/quickstart/nextjs#configure) section to follow the instructions on how to configure your defer environment on the Defer Console.
+Head up to our [quickstart](/get-started/quickstart/nextjs#configure) section to
+follow the instructions on how to configure your defer environment on the Defer
+Console.
 
 <Note>
   You don't need to run `turbo build` to deploy your application on defer.
 
-  You only need to push to [Github](github.com) to make your background functions available to the Defer Platorm.
+You only need to push to [Github](https://github.com/) to make your background
+functions available to the Defer Platorm.
 
-  The Defer Builder builds your background functions for you, and is tailored to optimize bundle only those and their dependencies.
+The Defer Builder builds your background functions for you, and is tailored to
+optimize bundle only those and their dependencies.
+
 </Note>
 
-That's it, you are now fully set up to leverage the power on Defer on your Turborepo! 🎉
+That's it, you are now fully set up to leverage the power on Defer on your
+Turborepo! 🎉
