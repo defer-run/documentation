@@ -167,7 +167,7 @@ Before writing complex business logic, let's write a simple background function.
 ```ts
 import { defer } from "@defer/client";
 
-const greet: (name) => Promise<any> = async () => {
+const greet: (name) => Promise<any> = async (name) => {
   console.log(`Hello ${name}!`);
 };
 
@@ -223,9 +223,9 @@ You only need to push to [Github](https://github.com/) to make your background
 functions available to the Defer Platorm.
 
 The Defer Builder builds your background functions for you, and is tailored to
-optimize bundle only those and their dependencies.
+optimize the bundle to only contain those and their dependencies.
 
 </Note>
 
-That's it, you are now fully set up to leverage the power on Defer on your
+That's it, you are now fully set up to leverage background functions inside your
 Turborepo! 🎉
