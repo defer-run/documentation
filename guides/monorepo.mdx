@@ -108,7 +108,6 @@ Please take a look at the monorepo structures below for reference:
  |   +-- eslint-config-custom/
  |   +-- tsconfig/
  |   `-- ui/
- +-- pnpm-lock.yaml
 -+-- pnpm-lock.yaml
 ++-- pnpm-lock.yaml
  +-- pnpm-workspace.yaml
@@ -134,9 +133,9 @@ execute your background functions on the Defer Platform.
 
 ```bash pnpm
 # existing 'web' workspace
-pnpm install @defer/client --filter "apps/web"
+pnpm install @defer/client --filter web
 # new 'defer' workspace
-pnpm install @defer/client --filter "packages/defer"
+pnpm install @defer/client --filter defer
 ```
 
 ```bash npm
