@@ -8,10 +8,10 @@ function.
 
 Example:
 
-```js
+```ts
 import { defer } from "@defer/client";
 
-const sayHello = async (name) => console.log(`hello ${name}!`);
+const sayHello = async (name: string) => console.log(`hello ${name}!`);
 
 export default defer(sayHello);
 ```
@@ -68,7 +68,7 @@ Examples:
 export default defer(sayHello, { retry: 10 });
 ```
 
-```js Custom
+```ts Custom
 export default defer(sayHello, {
   maxAttempts: 0,
   initialInterval: 30,
@@ -103,13 +103,13 @@ export default defer(sayHello, { concurrency: 5 });
 Examples:
 
   <CodeGroup>
-  ```js 5 minutes
+  ```ts 5 minutes
   export default defer(sayHello, { maxDuration: 5 * 60 });
   ```
 
-```js 3 hours
-export default defer(sayHello, { maxDuration: 3 * 60 * 60 });
-```
+  ```ts 3 hours
+  export default defer(sayHello, { maxDuration: 3 * 60 * 60 });
+  ```
 
   </CodeGroup>
 </ResponseField>

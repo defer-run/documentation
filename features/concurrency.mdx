@@ -20,7 +20,7 @@ By default, concurrency limit is not configured on background function.
 
 <CodeGroup>
 
-```js FIFO
+```ts FIFO
 import { defer } from "@defer/client";
 
 async function reIndexElasticRecords() {
@@ -30,7 +30,7 @@ async function reIndexElasticRecords() {
 export default defer(reIndexElasticRecords, { concurrency: 1 });
 ```
 
-```js Concurrent
+```ts Concurrent
 import { defer } from "@defer/client";
 
 async function importCurrencyRates() {

@@ -1,12 +1,23 @@
 ---
-title: "FIFO queue"
+title: "Enable FIFO executions processing"
 ---
 
-Nothing more simple with the `concurrency` option:
 
-<Info>Concurrency is defined at the function level</Info>
+Defer background functions [comes without a concurrency limit by default](/features/concurrency).
+While Defer guarantees to pick up execution by their creation order, it cannot guarantee strict sequential processing when concurrency is enabled.
 
-```tsx defer/importContacts.ts
+Processing executions in sequence is a requirement for multiple scenarios:
+- Processing certain webhooks (e.g., Shopify webhooks)
+- Processing tracking events (e.g., Hubspot events)
+- Dealing with strict 3rd party rate limiting.
+
+
+## How to enable the FIFO mode
+
+To enable FIFO processing, set `concurrency` to `1` as follows:
+
+
+```ts defer/importContacts.ts
 import { defer } from "@defer.run/client";
 
 const importContacts = () => {

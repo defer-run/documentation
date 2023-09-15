@@ -49,7 +49,7 @@ Choose how to write your first background function:
 Let's add the following `helloWorld.ts` function in your `defer/` folder, as
 follows:
 
-```tsx defer/helloWorld.ts
+```ts defer/helloWorld.ts
 // the `defer()` helper will be used to define a background function
 import { defer } from "@defer/client";
 
@@ -80,7 +80,7 @@ to implement it depending on your use case:
 
   <Tab title='Move existing slow code to a background function'>
 
-    ```tsx defer/syncContacts.ts
+    ```ts defer/syncContacts.ts
     // the `defer()` helper will be used to define a background function
     import { defer } from "@defer/client"
     // the `defer()` helper will be used to define a background function
@@ -94,7 +94,7 @@ to implement it depending on your use case:
 
   <Tab title='Write a new feature, ex: syncContacts()'>
 
-    ```tsx defer/syncContacts.ts
+    ```ts defer/syncContacts.ts
     // the `defer()` helper will be used to define a background function
     import { defer } from "@defer/client"
 
@@ -131,7 +131,7 @@ execution.
 
 <Tab title="Express">
 
-```tsx src/api.ts
+```ts src/api.ts
 import express from "express";
 
 // we import our `helloWorld()` background function
@@ -156,7 +156,7 @@ app.listen(port, () => {
 
 <Tab title="Koa">
 
-```tsx src/api.ts
+```ts src/api.ts
 import Koa from "koa";
 // we import our `helloWorld()` background function
 import helloWorld from "../../defer/helloWorld";
@@ -177,7 +177,7 @@ app.listen(3000);
 
 <Tab title="hapi">
 
-```tsx src/api.ts
+```ts src/api.ts
 import Hapi from "@hapi/hapi";
 
 // we import our `helloWorld()` background function

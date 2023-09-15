@@ -71,7 +71,7 @@ Choose how to write your first background function:
 Let's add the following `helloWorld.ts` function in your `defer/` folder, as
 follows:
 
-```tsx api/src/jobs/defer/helloWorld.ts
+```ts api/src/jobs/defer/helloWorld.ts
 // the `defer()` helper will be used to define a background function
 import { defer } from "src/jobs/clients/defer";
 
@@ -102,7 +102,7 @@ to implement it depending on your use case:
 
   <Tab title='Move existing slow code or service to a background function'>
 
-    ```tsx api/src/jobs/defer/syncContacts.ts
+    ```ts api/src/jobs/defer/syncContacts.ts
     // the `defer()` helper will be used to define a background function
     import { defer } from "src/jobs/clients/defer";
     // the `defer()` helper will be used to define a background function
@@ -117,7 +117,7 @@ to implement it depending on your use case:
 
   <Tab title='Write a new feature, ex: syncContacts()'>
 
-    ```tsx api/src/jobs/defer/syncContacts.ts
+    ```ts api/src/jobs/defer/syncContacts.ts
     // the `defer()` helper will be used to define a background function
     import { defer } from "src/jobs/clients/defer";
 
@@ -156,7 +156,7 @@ First, generate a RedwoodJS serverless function:
   yarn rw generate function helloWorld
 ```
 
-```tsx api/src/functions/helloWorld/helloWorld.ts
+```ts api/src/functions/helloWorld/helloWorld.ts
 import type { APIGatewayEvent, Context } from "aws-lambda";
 
 import helloWorld from "src/jobs/defer/helloWorld";

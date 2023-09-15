@@ -64,20 +64,20 @@ The retry behavior is set up using the following key.
 
 <CodeGroup>
 
-```js default
+```ts default
 import { defer } from "@defer/client";
 
-async function sendEmail(endpoint, data) {
+async function sendEmail(endpoint: string, data: any) {
   // business logic here
 }
 
 export default defer(sendEmail, { retry: true });
 ```
 
-```js exponential
+```ts exponential
 import { defer } from "@defer/client";
 
-async function sendWebhook(endpoint, data) {
+async function sendWebhook(endpoint: string, data: any) {
   // business logic here
 }
 
@@ -92,10 +92,10 @@ export default defer(sendWebhook, {
 });
 ```
 
-```js linear
+```ts linear
 import { defer } from "@defer/client";
 
-async function fetchRepositoryCommit(repoOwner, repoName) {
+async function fetchRepositoryCommit(repoOwner: string, repoName: string) {
   // business logic here
 }
 

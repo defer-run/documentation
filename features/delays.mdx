@@ -14,11 +14,11 @@ specific datetime or duration.
 
 <CodeGroup>
 
-```js datetime
+```ts datetime
 const delayFunc = delay(myFunc, new Date("1/1/24"));
 ```
 
-```js duration
+```ts duration
 const delayFunc = delay(myFunc, "1h");
 ```
 
@@ -38,7 +38,7 @@ align with your current timezone.
 
 <CodeGroup>
 
-```js index.js
+```ts index.ts
 import { delay } from "@defer/client";
 import sendOnboardingEmail from "./defer/sendOnboardingEmail";
 
@@ -46,10 +46,10 @@ const delayedSendOnboardingEmail = delay(sendOnboardingEmail, "1h");
 await delayedSendOnboardingEmail(userId);
 ```
 
-```js defer/sendOnboardingEmail.js
+```ts defer/sendOnboardingEmail.ts
 import { defer } from "@defer/client";
 
-async function sendOnboardingEmail(userId) {
+async function sendOnboardingEmail(userId: number) {
   // business logic here
 }
 

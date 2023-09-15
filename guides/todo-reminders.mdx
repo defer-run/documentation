@@ -1,22 +1,16 @@
 ---
-title: "Todo reminders"
+title: "Create and Manage Reminders"
+description: Build Todo reminders with cancellable scheduled executions
 ---
 
 ## Introduction
 
-We want to add to a Todo application the "inline Notion-like reminders" feature:
-
-<Frame>
-  <img
-    src="/images/features/delay/notion-reminders.png"
-    alt="Notion inline reminders"
-  />
-</Frame>
+Assume we want to add to a Todo application the "inline Notion-like reminders" feature.
 
 For this example, we will assume that the front-end calls a `POST /todos`
 endpoint on our [Express](https://expressjs.com/) API:
 
-```tsx src/api.ts
+```ts src/api.ts
 import express from 'express'
 
 const app = express()
@@ -64,7 +58,7 @@ As stated in the ["Getting started"](/overview) guide, we create our
 Here is our `sendTodoReminder()` implementation, sending an email using
 [Twilio Sengrid SingleMail API](https://docs.sendgrid.com/api-reference/single-sends/create-single-send):
 
-```tsx defer/sendTodoReminder.ts
+```ts defer/sendTodoReminder.ts
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -101,7 +95,7 @@ scheduled mails.
 
 ## Schedule reminders when creating a Todo
 
-```tsx src/api.ts
+```ts src/api.ts
 import express from "express";
 import sendTodoReminder from "./defer/sendTodoReminder";
 
@@ -133,16 +127,9 @@ app.listen(3000)
 
 That's it 🎉
 
-Your Todo App now offer resilient reminders sent by email:
+Your Todo App now offers resilient reminders sent by email:
 
 - **resilient reminders**: reminders will always happen, no matter the failures
   along the way, thanks to Defer's smart retries.
 - **stay in control**: Access analytics and logs of your scheduled reminders on
   the Defer dashboard:
-
-<Frame>
-  <img
-    src="/images/features/delay/defer-scheduled-function.png"
-    alt="Defer dashboard, scheduled function"
-  />
-</Frame>

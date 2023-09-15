@@ -8,7 +8,7 @@ description: "How Defer works"
 Contrary to the Queue's _status-quo_ of _Producers_ and _Consumers_, Defer
 brings the concept of _Background Functions_ as a basic unit of work:
 
-```tsx defer/importContacts.ts
+```ts defer/importContacts.ts
 import { defer } from "@defer/client";
 
 async function importContacts(userId: string) {
@@ -21,7 +21,7 @@ export default defer(importContacts, { concurrency: 2, retry: 2 });
 Enqueuing an execution is achieved by simply calling _Background Functions_
 (_Producer_ pattern):
 
-```tsx api.ts
+```ts api.ts
 import express from "express";
 
 import importContacts from "./defer/importContacts";

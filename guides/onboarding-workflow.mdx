@@ -52,7 +52,7 @@ We want to call trigger and wait for the execution of
 
 For this, will use the `awaitResult()` API, as follows:
 
-```tsx src/demoParallelRuns.ts
+```ts src/demoParallelRuns.ts
 import { defer } from "@defer.run/client";
 import importContactsFromHubspot from "./defer/importContactsFromHubspot";
 import sendWelcomeEmail from "./defer/sendWelcomeEmail";
@@ -97,7 +97,7 @@ follow:
 As stated earlier, implementing such a workflow is achieved with simple
 background functions calls:
 
-```tsx src/userOnboarding.ts
+```ts src/userOnboarding.ts
 import { delay, defer } from "@defer/client";
 import sendWelcomeEmail from "./sendWelcomeEmail";
 import importContactsFromHubspot from "./importContactsFromHubspot";

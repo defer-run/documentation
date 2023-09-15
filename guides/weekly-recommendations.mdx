@@ -1,22 +1,20 @@
 ---
 title: "Weekly recommendations"
+description: "Create a CRON that scales over time."
 ---
-
-<Info>CRONs schedule is based on UTC time.</Info>
 
 ## Introduction
 
-Defer makes it easy to turn a function into a scheduled (CRON) background
-function.
+Defer makes it easy to turn a function into a CRON.
 
-In this example, a marketplace wants to send product recommendation to users on
+In this example, a marketplace wants to send product recommendations to users on
 a weekly basis.
 
 For this, we will create a scheduled function (`weeklyProductRecommendations()`)
 that performs the following steps:
 
 1. Gather all the users that opt-in for the weekly product recommendation
-2. For each users, in parallel:
+2. For each user, in parallel:
    - invoke a background function (`computeProductRecommendation(user)`), that
      will compute the product recommendations and send an email
 
@@ -25,7 +23,7 @@ that performs the following steps:
 A background function can be configured to run at a given frequency using
 `defer.cron(fn, frequencyStr)`:
 
-```tsx defer/weeklyProductRecommendations.ts
+```ts defer/weeklyProductRecommendations.ts
 import { defer } from "@defer/client";
 
 const weeklyProductRecommendations = async () => {
@@ -34,6 +32,8 @@ const weeklyProductRecommendations = async () => {
 
 export default defer.cron(weeklyProductRecommendations, "0 8 * * *");
 ```
+
+<Info>CRONs schedule is based on UTC.</Info>
 
 A scheduled background function is similar to a regular background function:
 
@@ -68,7 +68,7 @@ functions:
 
 <CodeGroup>
 
-```tsx defer/weeklyProductRecommendations.ts
+```ts defer/weeklyProductRecommendations.ts
 import { defer } from "@defer/client";
 import computeProductRecommendation from "./computeProductRecommendation";
 
@@ -85,7 +85,7 @@ const weeklyProductRecommendations = async () => {
 export default defer.cron(weeklyProductRecommendations, "0 8 * * *");
 ```
 
-```tsx defer/computeProductRecommendation.ts
+```ts defer/computeProductRecommendation.ts
 import { defer } from "@defer/client";
 import { User } from "../prisma/generated/client";
 

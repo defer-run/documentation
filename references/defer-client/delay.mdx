@@ -11,7 +11,7 @@ Example:
 
 <CodeGroup>
 
-```js index.js
+```ts index.ts
 import { delay } from "@defer/client";
 import { sayHello } from "./defer/sayHello";
 
@@ -19,10 +19,10 @@ const delayedSayHello = delay(sayHello, "1h");
 await delayedSayHello("John Doe");
 ```
 
-```js defer/sayHello.js
+```ts defer/sayHello.ts
 import { defer } from "@defer/client";
 
-const sayHello = async (name) => console.log(`hello ${name}!`);
+const sayHello = async (name: string) => console.log(`hello ${name}!`);
 
 export default defer(sayHello);
 ```

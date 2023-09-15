@@ -60,7 +60,7 @@ Choose how to write your first background function:
 Let's add the following `helloWorld.ts` function in your `defer/` folder, as
 follows:
 
-```tsx src/defer/helloWorld.ts
+```ts src/defer/helloWorld.ts
 // the `defer()` helper will be used to define a background function
 import { defer } from "@defer/client";
 
@@ -91,7 +91,7 @@ to implement it depending on your use case:
 
   <Tab title='Move existing slow code to a background function'>
 
-    ```tsx src/defer/syncContacts.ts
+    ```ts src/defer/syncContacts.ts
     // the `defer()` helper will be used to define a background function
     import { defer } from "@defer/client"
     // the `defer()` helper will be used to define a background function
@@ -105,7 +105,7 @@ to implement it depending on your use case:
 
   <Tab title='Write a new feature, ex: syncContacts()'>
 
-    ```tsx src/defer/syncContacts.ts
+    ```ts src/defer/syncContacts.ts
     // the `defer()` helper will be used to define a background function
     import { defer } from "@defer/client"
 
@@ -138,7 +138,7 @@ following example showcasing how to call `helloWorld()`, from a tRPC
 `/hello-world` route, demonstrates how easily you can trigger a background
 function execution.
 
-```tsx src/server/api/routers/example.ts
+```ts src/server/api/routers/example.ts
 import helloWorld from "../../../defer/helloWorld";
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
 

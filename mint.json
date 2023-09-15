@@ -11,7 +11,8 @@
   },
   "feedback": {
     "raiseIssue": true,
-    "suggestEdit": true
+    "suggestEdit": true,
+    "thumbsRating": true
   },
   "favicon": "/images/favicon.png",
   "colors": {
@@ -144,15 +145,16 @@
       "pages": ["guides/overview"]
     },
     {
-      "group": "Use cases",
+      "group": "Guides",
       "pages": [
         "guides/monorepo",
         "guides/api-rate-limiting",
-        "guides/bulk-import-contacts",
+        "guides/api-offloading",
         "guides/todo-reminders",
         "guides/weekly-recommendations",
         "guides/onboarding-workflow",
-        "guides/fifo-queue"
+        "guides/fifo-queue",
+        "guides/emails-resend"
       ]
     },
     {
@@ -300,6 +302,10 @@
     {
       "source": "/features/getting-execution-result",
       "destination": "/references/defer-client/get-execution"
+    },
+    {
+      "source": "/guides/bulk-import-contacts",
+      "destination": "/guides/offloading-api"
     }
   ]
 }

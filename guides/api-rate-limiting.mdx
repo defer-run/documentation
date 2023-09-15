@@ -4,7 +4,7 @@ title: "API rate limiting"
 
 ## Configure concurrency
 
-```tsx defer/importContacts.ts
+```ts defer/importContacts.ts
 import { defer } from "@defer.run/client";
 
 const importContacts = () => {
@@ -27,7 +27,7 @@ Knowing that `askOpenAI()` runs, on average, for 1min, the following
 configuration would be perfect to optimize the performance while matching the
 OpenAI API rate limits:
 
-```tsx defer/importContacts.ts
+```ts defer/importContacts.ts
 import { defer } from "@defer.run/client";
 
 const importContacts = () => {

@@ -58,7 +58,7 @@ Choose how to write your first background function:
 Let's add the following `helloWorld.ts` function in your `defer/` folder, as
 follows:
 
-```tsx app/defer/helloWorld.ts
+```ts app/defer/helloWorld.ts
 // the `defer()` helper will be used to define a background function
 import { defer } from "@defer/client";
 
@@ -89,7 +89,7 @@ to implement it depending on your use case:
 
   <Tab title='Move existing slow code to a background function'>
 
-    ```tsx app/defer/syncContacts.ts
+    ```ts app/defer/syncContacts.ts
     // the `defer()` helper will be used to define a background function
     import { defer } from "@defer/client"
     // the `defer()` helper will be used to define a background function
@@ -103,7 +103,7 @@ to implement it depending on your use case:
 
   <Tab title='Write a new feature, ex: syncContacts()'>
 
-    ```tsx app/defer/syncContacts.ts
+    ```ts app/defer/syncContacts.ts
     // the `defer()` helper will be used to define a background function
     import { defer } from "@defer/client"
 
@@ -136,7 +136,7 @@ following example showcasing how to call `helloWorld()`, from a Remix
 `/hello-world` route, demonstrates how easily you can trigger a background
 function execution.
 
-```tsx remix/app/routes/helloWorld.ts
+```ts remix/app/routes/helloWorld.ts
 import type { LoaderArgs } from "@remix-run/node";
 import helloWorld from "~/defer/helloWorld";
 

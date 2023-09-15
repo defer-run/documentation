@@ -1,5 +1,6 @@
 ---
-title: "Bulk import contacts"
+title: "Offload your API"
+description: "Example: Perform a Hubspot contact bulk import"
 ---
 
 ## Introduction
@@ -11,7 +12,7 @@ For example, enabling users to sync their Hubspot contacts with your web
 application.
 
 While calling the Hubspot API directly from your API's controller would work, it
-might not for all use cases.
+might not be for all use cases.
 
 <Frame>
   <img
@@ -59,7 +60,7 @@ create our `importContactsFromHubspot()` function in the `defer/` folder:
 Here is our `importContactsFromHubspot()` implementation (_inspired from
 [Hubspot official Node.js tutorial](https://developers.hubspot.com/docs/api/idea-tracker-tutorial-part-1)_):
 
-```tsx defer/importContactsFromHubspot.ts
+```ts defer/importContactsFromHubspot.ts
 import { hubspotClient } from "../hubspotClient";
 
 const importContactsFromHubspot = async (userId: string) => {
@@ -107,7 +108,7 @@ batches of 100 contacts.
 Once implemented, we wrap `importContactsFromHubspot()` with `defer()` and
 export it as `default`:
 
-```tsx defer/importContactsFromHubspot.ts
+```ts defer/importContactsFromHubspot.ts
 import { defer } from "@defer/client";
 import { hubspotClient } from "../hubspotClient";
 
@@ -139,7 +140,7 @@ Our background function is now ready to be called from the API!
 Let's now call our `importContactsFromHubspot()` background function from our
 API.
 
-```tsx defer/importContactsFromHubspot.ts
+```ts defer/importContactsFromHubspot.ts
 import express from "express";
 import importContacts from "./defer/importContacts";
 

@@ -1,17 +1,17 @@
 ---
 title: "CRON"
-description: "Schedule an execution recurrently"
+description: "Schedule recurring executions"
 ---
 
 ## Overview
 
-Defer allows you to schedule periodic execution. This is useful for example when
-you have a weekly newsletter to send to your users every monday.
+Defer allows you to schedule recurring executions. This is useful for example when
+you have a weekly newsletter to send to your users every Monday.
 
-You can schedule a periodic execution using the `defer.cron` function rather
+You can schedule a recurring execution using the `defer.cron()` function rather
 than `defer`.
 
-```js
+```ts
 export default defer.cron(myFunc, "* * * * *");
 ```
 
@@ -23,7 +23,7 @@ With Defer CRON your schedule is defined in UTC.
 
 ## Example
 
-```js
+```ts
 import { defer } from "@defer/client";
 
 async function sendMondayNewletter() {
@@ -59,7 +59,7 @@ If you are not an expert of the CRON syntax, no worries! You can use the
   title="Weekly recommendations"
   href="/guides/weekly-recommendations"
 >
-  How to create periodic jobs
+  How to create recurring jobs
 </Card>
 
 </CardGroup>

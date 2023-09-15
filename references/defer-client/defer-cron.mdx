@@ -8,7 +8,7 @@ recurrently in the brackground.
 
 Example:
 
-```js
+```ts
 import { defer } from "@defer/client";
 
 const sayHello = async () => console.log(`hello!`);
@@ -27,11 +27,11 @@ Examples:
 
   <CodeGroup>
 
-```js Every 5 minutes
+```ts Every 5 minutes
 export default defer.cron(sayHello, "*/5 * * * *");
 ```
 
-```js Every weekday from Monday to Friday
+```ts Every weekday from Monday to Friday
 export default defer.cron(sayHello, "0 0 * * 1-5");
 ```
 

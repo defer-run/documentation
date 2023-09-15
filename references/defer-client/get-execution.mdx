@@ -8,7 +8,7 @@ its result based on the execution state.
 
 <CodeGroup>
 
-```js Get Execution
+```ts Get Execution
 import { getExecution } from "@defer/client";
 import { sayHello } from "./defer/sayHello";
 
@@ -18,10 +18,10 @@ const response = await getExecution(id);
 console.log(response.state, response.result);
 ```
 
-```js defer/sayHello.js
+```ts defer/sayHello.ts
 import { defer } from "@defer/client";
 
-const sayHello = async (name) => console.log(`hello ${name}!`);
+const sayHello = async (name: string) => console.log(`hello ${name}!`);
 
 export default defer(sayHello);
 ```

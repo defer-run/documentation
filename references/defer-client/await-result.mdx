@@ -11,16 +11,16 @@ Example:
 
 <CodeGroup>
 
-```js defer/sayHello.js
+```ts defer/sayHello.ts
 import { defer } from "@defer/client";
 
-const sayHello = (name) =>
+const sayHello = (name: string) =>
   new Promise((resolve) => setTimeout(() => resolve(`Hello ${name}!`), 5000));
 
 export default awaitResult(defer(sayHello));
 ```
 
-```js src/printHello.js
+```ts src/printHello.ts
 import { defer } from "@defer/client";
 
 export const printHello = async () => {
