@@ -3,7 +3,8 @@
   "name": "Defer docs",
   "logo": {
     "dark": "/images/logo/dark.svg",
-    "light": "/images/logo/light.svg"
+    "light": "/images/logo/light.svg",
+    "href": "https://defer.run"
   },
   "modeToggle": {
     "default": "dark"
