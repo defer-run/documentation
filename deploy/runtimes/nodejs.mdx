@@ -1,0 +1,39 @@
+---
+title: "Node.js"
+---
+
+Node.js background jobs are deployed on the Defer platform using your
+`package.json` file.
+
+# Supported Versions
+
+Versions `18.x` and `20.x` are supported. By default, `18.x` will be used. To
+use a specific version, or any constraint, add it in the `engines` field of your
+`package.json` as follows:
+
+```json
+{
+  "engines": {
+    "node": "18.x"
+  }
+}
+```
+
+# Dependencies
+
+Npm, Pnpm, Yarn and Bun package managers are supported. The package manager to
+use is chosen based on the detected lockfile.
+
+Here are the full details of detected package managers and their corresponding
+installation commands ran upon deploy.
+
+| Lockfile            | Package Manager | Command                                             |
+| ------------------- | --------------- | --------------------------------------------------- |
+| `package-lock.json` | **NPM**         | `npm ci --no-audit`                                 |
+| `yarn.lock`         | **Yarn**        | `yarn install --frozen-lockfile`                    |
+| `pnpm-lock.yaml`    | **PNPM**        | `pnpm install --shamefully-hoist --frozen-lockfile` |
+| `bun.lockb`         | **Bun**         | `bun install --frozen-lockfile`                     |
+
+<Info>
+  Dependencies are **installed with the exact versions found in the lockfile**
+</Info>

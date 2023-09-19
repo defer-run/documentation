@@ -56,7 +56,7 @@
   "navigation": [
     {
       "group": "",
-      "pages": ["overview"]
+      "pages": ["introduction"]
     },
     {
       "group": "Get Started",
@@ -91,6 +91,16 @@
       ]
     },
     {
+      "group": "Deployment",
+      "pages": [
+        "deploy/github",
+        {
+          "group": "Runtimes",
+          "pages": ["deploy/runtimes/nodejs", "deploy/runtimes/bun"]
+        }
+      ]
+    },
+    {
       "group": "Troubleshooting",
       "pages": [
         {
@@ -113,7 +123,6 @@
         "platform/builder/overview",
         "platform/builder/requirements",
         "platform/builder/environment",
-        "platform/builder/cloning",
         "platform/builder/dependencies",
         "platform/builder/prebuild-command",
         "platform/builder/compilation",
@@ -195,6 +204,14 @@
     }
   },
   "redirects": [
+    {
+      "source": "/platform/builder/cloning",
+      "destination": "/deploy/github"
+    },
+    {
+      "source": "/overview",
+      "destination": "/introduction"
+    },
     {
       "source": "/",
       "destination": "/get-started/overview"
