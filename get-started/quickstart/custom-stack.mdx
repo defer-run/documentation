@@ -13,24 +13,24 @@ description:
 
 Defer expects to find all the background functions in the `defer/` folder:
 
-```txt
-.
-|-- src
-|   |-- defer/
-|   |-- api.ts
-|-- package.json
-|-- tsconfig.json
-`-- yarn.lock
+```diff
+ .
+ |-- src
++|   |-- defer/
+ |   |-- api.ts
+ |-- package.json
+ |-- tsconfig.json
+ `-- yarn.lock
 ```
 
-<Note>
+<Info>
 
 **Notes:**
 
 - The `defer/` folder can be located anywhere in your project
 - The `defer/` folder can contain nested folders
 
-</Note>
+</Info>
 
 ### Write a background function
 
@@ -140,18 +140,20 @@ http
   .listen(8080);
 ```
 
-<Note>
+<Tip>
 **How does Defer work?**
 
 If you are wondering how calling a background function triggers an execution on
 Defer, please refer to this guide: [How Defer works](/get-started/concepts).
 
-</Note>
+</Tip>
 
 Once your HTTP route is defined, please commit and push it to your branch.
 
 Now that your app contains a background function and an API route that calls it;
 let's ensure your Defer token is configured correctly.
+
+<Snippet file="setup-runtime.mdx" />
 
 ## Configure
 

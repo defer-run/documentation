@@ -15,22 +15,22 @@ Defer expects to find all the background functions in the `defer/` folder.
 
 In a SvelteKit app, we recommend creating a `defer/` folder as follows:
 
-```txt
-.
-|-- package-lock.json
-|-- package.json
-|-- src/
-|   |-- app.d.ts
-|   |-- app.html
-|   |-- defer/
-|   |-- lib/
-|   |-- routes/
-|-- static/
-|   |-- favicon.png
-|   |-- robots.txt
-|-- svelte.config.js
-|-- tsconfig.json
-`-- vite.config.ts
+```diff
+ .
+ |-- package-lock.json
+ |-- package.json
+ |-- src/
+ |   |-- app.d.ts
+ |   |-- app.html
++|   |-- defer/
+ |   |-- lib/
+ |   |-- routes/
+ |-- static/
+ |   |-- favicon.png
+ |   |-- robots.txt
+ |-- svelte.config.js
+ |-- tsconfig.json
+ `-- vite.config.ts
 ```
 
 <Info>
@@ -145,20 +145,21 @@ export async function GET() {
 }
 ```
 
-<Callout type={"info"}>
+<Tip>
 **How does Defer work?**
 
 If you are wondering how calling a background function triggers an execution on
-Defer Platform, please refer to this guide:
-[How Defer works](/get-started/concepts).
+Defer, please refer to this guide: [How Defer works](/get-started/concepts).
 
-</Callout>
+</Tip>
 
 Once your SvelteKit server route is defined, please commit and push it to your
 branch.
 
 Now that your SvelteKit app contains a background function and an API route that
 calls it; let's ensure that your Defer token is properly configured.
+
+<Snippet file="setup-runtime.mdx" />
 
 ## Configure
 

@@ -21,32 +21,32 @@ In a RedwoodJS app, we recommend creating a `jobs/` folder in your project's
 existing `api` side structure to organize both your background functions and
 client as follows:
 
-```txt
-.
-├── api
-│   ├── db/
-│   ├── package.json
-│   ├── server.config.js
-│   ├── src/
-│   │   ├── directives/
-│   │   ├── functions/
-│   │   │   ├── runHelloWorld/
-│   │   │   │   └── runHelloWorld.ts <- API endpoint to invoke job
-│   │   ├── graphql/
-│   │   ├── jobs/ <- Create a new Jobs folder
-│   │   │   ├── clients
-│   │   │   │   └── defer.ts <- Configure and export the defer client
-│   │   │   └── defer/ <- Write your background functions here
-│   │   │       └── helloWorld.ts
-│   │   ├── lib/
-│   │   │   └── logger.ts
-│   │   └── services/
-├── package.json
-├── redwood.toml
-├── web/
+```diff
+ .
+ ├── api
+ │   ├── db/
+ │   ├── package.json
+ │   ├── server.config.js
+ │   ├── src/
+ │   │   ├── directives/
+ │   │   ├── functions/
++│   │   │   ├── runHelloWorld/
++│   │   │   │   └── runHelloWorld.ts <- API endpoint to invoke job
+ │   │   ├── graphql/
++│   │   ├── jobs/ <- Create a new Jobs folder
++│   │   │   ├── clients
++│   │   │   │   └── defer.ts <- Configure and export the defer client
++│   │   │   └── defer/ <- Write your background functions here
++│   │   │       └── helloWorld.ts
+ │   │   ├── lib/
+ │   │   │   └── logger.ts
+ │   │   └── services/
+ ├── package.json
+ ├── redwood.toml
+ ├── web/
 ```
 
-<Callout type="info">
+<Info>
 **Notes:**
 - The `defer/` folder can be located anywhere in your project
 - The `defer/` folder can contain nested folders
@@ -54,7 +54,7 @@ client as follows:
 However, RedwoodJS recommends the above directory structure to organize your
 background functions.
 
-</Callout>
+</Info>
 
 ### Write a background function
 
@@ -204,14 +204,14 @@ and the response:
 { "ok": true }
 ```
 
-<Info>
+<Tip>
 
 **How does Defer work locally?**
 
 If you are wondering how calling a background function behaves locally, please
 refer to this guide: [Development & Testing](/get-started/development-testing).
 
-</Info>
+</Tip>
 
 Once your RedwoodJS function is defined, please commit and push it to your
 branch.
@@ -219,6 +219,8 @@ branch.
 Now that your RedwoodJS contains a background function and a serverless function
 that calls it, let's ensure that your Defer token and Build Settings are
 correctly configured.
+
+<Snippet file="setup-runtime.mdx" />
 
 ## Configure
 

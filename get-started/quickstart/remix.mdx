@@ -15,23 +15,23 @@ Defer expects to find all the background functions in the `defer/` folder.
 
 In a Remix, we recommend creating a `defer/` folder as follows:
 
-```txt
-.
-|-- app/
-|   |-- defer/
-|   |-- entry.client.tsx
-|   |-- entry.server.tsx
-|   |-- root.tsx
-|   |-- routes/
-|-- build/
-|   |-- index.js
-|   |-- index.js.map
-|-- package-lock.json
-|-- package.json
-|-- public/
-|-- remix.config.js
-|-- remix.env.d.ts
-`-- tsconfig.json
+```diff
+ .
+ |-- app/
++|   |-- defer/
+ |   |-- entry.client.tsx
+ |   |-- entry.server.tsx
+ |   |-- root.tsx
+ |   |-- routes/
+ |-- build/
+ |   |-- index.js
+ |   |-- index.js.map
+ |-- package-lock.json
+ |-- package.json
+ |-- public/
+ |-- remix.config.js
+ |-- remix.env.d.ts
+ `-- tsconfig.json
 ```
 
 <Info>
@@ -52,7 +52,7 @@ All background functions must live in the `defer/` folder.
 Choose how to write your first background function:
 
 <AccordionGroup>
-  
+
 <Accordion title={"Start with the helloWorld() demo function"}>
 
 Let's add the following `helloWorld.ts` function in your `defer/` folder, as
@@ -148,20 +148,21 @@ export async function loader({ params }: LoaderArgs) {
 }
 ```
 
-<Callout type={"info"}>
+<Tip>
 **How does Defer work?**
 
 If you are wondering how calling a background function triggers an execution on
-Defer Platform, please refer to this guide:
-[How Defer works](/get-started/concepts).
+Defer, please refer to this guide: [How Defer works](/get-started/concepts).
 
-</Callout>
+</Tip>
 
 Once your Remix Controller route is defined, please commit and push it to your
 branch.
 
 Now that your Remix app contains a background function and an API route that
 calls it, let's ensure that your Defer token is configured correctly.
+
+<Snippet file="setup-runtime.mdx" />
 
 ## Configure
 

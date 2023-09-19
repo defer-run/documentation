@@ -15,25 +15,25 @@ Defer expects to find all the background functions in the `defer/` folder.
 
 In a tRPC/t3 app, we recommend creating a `defer/` folder as follows:
 
-```txt
-.
-|-- next.config.mjs
-|-- package.json
-|-- postcss.config.cjs
-|-- prettier.config.cjs
-|-- prisma
-|   |-- schema.prisma
-|-- src
-|   |-- defer/
-|   |-- env/
-|   |-- env.mjs
-|   |-- pages/
-|   |-- server/
-|   |-- styles/
-|   `-- utils/
-|-- tailwind.config.cjs
-|-- tsconfig.json
-`-- yarn.lock
+```diff
+ .
+ |-- next.config.mjs
+ |-- package.json
+ |-- postcss.config.cjs
+ |-- prettier.config.cjs
+ |-- prisma
+ |   |-- schema.prisma
+ |-- src
++|   |-- defer/
+ |   |-- env/
+ |   |-- env.mjs
+ |   |-- pages/
+ |   |-- server/
+ |   |-- styles/
+ |   `-- utils/
+ |-- tailwind.config.cjs
+ |-- tsconfig.json
+ `-- yarn.lock
 ```
 
 <Info>
@@ -152,19 +152,21 @@ export const exampleRouter = createTRPCRouter({
 });
 ```
 
-<Callout type={"info"}>
+<Tip>
 **How does Defer work?**
 
 If you are wondering how calling a background function triggers an execution on
 Defer, please refer to this guide: [How Defer works](/get-started/concepts).
 
-</Callout>
+</Tip>
 
 Once your tRPC Controller route is defined, please commit and push it to your
 branch.
 
 Now that your tRPC app contains a background function and an API route that
 calls it; let's ensure that your Defer token is properly configured.
+
+<Snippet file="setup-runtime.mdx" />
 
 ## Configure
 

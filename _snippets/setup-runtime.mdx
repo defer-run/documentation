@@ -1,0 +1,43 @@
+### Setup your Node.js / Bun version
+
+**Node.js** is the default runtime, and version `18.x` will be used if you don't
+specify your own.
+
+<Info>
+  **Node.js** versions `18.x` and `20.x` are supported, and **Bun** versions
+  `1.x` are supported.
+</Info>
+
+To change your runtime and its version, edit the `engines` field of your
+`package.json`:
+
+<CodeGroup>
+
+```json Node.js
+{
+  ...
+  "engines": {
+    "node": "18.x"
+  }
+  ...
+}
+```
+
+```json Bun
+{
+  ...
+  "engines": {
+    "node": "1.x"
+  }
+  ...
+}
+```
+
+</CodeGroup>
+
+<br />
+
+<Note>
+  For more details about the supported runtimes, like how dependencies are
+  installed, check our [Deploy section](/deploy/runtimes/nodejs)
+</Note>
