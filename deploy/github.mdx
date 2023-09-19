@@ -2,16 +2,20 @@
 title: "Deploy with Github"
 ---
 
-The Defer Github App that you authorize is used to clone your code.
+## Continuous deployment
 
-## Code
+Once you have [created your account](https://console.defer.run) on the Defer
+Console, continous deployment of your background jobs is enabled on the Defer
+Platform. A deployment will be trigger each time you push a commit to your
+configured branch. Your background functions are then bundled and pushed to the
+Defer platform.
 
-The Defer Builder fetches your project from GitHub, respecting the environment
-configured branch. The Builder temporarily downloads your code from GitHub. Only
-the code used in your background functions ends up being stored - for a limited
-time on our servers.
+<Note>
+  Only the code used in your background functions ends up being stored - for a
+  limited time on our servers.
+</Note>
 
-## Submodules
+## Git Submodules
 
 We support git submodules, meaning you can have your background functions
 depending on modules from another repository.
