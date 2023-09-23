@@ -87,7 +87,8 @@
         "features/retries",
         "features/delays",
         "features/metadata",
-        "features/cancellation"
+        "features/cancellation",
+        "features/discard"
       ]
     },
     {

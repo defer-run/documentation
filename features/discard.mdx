@@ -1,0 +1,64 @@
+---
+title: "Discards"
+description: ""
+---
+
+## Overview
+
+Defer allows you to automatically cancel an execution if it hasn't been
+processed within a set time frame. This is useful, for example, if you want to
+avoid sending expired 2FA codes to your customers.
+
+You can configure the discard option of a function with a specific datetime or a
+duration.
+
+<CodeGroup>
+
+```js duration
+const withDiscard = discardAfter(myFunc, "1h");
+```
+
+```ts datetime
+const withDiscard = discardAfter(myFunc, new Date("1/1/24"));
+```
+
+</CodeGroup>
+
+<br />
+
+<Warning>
+
+There could be a conflict between the discard and
+[delay options](/features/delays). For instance, if you choose to discard an
+execution after 5 minutes but have also delayed it for 1 hour, the execution
+will be discarded. To avoid this conflict, you should set the discard option for
+1 hour and 5 minutes.
+
+</Warning>
+
+## Example
+
+<CodeGroup>
+
+```ts index.ts
+import { discardAfter } from "@defer/client";
+import sendTwoFactorAuthenticationCode from "./defer/sendTwoFactorAuthenticationCode";
+
+const discardableSendTwoFactorAuthCode = discardAfter(
+  sendTwoFactorAuthenticationCode,
+  "5m",
+);
+await discardableSendTwoFactorAuthCode(userId);
+```
+
+```ts defer/sendTwoFactorAuthenticationCode.ts
+import { defer } from "@defer/client";
+
+async function sendTwoFactorAuthenticationCode(userId: number) {
+  // business logic here
+}
+
+export default defer(sendOnboardingEmail);
+```
+
+</CodeGroup>
