@@ -6,8 +6,9 @@ description: ""
 ## Overview
 
 Defer allows you to automatically cancel an execution if it hasn't been
-processed within a set time frame. This is useful, for example, if you want to
-avoid sending expired 2FA codes to your customers.
+processed within a set time frame. Executions set to be discarded must start
+before discard time and can run as long they want. This is useful, for example,
+if you want to avoid sending expired 2FA codes to your customers.
 
 You can configure the discard option of a function with a specific datetime or a
 duration.
