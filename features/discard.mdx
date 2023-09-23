@@ -43,23 +43,20 @@ will be discarded. To avoid this conflict, you should set the discard option for
 
 ```ts index.ts
 import { discardAfter } from "@defer/client";
-import sendTwoFactorAuthenticationCode from "./defer/sendTwoFactorAuthenticationCode";
+import send2FACode from "./defer/send2FACode";
 
-const discardableSendTwoFactorAuthCode = discardAfter(
-  sendTwoFactorAuthenticationCode,
-  "5m",
-);
-await discardableSendTwoFactorAuthCode(userId);
+const discardableSend2FACode = discardAfter(send2FACode, "5m");
+await discardableSend2FACode(userId);
 ```
 
-```ts defer/sendTwoFactorAuthenticationCode.ts
+```ts defer/send2FACode.ts
 import { defer } from "@defer/client";
 
-async function sendTwoFactorAuthenticationCode(userId: number) {
+async function send2FACode(userId: number) {
   // business logic here
 }
 
-export default defer(sendOnboardingEmail);
+export default defer(send2FACode);
 ```
 
 </CodeGroup>
