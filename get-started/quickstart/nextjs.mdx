@@ -164,6 +164,30 @@ calls it; let's ensure that your Defer token is properly configured.
 
 <Snippet file="setup-runtime.mdx" />
 
+### Configure Next.js (`>= 13.5.1` only)
+
+<Note>
+  If your **Next.js** version is less than `13.5.1`, you can skip this step
+</Note>
+
+Starting version `13.5.1`, the `serverMinification` experimental feature is
+emabled by default. This does not play well with the Defer Builder.
+
+To use Defer, please edit your `next.config.js` file and disable it:
+
+```js mext.config.js
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  /* ... */
+  experimental: {
+    serverMinification: false,
+  },
+  /* ... */
+};
+
+module.exports = nextConfig;
+```
+
 ## Configure
 
 <Snippet file="setup-defer-app.mdx" />
