@@ -1,0 +1,33 @@
+---
+title: "Reschedule"
+description: ""
+---
+
+## Overview
+
+Defer allows you to reschedule an already enqueued execution, which is useful
+when you have a scheduled notification and need to change the date.
+
+## Examples
+
+<CodeGroup>
+
+```ts now
+import { rescheduleExecution } from "@defer/client";
+
+rescheduleExecution("0uk1Hbc9dQ9pxyTqJ93IUrfhdGq");
+```
+
+```ts datetime
+import { rescheduleExecution } from "@defer/client";
+
+rescheduleExecution("0uk1Hbc9dQ9pxyTqJ93IUrfhdGq", new Date("1/1/24"));
+```
+
+```ts duration
+import { rescheduleExecution } from "@defer/client";
+
+rescheduleExecution("0uk1Hbc9dQ9pxyTqJ93IUrfhdGq", "3h");
+```
+
+</CodeGroup>

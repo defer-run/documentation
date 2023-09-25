@@ -88,7 +88,8 @@
         "features/delays",
         "features/metadata",
         "features/cancellation",
-        "features/discard"
+        "features/discard",
+        "features/reschedule"
       ]
     },
     {
