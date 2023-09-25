@@ -6,7 +6,18 @@ description: ""
 ## Overview
 
 Defer allows you to reschedule an already enqueued execution, which is useful
-when you have a scheduled notification and need to change the date.
+when you have a scheduled notification and need to change the date. It is only
+possible to reschedule execution in a queue, not while it is running or after it
+has finished.
+
+<Warning>
+
+There could be a conflict between rescheduling and
+[discard after option](/features/discard). For example, if you reschedule an
+execution for a date after the discard after date, your execution will always be
+discarded because the discard date comes before the rescheduled date.
+
+</Warning>
 
 ## Examples
 
