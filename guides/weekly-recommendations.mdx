@@ -79,7 +79,7 @@ const weeklyProductRecommendations = async () => {
     },
   });
 
-  users.forEach((user) => computeProductRecommendation(user));
+  users.forEach((user) => await computeProductRecommendation(user));
 };
 
 export default defer.cron(weeklyProductRecommendations, "0 8 * * *");
