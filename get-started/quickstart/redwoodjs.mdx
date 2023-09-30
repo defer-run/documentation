@@ -7,86 +7,64 @@ sidebarTitle: "RedwoodJS"
 
 ## Setup
 
-### Install the `@defer/client`
+### Use the Defer RedwoodJS CLI Plugin
+
+For projects based on RedwoodJS `>= 6.3.0`, run the following command
 
 ```bash
-  yarn workspace api add @defer/client
-```
-
-### Create a `defer/` folder
-
-Defer expects to find all the background functions in the `defer/` folder.
-
-In a RedwoodJS app, we recommend creating a `jobs/` folder in your project's
-existing `api` side structure to organize both your background functions and
-client as follows:
-
-```diff
- .
- ├── api
- │   ├── db/
- │   ├── package.json
- │   ├── server.config.js
- │   ├── src/
- │   │   ├── directives/
- │   │   ├── functions/
-+│   │   │   ├── runHelloWorld/
-+│   │   │   │   └── runHelloWorld.ts <- API endpoint to invoke job
- │   │   ├── graphql/
-+│   │   ├── jobs/ <- Create a new Jobs folder
-+│   │   │   ├── clients
-+│   │   │   │   └── defer.ts <- Configure and export the defer client
-+│   │   │   └── defer/ <- Write your background functions here
-+│   │   │       └── helloWorld.ts
- │   │   ├── lib/
- │   │   │   └── logger.ts
- │   │   └── services/
- ├── package.json
- ├── redwood.toml
- ├── web/
+  yarn rw setup package @defer/redwood
 ```
 
 <Info>
-**Notes:**
-- The `defer/` folder can be located anywhere in your project
-- The `defer/` folder can contain nested folders
 
-However, RedwoodJS recommends the above directory structure to organize your
-background functions.
+This command runs the RedwoodJS CLI Defer plugin that will:
+- install the `@defer/client` on your RedwoodJS `api`
+- initialize a Defer client and create a demo `helloWorld()` background function.
 
 </Info>
 
-### Write a background function
+For projects based on RedwoodJS `< 6.3.0`, please refer to the [Custom stack getting started guide](/get-started/quickstart/custom-stack).
+
+
+
+### Create a first background function
 
 A background function is a function equivalent to a background job.
 
 All background functions must live in the `defer/` folder shown above.
 
-Choose how to write your first background function:
+Choose how to create your first background function:
 
 <AccordionGroup>
 
 <Accordion title={"Start with the helloWorld() demo function"}>
 
-Let's add the following `helloWorld.ts` function in your `defer/` folder, as
-follows:
+The previous setup redwood setup command created a `helloWorld()` background function:
 
 ```ts api/src/jobs/defer/helloWorld.ts
-// the `defer()` helper will be used to define a background function
-import { defer } from "src/jobs/clients/defer";
+// the defer() helper will be used to define a background function
+import { defer } from 'src/jobs/clients/defer'
+import { logger } from 'src/lib/logger'
 
-// a background function must be `async`
-const helloWorld = async (name: string) => {
-  return new Promise((resolve) => {
+const sleep = (seconds: number) =>
+  new Promise<void>((resolve) => {
     setTimeout(() => {
-      logger.info(`Hello ${name}!`);
-      resolve("done");
-    }, 5000);
-  });
-};
+      resolve()
+    }, seconds)
+  })
 
-// the function must be wrapped with `defer()` and exported as default
-export default defer(helloWorld);
+// a background function must be async
+const helloWorld = async (name: string) => {
+  await sleep(10)
+  logger.info(`Hello ${name}!`)
+}
+
+// the function must be wrapped with defer() and exported as default
+export default defer(helloWorld, {
+  // retry: 5,
+  // concurrency: 10,
+  // maxDuration: 5 * 60 // in seconds
+})
 ```
 
 </Accordion>
@@ -95,12 +73,25 @@ export default defer(helloWorld);
 
 You already have a use case? Sounds great!
 
-Start by first creating a background function in the `defer/` folder and see how
-to implement it depending on your use case:
+You can leverage the Defer RedwoodJS CLI Plugin commands to create a new background function:
+
+```bash
+yarn rw @defer function <nameOfTheFunction>
+```
 
 <Tabs>
 
   <Tab title='Move existing slow code or service to a background function'>
+
+    Let's say you have an existing `syncContacts()` function in your API.
+
+    First, let's run the following RedwoodJS CLI command to generate a new background function:
+
+    ```bash
+    yarn rw @defer function syncContacts
+    ```
+
+    And, let's move the existing function body in the `api/src/jobs/defer/syncContacts.ts` file:
 
     ```ts api/src/jobs/defer/syncContacts.ts
     // the `defer()` helper will be used to define a background function
@@ -116,6 +107,14 @@ to implement it depending on your use case:
   </Tab>
 
   <Tab title='Write a new feature, ex: syncContacts()'>
+
+    You can create a new background function by using the RedwoodJS CLI Defer command:
+
+    ```bash
+    yarn rw @defer function syncContacts
+    ```
+
+    Then, update the newly created `api/src/jobs/defer/syncContacts.ts` file:
 
     ```ts api/src/jobs/defer/syncContacts.ts
     // the `defer()` helper will be used to define a background function
