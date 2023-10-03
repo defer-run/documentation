@@ -159,13 +159,14 @@
       "group": "Guides",
       "pages": [
         "guides/monorepo",
+        "guides/emails-resend",
+        "guides/algolia-defer",
         "guides/api-rate-limiting",
         "guides/api-offloading",
         "guides/todo-reminders",
         "guides/weekly-recommendations",
         "guides/onboarding-workflow",
-        "guides/fifo-queue",
-        "guides/emails-resend"
+        "guides/fifo-queue"
       ]
     },
     {

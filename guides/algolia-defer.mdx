@@ -1,0 +1,158 @@
+---
+title: "Reliable and fast Algolia indexing"
+description: "Update your Algolia index in real-time or in batches."
+---
+
+Every time a user changes an application's data, the app must also send those changes to Algolia's indices. Normally, the code performs the update *on the spot*, to keep Algolia's search results up-to-date. 
+
+[Algolia's indexing is fast](https://www.algolia.com/blog/engineering/how-to-optimize-an-already-fast-indexing-process-advanced-use-cases/), but formatting the index objects or sending them over the wire might slow down your API. Ideally, the process would be **asynchronous**. But this requires putting in place a robust background process that receives and processes every request in priority and with no failure.
+
+In this blog, we'll show you how [Defer](https://www.defer.run/) performs the background processing for you by providing you with an asynchronous API and cloud platform that has, among other things, FIFO and retry strategies.
+
+We'll discuss the most popular scenarios:
+
+- Save all updates in real-time
+- Save updates only periodically
+
+## Use case #1 - Update Algolia indices in real time
+
+Any update requires a two-step process: 
+
+1. Save the application data
+2. Prepare and send the data to [Algolia](https://www.algolia.com/) 
+
+If done synchronously, both updates would need to finish before the user regains control. With [Defer's background processing](https://docs.defer.run/features/basics), Algolia runs asynchronously, thus giving the user control once the first task finishes.
+
+Performing tasks directly in Express API or Next.js API Routes [slows down performance](https://nodejs.org/en/docs/guides/dont-block-the-event-loop#offloading). This is especially true for saving documents or updating product information for e-commerce.
+
+### Updating without Defer
+
+For comparison's sake, here's how to update Algolia without Defer. First, you update the application data and wait until it's finished. Then you transform and send the data to Algolia, also waiting.
+
+
+```tsx src/api.ts
+import express from "express";
+import bodyParser from "body-parser";
+import algoliasearch from "algoliasearch";
+
+import { documentToSearchObject } from "./utils";
+
+const app = express();
+
+app.use(bodyParser.json())
+
+const client = algoliasearch('YourApplicationID', 'YourWriteAPIKey');
+const index = client.initIndex('your_index_name');
+
+app.put("/document/:id", async function (req, res) {
+  const id = req.params.id;
+	const document = req.body;
+
+  // update the document in DB
+	await prisma.document.update({
+    where: { id: user.id },
+    data: { onboarded: true },
+  });
+
+  // update Algolia index
+  await index.saveObjects([documentToSearchObject(document)])
+
+  res.send({ document, id });
+});
+
+app.listen(3000);
+```
+
+### With Defer—real-time, background processing
+
+Here's how Defer processes the updates in the background. Break the code into two functions:
+
+1. Update the application data. Then, call the `updateDocumentToAlgolia` background function that performs an Algolia index update in a *non-blocking* manner. See Step 2.
+    
+    ```tsx src/api.ts
+    import express from "express";
+    import bodyParser from "body-parser";
+    import updateDocumentToAlgolia from "./defer/updateDocumentToAlgolia"
+    
+    const app = express();
+    
+    app.use(bodyParser.json())
+    
+    app.put("/document/:id", async function (req, res) {
+      const id = req.params.id;
+    	const document = req.body;
+    
+      // update the document in DB
+    	await prisma.document.update({
+        where: { id: user.id },
+        data: { onboarded: true },
+      });
+    
+      await updateDocumentToAlgolia(document)
+    
+      res.send({ document, id });
+    });
+    
+    app.listen(3000);
+    ```
+    
+2. Here's the background function `updateDocumentToAlgolia` to update your Algolia index in a [Defer non-blocking background process](https://docs.defer.run/get-started/quickstart/nextjs).  
+
+
+    ```tsx src/defer/updateDocumentToAlgolia.ts
+    import algoliasearch from "algoliasearch";
+    import { defer } from "@defer/client";
+    
+    import { documentToSearchObject } from "./utils";
+    
+    const client = algoliasearch('YourApplicationID', 'YourWriteAPIKey');
+    const index = client.initIndex('your_index_name');
+    
+    async function updateDocumentToAlgolia(document) {
+    	// update Algolia index
+      await index.saveObjects([documentToSearchObject(document)])
+    }
+    
+    export default defer(updateDocumentToAlgolia, {
+    	concurrency: 1 // FIFO processing for sequential updates,
+      retry: 5
+    })
+    ```
+    
+
+## Use case #2 - Periodic updates (daily, weekly, …)
+
+If you're developing an application that does not need to update Algolia in real time, such as a blog or an online journal, you can create a queue that updates Algolia once a day or week.
+
+For this, you'll create a Node.js script to run manually when publishing a new article.
+
+In this code, you'll see how simple it is for Defer's [CRON](https://docs.defer.run/features/cron) feature to smooth the process by resetting your Algolia index every Friday evening for a weekly article publication.
+
+
+```tsx src/defer/algoliaUpdateAllArticles.ts
+import algoliasearch from "algoliasearch";
+import { defer } from "@defer/client";
+
+import { articleToSearchObject } from "./utils";
+
+const client = algoliasearch('YourApplicationID', 'YourWriteAPIKey');
+const index = client.initIndex('your_index_name');
+
+async function algoliaUpdateAllArticles() {
+	const articles = await prisma.articles.findAll();
+	// reset Algolia index
+  await index.replaceAllObjects(
+		articles.map((article) => articleToSearchObject(article)
+	)
+}
+
+export default defer.cron(algoliaUpdateAllArticles, {
+  retry: 5
+})
+```
+
+## Conclusion
+
+Robust APIs like Algolia, which are used on many commercial websites, need to perform their tasks without slowing down the business app or its users. But there are some things outside the control of the developer, for example, network latency or unexpected spikes in usage.
+
+Therefore, these APIs must be called in the background whenever possible. This is clearly the case with updating. [Defer](https://www.defer.run/) integrates easily into your apps to perform real-time background processing.
