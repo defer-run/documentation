@@ -1,0 +1,29 @@
+---
+title: "discardAfter()"
+icon: function
+---
+
+The `discardAfter(deferFn, interval)` function takes a deferred function and applies a
+custom `discard_after` attribute. By default, the `discard_after` is not set.
+
+Example:
+
+<CodeGroup>
+
+```ts index.ts
+import { discardAfter } from "@defer/client";
+import { sayHello } from "./defer/sayHello";
+
+const delayedSayHello = discardAfter(sayHello, "1h");
+await delayedSayHello("John Doe");
+```
+
+```ts defer/sayHello.ts
+import { defer } from "@defer/client";
+
+const sayHello = async (name: string) => console.log(`hello ${name}!`);
+
+export default defer(sayHello);
+```
+
+</CodeGroup>

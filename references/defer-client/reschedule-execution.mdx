@@ -1,0 +1,28 @@
+---
+title: "reschedule()"
+icon: function
+---
+
+The `rescheduleExecution` function reschedule a pending execution by its ID. 
+
+Example:
+
+<CodeGroup>
+
+```ts Reschedule Execution
+import { rescheduleExecution } from "@defer/client";
+import { sayHello } from "./defer/sayHello";
+
+const { id } = await sayHello("John Doe");
+await rescheduleExecution(id, "1 hour");
+```
+
+```ts defer/sayHello.ts
+import { defer } from "@defer/client";
+
+const sayHello = async (name: string) => console.log(`hello ${name}!`);
+
+export default defer(sayHello);
+```
+
+</CodeGroup>
