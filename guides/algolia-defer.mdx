@@ -169,9 +169,7 @@ async function algoliaUpdateAllArticles() {
 	)
 }
 
-export default defer.cron(algoliaUpdateAllArticles, {
-  retry: 5
-})
+export default defer.cron(algoliaUpdateAllArticles, "0 0 * * FRI")
 ```
 
 ## Conclusion
