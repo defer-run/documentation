@@ -1,0 +1,38 @@
+---
+title: "Errors"
+icon: triangle-exclamation
+description: A comprehensive breakdown of all errors thrown by @defer/client.
+---
+
+A Background Function invocation might throw some catchable errors:
+- `DeferError`: any error that happened on the Defer Platform (during an execution)
+- `ClientError`: any error that happened within `@defer/client` (from your application)
+- `HTTPRequestError`: any error related to the Defer being unreachable
+- `APIError`: any error returned from the [Defer API](/references/defer-api/enqueue)
+
+## An error is thrown, what should I do?
+
+
+<AccordionGroup>
+
+    <Accordion title="I got a `DeferError`">
+
+        Any `DeferError` could be resolved by looking into the Defer Console:
+        - `"cannot serialize function return: ..."`: your background function is returning a non-serializable value
+        - `"Defer execution failed`"`: refer to your execution's logs
+
+    </Accordion>
+    <Accordion title="I got a `ClientError`">
+
+        - `"cannot decode http response: xxx"`: please check our [status page](https://status.defer.run/) or [Contact us](mailto:support@defer.run).
+        - `"cannot decode http response body:: xxx"`: please check our [status page](https://status.defer.run/) or [Contact us](mailto:support@defer.run).
+        - `"unexpected xxx response code"`: please check our [status page](https://status.defer.run/) or [Contact us](mailto:support@defer.run).
+
+    </Accordion>
+    <Accordion title="I got a `HTTPRequestError` or `APIError`">
+
+        Any `HTTPRequestError` or `APIError` might be [temporary](https://status.defer.run/). [Contact us](mailto:support@defer.run) in case of doubt.
+
+    </Accordion>
+
+</AccordionGroup>

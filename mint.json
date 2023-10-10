@@ -184,7 +184,8 @@
         "references/defer-client/cancel-execution",
         "references/defer-client/await-result",
         "references/defer-client/discard-after",
-        "references/defer-client/reschedule-execution"
+        "references/defer-client/reschedule-execution",
+        "references/defer-client/errors"
       ]
     },
     {
