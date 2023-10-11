@@ -8,7 +8,7 @@ PORT?=	3333
 
 D2_FILES=	$(shell find images -name '*.d2')
 SVG_FILES=	$(D2_FILES:%.d2=%.svg)
-MDX_FILES=	$(wildcard **/*.mdx)
+MDX_FILES=	$(shell find . -type f -name "*.mdx")
 JSON_FILES=	mint.json package.json
 
 .PHONY: all
