@@ -3,13 +3,13 @@ title: "Timezone"
 description: ""
 ---
 
-Please note that the scheduler API operates solely in the `UTC`
-timezone. However, some applications may not be configured to work
-with `UTC`. To ensure compatibility, the scheduler API converts the
-timezone of the `schedule_for` body parameter included in the enqueue
-request to UTC datetime before storing the message.
+Please note that the scheduler API operates solely in the `UTC` timezone.
+However, some applications may not be configured to work with `UTC`. To ensure
+compatibility, the scheduler API converts the timezone of the `schedule_for`
+body parameter included in the enqueue request to UTC datetime before storing
+the message.
 
-For the CRON case, the timezone is UTC and cannot be altered due to
-the absence of an enqueue request. However, we intend to introduce a
-`timezone` parameter in the CRON definition in the future to enable
-customization of the timezone for CRON evaluation.
+For the CRON case, the timezone is UTC and cannot be altered due to the absence
+of an enqueue request. However, we intend to introduce a `timezone` parameter in
+the CRON definition in the future to enable customization of the timezone for
+CRON evaluation.

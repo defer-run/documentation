@@ -18,14 +18,15 @@ For projects based on RedwoodJS `>= 6.3.0`, run the following command
 <Info>
 
 This command runs the RedwoodJS CLI Defer plugin that will:
+
 - install the `@defer/client` on your RedwoodJS `api`
-- initialize a Defer client and create a demo `helloWorld()` background function.
+- initialize a Defer client and create a demo `helloWorld()` background
+  function.
 
 </Info>
 
-For projects based on RedwoodJS `< 6.3.0`, please refer to the [Custom stack getting started guide](/get-started/quickstart/custom-stack).
-
-
+For projects based on RedwoodJS `< 6.3.0`, please refer to the
+[Custom stack getting started guide](/get-started/quickstart/custom-stack).
 
 ### Create a first background function
 
@@ -39,32 +40,33 @@ Choose how to create your first background function:
 
 <Accordion title={"Start with the helloWorld() demo function"}>
 
-The previous setup redwood setup command created a `helloWorld()` background function:
+The previous setup redwood setup command created a `helloWorld()` background
+function:
 
 ```ts api/src/jobs/defer/helloWorld.ts
 // the defer() helper will be used to define a background function
-import { defer } from 'src/jobs/clients/defer'
-import { logger } from 'src/lib/logger'
+import { defer } from "src/jobs/clients/defer";
+import { logger } from "src/lib/logger";
 
 const sleep = (seconds: number) =>
   new Promise<void>((resolve) => {
     setTimeout(() => {
-      resolve()
-    }, seconds)
-  })
+      resolve();
+    }, seconds);
+  });
 
 // a background function must be async
 const helloWorld = async (name: string) => {
-  await sleep(10)
-  logger.info(`Hello ${name}!`)
-}
+  await sleep(10);
+  logger.info(`Hello ${name}!`);
+};
 
 // the function must be wrapped with defer() and exported as default
 export default defer(helloWorld, {
   // retry: 5,
   // concurrency: 10,
   // maxDuration: 5 * 60 // in seconds
-})
+});
 ```
 
 </Accordion>
@@ -73,7 +75,8 @@ export default defer(helloWorld, {
 
 You already have a use case? Sounds great!
 
-You can leverage the Defer RedwoodJS CLI Plugin commands to create a new background function:
+You can leverage the Defer RedwoodJS CLI Plugin commands to create a new
+background function:
 
 ```bash
 yarn rw @defer function <nameOfTheFunction>
