@@ -1,0 +1,39 @@
+---
+title: "assignOptions()"
+icon: function
+---
+
+The `assignOptions(deferFn, options)` function takes a deferred function and
+applies execution `options`:
+
+- `delay`: [schedule an execution](/features/delays) for later
+- `metadata`: add [Metadata](/features/metadata) to the execution
+- `discardAfter`: [discard an execution](/features/discard) if not started after
+  a given interval
+
+Example:
+
+<CodeGroup>
+
+```ts index.ts
+import { assignOptions } from "@defer/client";
+import { sayHello } from "./defer/sayHello";
+
+const delayedSayHello = assignOptions(sayHello, {
+  delay: "1h",
+  metadata: {
+    who: "Bob",
+  },
+});
+await delayedSayHello("John Doe");
+```
+
+```ts defer/sayHello.ts
+import { defer } from "@defer/client";
+
+const sayHello = async (name: string) => console.log(`hello ${name}!`);
+
+export default defer(sayHello);
+```
+
+</CodeGroup>
