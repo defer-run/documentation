@@ -180,6 +180,7 @@
         "references/defer-client/defer-cron",
         "references/defer-client/assign-options",
         "references/defer-client/await-result",
+        "references/defer-client/get-execution",
         "references/defer-client/cancel-execution",
         "references/defer-client/reschedule-execution",
         "references/defer-client/errors"
@@ -190,7 +191,6 @@
       "pages": [
         "references/defer-client/delay",
         "references/defer-client/add-metadata",
-        "references/defer-client/get-execution",
         "references/defer-client/discard-after"
       ]
     },
