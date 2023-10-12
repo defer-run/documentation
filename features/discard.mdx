@@ -16,11 +16,11 @@ duration.
 <CodeGroup>
 
 ```js duration
-const withDiscard = discardAfter(myFunc, "1h");
+const withDiscard = assignOptions(myFunc, { discardAfter: "1h" });
 ```
 
 ```ts datetime
-const withDiscard = discardAfter(myFunc, new Date("1/1/24"));
+const withDiscard = assignOptions(myFunc, { discardAfter: new Date("1/1/24") });
 ```
 
 </CodeGroup>
@@ -42,10 +42,12 @@ will be discarded. To avoid this conflict, you should set the discard option for
 <CodeGroup>
 
 ```ts index.ts
-import { discardAfter } from "@defer/client";
+import { assignOptions } from "@defer/client";
 import send2FACode from "./defer/send2FACode";
 
-const discardableSend2FACode = discardAfter(send2FACode, "5m");
+const discardableSend2FACode = assignOptions(send2FACode, {
+  discardAfter: "5m",
+});
 await discardableSend2FACode(userId);
 ```
 
