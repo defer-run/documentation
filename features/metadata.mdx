@@ -22,12 +22,14 @@ Below the list of requirements we apply on metadata:
 ## Example
 
 ```ts
-import { addMetadata } from "@defer/client";
+import { assignOptions } from "@defer/client";
 import { sayHello } from "./defer/sayHello";
 
-const delayedSayHello = addMetadata(sayHello, {
-  userId: "7",
-  email: "john@example.com",
+const hello = assignOptions(sayHello, {
+  metadata: {
+    userId: "7",
+    email: "john@example.com",
+  },
 });
-await delayedSayHello("John Doe");
+await hello("John Doe");
 ```

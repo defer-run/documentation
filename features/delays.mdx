@@ -15,11 +15,11 @@ specific datetime or duration.
 <CodeGroup>
 
 ```ts datetime
-const delayFunc = delay(myFunc, new Date("1/1/24"));
+const delayFunc = assignOptions(myFunc, { delay: new Date("1/1/24") });
 ```
 
 ```ts duration
-const delayFunc = delay(myFunc, "1h");
+const delayFunc = assignOptions(myFunc, { delay: "1h" });
 ```
 
 </CodeGroup>
@@ -39,10 +39,12 @@ align with your current timezone.
 <CodeGroup>
 
 ```ts index.ts
-import { delay } from "@defer/client";
+import { assignOptions } from "@defer/client";
 import sendOnboardingEmail from "./defer/sendOnboardingEmail";
 
-const delayedSendOnboardingEmail = delay(sendOnboardingEmail, "1h");
+const delayedSendOnboardingEmail = assignOptions(sendOnboardingEmail, {
+  delay: "1h",
+});
 await delayedSendOnboardingEmail(userId);
 ```
 
