@@ -5,7 +5,7 @@ icon: function
 
 The `awaitResult(deferFn)` transforms your function into an asynchronous call,
 waiting for it to be executed on the Defer Platform. You can get its result like
-your normally do with an `async` function.
+you normally do with an `async` function.
 
 Example:
 
@@ -14,17 +14,22 @@ Example:
 ```ts defer/sayHello.ts
 import { defer } from "@defer/client";
 
+// print "hello {name}" after 5s wait
 const sayHello = (name: string) =>
   new Promise((resolve) => setTimeout(() => resolve(`Hello ${name}!`), 5000));
 
-export default awaitResult(defer(sayHello));
+export default defer(sayHello);
 ```
 
 ```ts src/printHello.ts
-import { defer } from "@defer/client";
+import { awaitResult } from "@defer/client";
 
 export const printHello = async () => {
-  const greetMessage = await sayHello("John Doe");
+  // transform `sayHello()` to a awaitable function
+  const sayHelloWithResult = awaitResult(sayHello);
+  // calling `sayHelloWithResult()` with `await` will
+  //  wait for the execution's result
+  const greetMessage = await sayHelloWithResult("John Doe");
   console.log(greetMessage);
 };
 ```
