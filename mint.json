@@ -161,6 +161,7 @@
         "guides/monorepo",
         "guides/emails-resend",
         "guides/algolia-defer",
+        "guides/time-sensitive-notifications",
         "guides/api-rate-limiting",
         "guides/api-offloading",
         "guides/todo-reminders",

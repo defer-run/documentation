@@ -1,0 +1,97 @@
+---
+title: "Sending time-sensitive notifications"
+description: "How to send a magic-link sign-in email with Defer."
+---
+
+Background executions, such as real-time updating, are central to online
+applications. They free up front-end interactions (and users) to continue with
+no pause.
+
+However, there are times when you need to cancel a background execution. In this
+guide, you'll see how to cancel a process after a short period of time.
+
+## Real-world use cases
+
+- Sending a 2FA code over email when signing in to a web application
+- Sending chat notifications of live messages
+- Communicating an available slot in the queue of a concert ticket-selling
+  platform
+
+In all cases, there's a reason to time out the process: For the 2FA, it's a
+security issue; for the live messages, the user has perhaps already received a
+notification; for the concert, someone's just bought your ticket.
+
+## How Defers sets a time limit
+
+The code below uses Defer to execute the well-known
+“[Sign-in magic link](https://postmarkapp.com/blog/magic-links)” use case.
+
+Slack uses this magical sign-in technique. Instead of asking a user to type a
+password, it asks only for the user's email. The user receives an email with a
+unique “magic link”, which they click to sign in to the application. Users are
+thus not required to remember or type in their passwords.
+
+Useful, but as you can imagine, a magic link can be a security issue. So it's
+best to time it out. Here, Defer ensures that this link no longer works after 5
+minutes.
+
+### The code
+
+First, wrap the code that sends the email (`sgMail.send`) in the `async`
+function `sendSignInEmail()`, which Defer uses to time out the message.
+
+```tsx src/defer/sendSignInEmail.ts
+import { defer } from "@defer/client";
+import sgMail from "@sendgrid/mail";
+
+import { getMagicMailFromUser } from "./lib/user";
+
+async function sendSignInEmail(email: string) {
+  await sgMail.send(getMagicMailFromUser(email));
+}
+
+export default defer(sendSignInEmail, {
+  retry: false, // It is important to disable the retries
+});
+```
+
+Second, set up Defer's
+[`discardAfter()`](https://docs.defer.run/features/discard) helper, which allows
+you to cancel the background execution. In this case, Defer will cancel the
+above `sendSignInEmail` after 5 min.
+
+```tsx src/api.ts
+import express from "express";
+import bodyParser from "body-parser";
+import { discardAfter } from "@defer/client";
+
+import sendSignInEmail from "./defer/sendSignInEmail";
+
+const app = express();
+
+app.use(bodyParser.json());
+
+// discard any `sendSignInEmail()` execution if not
+//  sent in the next 5 minutes after being requested
+const sendExpirableSignInEmail = discardAfter(sendSignInEmail, "5min");
+
+app.post("/sign-in", async function (req, res) {
+  const email = req.params.email;
+
+  await sendExpirableSignInEmail(email);
+
+  res.render("sign-in_email_sent", { email });
+});
+
+app.listen(3000);
+```
+
+## Related Functionality — From cancelling to rescheduling a job
+
+Being able to _cancel a job_ plays an important role in managing your background
+executions. So too with _rescheduling a job,_ which Defer provides with its
+[`reschedule()`](https://docs.defer.run/features/reschedule) option. You may also
+want to look up Defer's
+[`addMetadata()`](https://docs.defer.run/features/metadata) helper. With
+[Metadata](/features/metadata), you can add conditions to control the flow of
+your background jobs.
