@@ -238,12 +238,12 @@
       "destination": "/get-started/quickstart/express-koa-hapi"
     },
     {
-      "source": "/quickstart/next/",
+      "source": "/quickstart/next",
       "destination": "/get-started/quickstart/nextjs"
     },
     {
-      "source": "/quickstart/next",
-      "destination": "/get-started/quickstart/nextjs"
+      "source": "/quickstart/nest/",
+      "destination": "/get-started/quickstart/nest"
     },
     {
       "source": "/quickstart/nest",
