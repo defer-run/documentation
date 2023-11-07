@@ -12,7 +12,7 @@
     <span>&nbsp;·&nbsp;</span>
     <a href="https://www.defer.run/blog">Blog</a>
     <span>&nbsp;·&nbsp;</span>
-    <a href="https://discord.gg/x2v84Vqsk6">Community</a>
+    <a href="https://discord.gg/defer">Community</a>
     <span>&nbsp;·&nbsp;</span>
     <a href="https://github.com/defer-run/defer.client/discussions/categories/roadmap">Roadmap / RFCs</a>
 </p>
