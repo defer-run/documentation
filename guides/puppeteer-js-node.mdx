@@ -1,17 +1,23 @@
 ---
 title: "How to run Puppeteer on Node.js without limitations"
-description: "Leverage Defer's native puppeteer support with custom resources and long-running executions."
+description:
+  "Leverage Defer's native puppeteer support with custom resources and
+  long-running executions."
 ---
 
-Scraping the web with Node.js is resource-intensive. It is also [nearly impossible](https://gist.github.com/kettanaito/56861aff96e6debc575d522dd03e5725) to achieve on a Serverless platform such as Vercel. Likewise, using a large framework like Playwright is overkill for such a common and essentially simple idea.
+Scraping the web with Node.js is resource-intensive. It is also
+[nearly impossible](https://gist.github.com/kettanaito/56861aff96e6debc575d522dd03e5725)
+to achieve on a Serverless platform such as Vercel. Likewise, using a large
+framework like Playwright is overkill for such a common and essentially simple
+idea.
 
-Defer, by providing native Puppeteer support, makes it easy to implement scraping use cases. You can also control your scraping jobs with Defer Console.
-
+Defer, by providing native Puppeteer support, makes it easy to implement
+scraping use cases. You can also control your scraping jobs with Defer Console.
 
 ## The code — Wrap Puppeteer as a Defer function
 
-Below, we show you how to use Defer to implement a popular use case: generating thumbnail images from user-provided links with only a few lines of code.
-
+Below, we show you how to use Defer to implement a popular use case: generating
+thumbnail images from user-provided links with only a few lines of code.
 
 ```tsx src/defer/generateLinkThumbnail.ts
 import { defer } from "@defer/client";
@@ -38,22 +44,26 @@ const generateLinkThumbnail = async (url: string) => {
 };
 
 export default defer(generateLinkThumbnail, {
-	retry: 5 // adding retry in case of flakiness issues
+  retry: 5, // adding retry in case of flakiness issues
 });
 ```
 
-This is a standard Defer pattern: 
+This is a standard Defer pattern:
 
-- Wrap the functionality in a function. Here, the function `generateLinkThumbnail()` performs all the scraping and thumbnail logic.
-- Use the Defer client (`defer`) to call the wrapping function and trigger an execution in the background. This is done in the last line of the above code.
+- Wrap the functionality in a function. Here, the function
+  `generateLinkThumbnail()` performs all the scraping and thumbnail logic.
+- Use the Defer client (`defer`) to call the wrapping function and trigger an
+  execution in the background. This is done in the last line of the above code.
 
 ## Monitoring Defer and Puppeteer
 
-With Defer Console, you can monitor your scraping function. Puppeteer can run for multiple hours:
+With Defer Console, you can monitor your scraping function. Puppeteer can run
+for multiple hours:
 
 ![Untitled](/images/guides/puppeteer-js-node/long-executions.png)
 
-Finally, Defer Console notifies you in case of delays or failures. By providing job details, the Console allows you to abort the stuck executions or re-run the failed ones:
+Finally, Defer Console notifies you in case of delays or failures. By providing
+job details, the Console allows you to abort the stuck executions or re-run the
+failed ones:
 
 ![Untitled](/images/guides/puppeteer-js-node/console.png)
-

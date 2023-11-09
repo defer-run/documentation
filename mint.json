@@ -162,6 +162,7 @@
         "guides/emails-resend",
         "guides/algolia-defer",
         "guides/puppeteer-js-node",
+        "guides/stripe-webhooks",
         "guides/time-sensitive-notifications",
         "guides/api-rate-limiting",
         "guides/api-offloading",

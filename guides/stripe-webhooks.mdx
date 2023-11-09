@@ -1,0 +1,153 @@
+---
+title: "How to handle Stripe webhooks"
+description:
+  "Leverage Defer to receive Stripe webhooks in your Node.js or Bun API"
+---
+
+When adding payment capabilities to a web application, users expect a fast,
+reliable, and simple bank confirmation process. However, there is more to
+payment processing than bank confirmation.
+
+More complex
+[payment processing](https://stripe.com/fr-my/resources/more/payment-application-program-interfaces-apis?__#what-is-a-payment-api)
+is normally pushed to the background, such as:
+
+- Payment failures (No Balance, Card expired, Bank restrictions)
+- Notifications (Upcoming charges, Custom Invoice emails)
+- Customer disputes (Putting holds on charges)
+
+### Stripe's Webhooks
+
+Stripe uses [webhooks](https://stripe.com/docs/webhooks) to provide
+server-to-server communications between its processes and your back-end systems.
+This enables you to keep your data up to date asynchronously.
+
+However, its webhooks ([`subscription.*`](https://stripe.com/docs/subscriptions)
+and other [events](https://stripe.com/docs/cli/trigger#trigger-event)) come with
+multiple challenges:
+
+- [The order of webhooks is not guaranteed](https://stripe.com/docs/webhooks#event-ordering)
+  (e.g., a subscription update can arrive before its creation)
+- The endpoint receiving the webhooks
+  [needs to respond quickly](https://stripe.com/docs/webhooks#acknowledge-events-immediately)
+  (e.g., you should _acknowledge_ a webhook before acting on it to avoid
+  unnecessary retries from Stripe)
+
+## **Defer's implementation of Stripe's webhooks**
+
+Defer offers a solution to the above challenges. With Stripe as its model, Defer
+provides easier webhook management with the Defer Console and
+[Function Metadata](https://docs.defer.run/features/metadata).
+
+### The code
+
+First, you need to set up a Stripe client in your API. Then, build a Stripe
+event from the received webhooks (with `stripeClient.webhooks.constructEvent()`)
+and forward it for background processing by calling `handleStripeWebhookFn()`.
+
+```tsx src/app.js
+import Stripe from "stripe";
+import express from "express";
+import { assignOptions, delay } from "@defer/client";
+
+import handleStripeWebhookFn from "./defer/handleStripeWebhook.js";
+
+const app = express();
+const stripe = new Stripe(process.env.STRIPE_PRIVATE_API_KEY);
+
+app.post(
+  "/webhook",
+  express.raw({ type: "application/json" }),
+  (request, response) => {
+    let event = request.body;
+
+    const signature = request.headers["stripe-signature"];
+    try {
+      event = stripeClient.webhooks.constructEvent(
+        request.body,
+        signature,
+        process.env.STRIPE_WEBHOOK_ENDPOINT_SECRET,
+      );
+    } catch (err) {
+      console.error("cannot verify stripe webhook signature:", err.message);
+      return response.sendStatus(400);
+    }
+
+    const handleStripeWebhook = assignOptions(handleStripeWebhookFn, {
+      // process webhooks in the right order
+      delay: event.created + 60 * 10,
+      // add metadata for the the Defer Console
+      metadata: {
+        livemode: event.livemode,
+        type: event.type,
+        apiVersion: event.api_version,
+      },
+    });
+
+    handleStripeWebhook(event.id)
+      .then((executionID) => {
+        response.sendStatus(
+          200,
+          "application/json",
+          JSON.stringify({ executionID }),
+        );
+      })
+      .catch((err) => {
+        response.sendStatus(400);
+      });
+  },
+);
+
+export default app;
+```
+
+The `handleStripeEvent()` Defer function retrieves the Stripe event using the
+Stripe client and performs the associated action, for example, updating a
+customer record.
+
+```tsx src/defer/handleStripeWebhook.js
+import { defer } from "@defer/client";
+import Stripe from "stripe";
+
+async function handleStripeEvent(eventID) {
+  const stripe = new Stripe(process.env.STRIPE_PRIVATE_API_KEY);
+  const event = await stripe.events.retrieve(eventID);
+  switch (event.type) {
+    case "customer.created":
+      break;
+    case "customer.deleted":
+      break;
+    default:
+      console.log(`skip ${eventID} event`);
+  }
+}
+
+export default defer(handleStripeEvent, {
+  // retry the Stripe event processing
+  //   with an exponential back-off retry strategy
+  retry: 7,
+});
+```
+
+<br />
+
+## Related articles
+
+<CardGroup cols={1}>
+  <Card
+    title="Advanced Execution filtering with Metadata"
+    icon={"book"}
+    iconType={"light"}
+    href="https://www.defer.run/blog/function-metadata"
+  >
+    Learn more about Function Metadata
+  </Card>
+  <Card
+    title="A deep dive into Function's retry strategies"
+    icon={"book"}
+    iconType={"light"}
+    href="https://www.defer.run/blog/function-retry-strategies"
+  >
+    An interactive article with examples of retry strategies
+  </Card>
+</CardGroup>
