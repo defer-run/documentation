@@ -1,27 +1,20 @@
 ---
 title: "Process audio files with OpenAI Whisper"
-description: "Process large audio files with Bun Streams API and OpenAI Whisper"
+description: "Process large audio files with ffmpeg and OpenAI Whisper"
 ---
 
-Make sure you add the following to your `package.json`:
-
-```json
-{
-  "engines": {
-    "bun": "1.x"
-  }
-}
-```
-
-Bun is a JavaScript Toolkit that combines a unified developer experience with
-fast runtime performances due to its easy installations, code optimizations, and
-small, compressed packages.
-
-Defer, which supports Bun's toolkit natively, can be used to **boost the speed
-of applications** that run inside Bun. Because of its native support, Defer's
+Defer, which supports `ffmpeg` natively, can be used to **boost the speed of
+applications** that run inside Bun. Because of its native support, Defer's
 serverless background job processing retains the same unified developer
 experience, making the Defer/Bun combination a **perfect environment for complex
 data processing**.
+
+One limitation of
+[OpenAI Whisper API](https://platform.openai.com/docs/guides/speech-to-text/quickstart)
+is its maximum file size of 25 MB, which is easily reached, for example, on
+average meeting recording duration. To overcome this limitation, you can
+leverage Defer's native `ffmpeg` support to break the file into chunks of less
+than 24MB.
 
 ## **Use case—Audio subtitle generation**
 
@@ -29,19 +22,13 @@ Here's a NextJS app that generates audio subtitles with Web API's Streams API.
 The `createTranscript()` background function downloads meeting audios and
 forwards them to the OpenAI Whisper API.
 
-One limitation of
-[OpenAI Whisper API](https://platform.openai.com/docs/guides/speech-to-text/quickstart)
-is its maximum file size of 25 MB, which is easily reached for the average
-meeting duration. To overcome this limitation, you can leverage Bun's
-[Stream API](https://developer.mozilla.org/en-US/docs/Web/API/Streams_API/Concepts)
-to break the file into 24MB chunks.
-
-With the help of Defer's `defer(createTranscript,..)`), Bun's Stream API will
-perform the chunked streaming asynchronously:
+With the help of Defer's `defer(createTranscript,..)`), the chunking of the
+audio file with `ffmepg` will perform in the background:
 
 ```tsx src/defer/createTranscript.ts
 import { defer } from "@defer/client";
 import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
+import ffmpeg from "fluent-ffmpeg";
 
 import s3Config from "../s3Client";
 import openAIClient from "../openAIClient";
@@ -55,28 +42,31 @@ async function createTranscript(meetingID: string) {
     })
     .createReadStream();
 
-  const transcriptions = [];
+  // we leverage ffmpeg to create audio chunks of 10min
+  ffmpeg(Readable.fromWeb(rs))
+    .addOutputOptions("-f segment")
+    .addOutputOptions("-segment_time 10:00")
+    .addOutputOptions("-reset_timestamps 1")
+    .output('audio_%02d.m4a')
 
-  const writableStrategy = new ByteLengthQueuingStrategy({
-    highWaterMark: 24999999,
-  });
-
-  // each audio file of 24MB is sent to OpenAI Whisper API
-  const openAIWhisperer = new WritableStream({
-    write(chunk) {
-      this.openAIClient.audio.transcriptions.create({
-        file: chunk,
+  // retrieve the created audio chunk files
+  //   and forward them to the OpenAI Whisper API
+  const files = await glob("audio_*.m4a");
+  files.forEach((file) => {
+    processings.push(
+      openAIClient.audio.transcriptions.create({
+        file: createReadStream(file),
         model: "whisper-1",
-      });
-    },
+      })
+    );
   });
 
-  // we consume the audio stream and chunk it into files of 24MB
-  await file
-    .pipeThrough(new TransformStream(undefined, writableStrategy))
-    .pipeTo(openAIWhisperer);
-
-  await Promise.allSettled(transcriptions);
+  await Promise.allSettled(files.map((file) =>
+    openAIClient.audio.transcriptions.create({
+      file: createReadStream(file),
+      model: "whisper-1",
+    })
+  );
 
   // Finally: save the transcripts...
   //   ...
@@ -85,6 +75,7 @@ async function createTranscript(meetingID: string) {
 export default defer(createTranscript, { concurrency: 5, retry: 2 });
 ```
 
-As you can see, **Bun makes it easy to deal with large streams of data** thanks
-to its Web API native support and more **efficient memory usage**. And Defer can
-boost that performance by running the whole process in the background.
+As you can see, Defer native supports for `ffmepg` enable **processing of large
+audio files at scale, without timeout limitations**. And Bun makes it easy to
+deal with large streams of data thanks to its Web API native support and more
+**efficient memory usage**.
