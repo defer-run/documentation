@@ -1,0 +1,90 @@
+---
+title: "Process audio files with OpenAI Whisper"
+description: "Process large audio files with Bun Streams API and OpenAI Whisper"
+---
+
+Make sure you add the following to your `package.json`:
+
+```json
+{
+  "engines": {
+    "bun": "1.x"
+  }
+}
+```
+
+Bun is a JavaScript Toolkit that combines a unified developer experience with
+fast runtime performances due to its easy installations, code optimizations, and
+small, compressed packages.
+
+Defer, which supports Bun's toolkit natively, can be used to **boost the speed
+of applications** that run inside Bun. Because of its native support, Defer's
+serverless background job processing retains the same unified developer
+experience, making the Defer/Bun combination a **perfect environment for complex
+data processing**.
+
+## **Use case—Audio subtitle generation**
+
+Here's a NextJS app that generates audio subtitles with Web API's Streams API.
+The `createTranscript()` background function downloads meeting audios and
+forwards them to the OpenAI Whisper API.
+
+One limitation of
+[OpenAI Whisper API](https://platform.openai.com/docs/guides/speech-to-text/quickstart)
+is its maximum file size of 25 MB, which is easily reached for the average
+meeting duration. To overcome this limitation, you can leverage Bun's
+[Stream API](https://developer.mozilla.org/en-US/docs/Web/API/Streams_API/Concepts)
+to break the file into 24MB chunks.
+
+With the help of Defer's `defer(createTranscript,..)`), Bun's Stream API will
+perform the chunked streaming asynchronously:
+
+```tsx src/defer/createTranscript.ts
+import { defer } from "@defer/client";
+import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
+
+import s3Config from "../s3Client";
+import openAIClient from "../openAIClient";
+
+async function createTranscript(meetingID: string) {
+  // we fetch the meeting audio file as a stream
+  const file: ReadableStream = s3
+    .getObject({
+      Bucket: "meetings-recordings",
+      Key: `meeting-recording-${meetingID}`,
+    })
+    .createReadStream();
+
+  const transcriptions = [];
+
+  const writableStrategy = new ByteLengthQueuingStrategy({
+    highWaterMark: 24999999,
+  });
+
+  // each audio file of 24MB is sent to OpenAI Whisper API
+  const openAIWhisperer = new WritableStream({
+    write(chunk) {
+      this.openAIClient.audio.transcriptions.create({
+        file: chunk,
+        model: "whisper-1",
+      });
+    },
+  });
+
+  // we consume the audio stream and chunk it into files of 24MB
+  await file
+    .pipeThrough(new TransformStream(undefined, writableStrategy))
+    .pipeTo(openAIWhisperer);
+
+  await Promise.allSettled(transcriptions);
+
+  // Finally: save the transcripts...
+  //   ...
+}
+
+export default defer(createTranscript, { concurrency: 5, retry: 2 });
+```
+
+As you can see, **Bun makes it easy to deal with large streams of data** thanks
+to its Web API native support and more **efficient memory usage**. And Defer can
+boost that performance by running the whole process in the background.

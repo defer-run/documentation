@@ -156,19 +156,26 @@
       "pages": ["guides/overview"]
     },
     {
-      "group": "Guides",
+      "group": "Use cases",
       "pages": [
-        "guides/monorepo",
-        "guides/emails-resend",
         "guides/algolia-defer",
         "guides/puppeteer-js-node",
+        "guides/audio-files-openai-whisper",
         "guides/stripe-webhooks",
-        "guides/time-sensitive-notifications",
-        "guides/api-rate-limiting",
+        "guides/emails-resend",
+        "guides/time-sensitive-notifications"
+      ]
+    },
+    {
+      "group": "Patterns",
+      "pages": [
         "guides/api-offloading",
         "guides/todo-reminders",
-        "guides/weekly-recommendations",
         "guides/onboarding-workflow",
+        "guides/graphql-bulk-actions",
+        "guides/weekly-recommendations",
+        "guides/monorepo",
+        "guides/api-rate-limiting",
         "guides/fifo-queue"
       ]
     },

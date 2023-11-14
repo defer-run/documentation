@@ -1,0 +1,96 @@
+---
+title: "GraphQL Bulk actions"
+description: "A useful pattern for long-running GraphQL Mutations"
+---
+
+GraphQL is a widely used query language and API technology. Some GraphQL data
+operations, most notably its [Mutations](https://graphql.org/learn/queries/),
+may run slowly due to the size of the data, for example, when batch-processing
+hundreds of objects or exporting large datasets.
+
+Many platforms have enhanced GraphQL API design using different patterns. For
+example, Shopify introduced
+[Bulk Operations](https://shopify.dev/docs/api/usage/bulk-operations/queries),
+which adds asynchronous patterns **for long-running Mutations**.
+
+Defer replicates Shopify's pattern with its
+[scheduling capabilities](https://docs.defer.run/introduction) and
+[Public API](https://docs.defer.run/references/defer-client/get-execution).
+
+## Use case—Large email campaigns
+
+While Shopify's Bulk Operations is built to manage large datasets, our example
+shows how to leverage Defer to implement a similar pattern for sending bulk
+emails.
+
+A user can trigger an email campaign workflow that runs for 30 minutes.
+
+The application UI will reflect the progress of the workflow; for this, our
+GraphQL API will expose a `Mutation` to trigger the `sendCampaign()` workflow
+and a `Query` to check its status.
+
+```tsx src/api.ts
+import { ApolloServer } from "@apollo/server";
+import { getExecution } from "@defer/client";
+
+import sendCampaign from "defer/sendCampaign";
+import {
+  storeExecutionToWorkfow,
+  getExecutionFromWorkflow,
+} from "db/workflows";
+
+// The GraphQL schema
+const typeDefs = `#graphql
+	enum DeferOperationState {
+    created,
+		running,
+		succeed,
+		failed,
+		aborting,
+		aborted,
+		cancelled
+	}
+
+	type Any
+
+  type DeferOperation {
+		id: ID
+		state: DeferOperationState
+		result: Any
+  }
+
+  type Query {
+    workflowStatus(workflowID: ID!): DeferOperation
+  }
+
+  type Mutation {
+    triggerWorkflow(workflowID: ID!): DeferOperation
+  }
+`;
+
+const resolvers = {
+  Query: {
+    workflowStatus: async (workflowID: string) => {
+      const executionID = getExecutionFromWorkflow(workflowID);
+      return getExecution(executionID);
+    },
+  },
+  Mutation: {
+    triggerWorkflow: async (workflowID: string) => {
+      const deferOperation = sendCampaign(workflowID);
+      storeExecutionToWorkfow(workflowID, deferOperation.id);
+      return deferOperation;
+    },
+  },
+};
+
+// Set up Apollo Server
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+});
+```
+
+By leveraging the `DeferOperation` GraphQL type and `@defer/client`'s
+`getExecution()` helper, we implemented a pattern for long-running Mutations
+similar to Shopify's Bulk Operations.
