@@ -27,9 +27,9 @@ verbatim (e.g., “Nodejs performance”).
 
 ### 1. Emit updates from a long-running Workflow
 
-The initial import, performed by `importSocialVerbatim(),` of users' posts and
+The initial import, performed by `importVerbatim(),` of users' posts and
 related searches' posts might take time (e.g., 5 - 15 minutes); for this reason,
-`importSocialVerbatim()` sends regular updates to the front end by leveraging
+`importVerbatim()` sends regular updates to the front end by leveraging
 Supabase's Broadcast feature:
 
 ```tsx defer/importSocialMessages.ts
@@ -39,7 +39,7 @@ import supabaseClient from '../supabaseClient'
 import { importersForUser } from '../importers'
 import { classifierForUser } from '../classifier'
 
-async importSocialVerbatim(userID: string) {
+async importVerbatim(userID: string) {
    const channelName = `import-socials-${userID}`
    const channel = supabaseClient.channel(channelName)
 
@@ -68,7 +68,7 @@ async importSocialVerbatim(userID: string) {
    supabaseClient.removeChannel(channelName)
 }
 
-export default defer(importSocialVerbatim, {
+export default defer(importVerbatim, {
    concurrency: 5 // ensure we don't exceed our 3rd Party API rate limits
 })
 ```
