@@ -169,6 +169,8 @@
       "pages": [
         "guides/algolia-defer",
         "guides/puppeteer-js-node",
+        "guides/open-ai-embeddings-supabase-vector",
+        "guides/workflows-notification-supabase-realtime",
         "guides/audio-files-openai-whisper",
         "guides/stripe-webhooks",
         "guides/emails-resend",

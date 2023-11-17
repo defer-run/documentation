@@ -1,0 +1,143 @@
+---
+title: "Realtime Workflows updates with Supabase Realtime"
+description:
+  "Keep your users informed of long-running workflows progress with Supabase
+  Realtime"
+---
+
+[Supabase](https://supabase.com/) is an open-source Firebase alternative for
+building apps. It offers a real-time database that allows developers to store
+and sync data across multiple devices in real-time.
+
+Many application workflows are triggered to run in the background due (with
+Defer) to their long-running times. **As many of these are triggered by users,
+they require notifications to indicate progress**.
+
+You can use Defer with Supabase to execute long-running background workflows,
+leveraging
+[Supabase's Realtime Broadcast](https://www.notion.so/Long-running-workflows-with-Supabase-Realtime-37c3830217284ef5b3adf11e51ee5685?pvs=21)
+within Defer to send realtime end-user notifications (ex: progress).
+
+## Use case
+
+Supabase Realtime Broadcast is a WebSocket messaging solution. Below is a NextJS
+application that shows how to connect an end-user's Social accounts to set up
+alerts on selected topics. We use OpenAI to extract topics from the imported
+verbatim (e.g., “Nodejs performance”).
+
+### 1. Emit updates from a long-running Workflow
+
+The initial import, performed by `importSocialVerbatim(),` of users' posts and
+related searches' posts might take time (e.g., 5 - 15 minutes); for this reason,
+`importSocialVerbatim()` sends regular updates to the front end by leveraging
+Supabase's Broadcast feature:
+
+```tsx defer/importSocialMessages.ts
+import { defer } '@defer/client'
+
+import supabaseClient from '../supabaseClient'
+import { importersForUser } from '../importers'
+import { classifierForUser } from '../classifier'
+
+async importSocialVerbatim(userID: string) {
+   const channelName = `import-socials-${userID}`
+   const channel = supabaseClient.channel(channelName)
+
+   const importers = importersForUser(userID)
+   for (const importer of importers) {
+     // notify the user that we start importing data
+     channel.send({
+		   type: 'broadcast',
+		   event: 'progress',
+		   payload: { message: `Importing ${importer.name}...` },
+		 })
+     await importer.perform()
+
+     // retrieve a classifier that will index the imported data
+     //   into a Vector database
+     const classifier = classifierForUser(importer.name, userID)
+		 channel.send({
+		   type: 'broadcast',
+		   event: 'progress',
+		   payload: { message: `Extracting topics for ${importer.name}...` },
+		 })
+     await classifier.perform()
+   }
+
+   // always close the channel once finished
+   supabaseClient.removeChannel(channelName)
+}
+
+export default defer(importSocialVerbatim, {
+   concurrency: 5 // ensure we don't exceed our 3rd Party API rate limits
+})
+```
+
+The above code does the following:
+
+1. For a given `userID`, it retrieves the importers for each connected social
+   account
+2. Then, sequentially, it runs the importer and, once the data is imported, runs
+   an OpenAI classifier that creates embedding to later extract major topics
+   (e.g., “NodeJS performance”)
+3. Finally, once all the data is imported and stored in a Supabase Vector
+   database, it closes the broadcast channel
+
+_Note_: this function could be broken down easily into multiple parallel
+background functions, sharing the same `channel` to broadcast updates.
+
+<br />
+
+### 2.Display real-time updates to the users
+
+Finally, let's add the real-time updates to our front end:
+
+```tsx app/pages/Setup.tsx
+"use client";
+import importVerbatim from "@/defer/importVerbatim";
+import { useDeferRoute } from "@defer/client/next";
+import { useState, useRef, useEffect } from "react";
+
+import supabaseClient from "../../supabaseClient";
+import useUser from "../hooks/useUser";
+
+export default function Setup() {
+  const { id: userID } = useUser();
+  const subscribed = useRef(false);
+  const channelName = `import-socials-${userID}`;
+
+  const [progress, updateProgress] = useState<string>();
+
+  const [startImport, { loading, result }] = useDeferRoute<
+    typeof importVerbatim
+  >("/api/importVerbatim");
+
+  useEffect(() => {
+    if (loading && !subscribed.current) {
+      subscribed.current = true;
+      supabaseClient
+        .channel(channelName)
+        .supabaseClient.on("broadcast", { event: "progress" }, (payload) =>
+          updateProgress(payload.message),
+        )
+        .subscribe();
+    }
+  }, []);
+
+  return (
+    <>
+      {/* JSX UI that will trigger `startImport(userID)` and display `progress`*/}
+    </>
+  );
+}
+```
+
+The above code does the following:
+
+1. It creates a `progress` state that will store the received live updates from
+   the workflows
+2. It instantiates the `useDeferRoute()` hook from `@defer/client/next` to get
+   the `startImport()` function to trigger the workflow
+3. The `useEffect()` block will start listening for the `importVerbatim`
+   execution once started and store the received updates in the `progress` local
+   state

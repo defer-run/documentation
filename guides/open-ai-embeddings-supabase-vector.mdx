@@ -1,0 +1,77 @@
+---
+title: "Generate embeddings for Supabase Vector"
+description:
+  "Prepare your application's data with Defer to generate OpenAI embeddings"
+---
+
+Embeddings are used by large language models (LLMs) as vector representations of
+words or tokens. These vectors are saved as arrays of float numbers in databases
+such as [Supabase Vector](https://supabase.com/vector). These Vectors are later
+used to retrieve clusters of related items or search.
+
+[OpenAI generates embeddings](https://platform.openai.com/docs/guides/embeddings)
+with textual and other relevant data provided by your applications. Retrieving
+and preparing the data for embedding can take time. Defer's remote background
+processing helps offload and run embedding generation reliably.
+
+## Use case
+
+Let's add an auto-tagging feature to a Cloud Drive product, enabling a Drive
+that is **always sorted with dynamically created filters** (e.g., “_Legal and
+Finance”_)!
+
+Once your
+[database is set up](https://supabase.com/docs/guides/ai/vector-columns) (_with
+a `documents` table and an associated vector index_), Defer will **enable you to
+generate embeddings within your applications in no time**, with no resource
+limitations issues.
+
+```tsx src/defer/generateEmbeddings.ts
+import { defer } from "@defer/client";
+import { createClient } from "@supabase/supabase-js";
+import { Configuration, OpenAIApi } from "openai";
+
+import { supabaseClient } from "./lib/supabase";
+import { openAiClient } from "./lib/openai";
+import { getRecentlyUpdatedDocuments } from "../lib";
+
+import refreshCategories from "./refreshCategories";
+
+async function generateEmbeddings(workspaceID: string) {
+  // 1. retrieve the newly created or updated documents from the database
+  const documents = await getRecentlyUpdatedDocuments(workspaceID);
+
+  for (const document of documents) {
+    // (OpenAI recommends replacing newlines with spaces for best results)
+    const input = document.replace(/\n/g, " ");
+
+    // 2. generate an embedding for each document
+    const embeddingResponse = await openAiClient.createEmbedding({
+      model: "text-embedding-ada-002",
+      input,
+    });
+
+    // 3. store the embedding as a vector in our Supabase Vector database
+    await supabaseClient.from("documents").insert({
+      content: document,
+      workspaceID,
+      embedding: embeddingResponse.data.data,
+    });
+  }
+
+  // 4. Enqueue another execution that will extract clusters
+  //   to refresh categories
+  //   (see https://cookbook.openai.com/examples/clustering)
+  await refreshCategories(workspaceID);
+}
+
+export default defer(generateEmbeddings, {
+  concurrency: 5, // limit concurrency for OpenAI rate limiting
+  retry: 2, // enable retry to handle external failures
+});
+```
+
+Note: Dealing with large document embeddings impacts the database's performance.
+Refer to
+[Supabase's documentation](https://supabase.com/docs/guides/ai/choosing-compute-addon)
+to allocate the appropriate resources for your use case.
