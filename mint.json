@@ -45,6 +45,10 @@
       "url": "platform"
     },
     {
+      "name": "Integrations",
+      "url": "integrations"
+    },
+    {
       "name": "Guides",
       "url": "guides"
     },
@@ -151,6 +155,11 @@
         "platform/runner/network-containers"
       ]
     },
+    {
+      "group": "",
+      "pages": ["integrations/overview"]
+    },
+    { "group": "Integrations", "pages": ["integrations/vercel"] },
     {
       "group": "",
       "pages": ["guides/overview"]
