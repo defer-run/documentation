@@ -27,8 +27,8 @@ verbatim (e.g., “Nodejs performance”).
 
 ### 1. Emit updates from a long-running Workflow
 
-The initial import, performed by `importVerbatim(),` of users' posts and
-related searches' posts might take time (e.g., 5 - 15 minutes); for this reason,
+The initial import, performed by `importVerbatim(),` of users' posts and related
+searches' posts might take time (e.g., 5 - 15 minutes); for this reason,
 `importVerbatim()` sends regular updates to the front end by leveraging
 Supabase's Broadcast feature:
 
