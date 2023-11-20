@@ -221,16 +221,16 @@
         {
           "group": "v2",
           "pages": [
+            "references/http-api/v2/execution/list-executions",
+            "references/http-api/v2/execution/enqueue-an-execution",
+            "references/http-api/v2/execution/get-execution",
             "references/http-api/v2/execution/list-execution-attemps",
             "references/http-api/v2/execution/rerun-execution",
             "references/http-api/v2/execution/reschedule-execution",
             "references/http-api/v2/execution/cancel-execution",
             "references/http-api/v2/execution/get-execution-logs",
             "references/http-api/v2/execution/get-execution-results",
-            "references/http-api/v2/execution/get-execution-arguments",
-            "references/http-api/v2/execution/get-execution",
-            "references/http-api/v2/execution/list-executions",
-            "references/http-api/v2/execution/enqueue-an-execution"
+            "references/http-api/v2/execution/get-execution-arguments"
           ]
         },
         {
