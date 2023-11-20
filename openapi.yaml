@@ -1,0 +1,737 @@
+openapi: 3.0.3
+info:
+  title: "Defer REST API"
+  termsOfService: "https://www.defer.run/term-of-service.pdf"
+  contact:
+    email: "support@defer.run"
+  version: 2.0.0
+externalDocs:
+  description: "Find out more about Defer"
+  url: "https://docs.defer.run"
+servers:
+  - url: "https://api.defer.run/public/v2"
+tags:
+  - name: "execution"
+    description: "Operations about execution"
+paths:
+  /executions/{executionId}/attempts:
+    post:
+      tags:
+        - "execution"
+      summary: "list execution attemps"
+      operationId: "listExecutionAttemps"
+      security:
+        - basicAuth: []
+        - bearerAuth: []
+      parameters:
+        - in: "path"
+          name: "executionId"
+          schema:
+            type: "string"
+          required: true
+          description: "The execution ID"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                page:
+                  type: "object"
+                  properties:
+                    first:
+                      type: "integer"
+                    after:
+                      type: "string"
+                    last:
+                      type: "integer"
+                    before:
+                      type: "string"
+                filters:
+                  type: "object"
+                  properties:
+                    states:
+                      type: "array"
+                      items:
+                        type: "string"
+                        enum:
+                          - "created"
+                          - "started"
+                          - "succeed"
+                          - "failed"
+                          - "cancelled"
+                          - "aborting"
+                          - "aborted"
+                          - "discarded"
+                    error_codes:
+                      type: "array"
+                      items:
+                        type: "string"
+                    scheduled_at:
+                      type: "string"
+                      format: "date-time"
+                    started_at:
+                      type: "string"
+                      format: "date-time"
+            example:
+              page:
+                first: 3
+              filters:
+                states: ["started", "succeed", "failed"]
+      responses:
+        "200":
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  data:
+                    type: "array"
+                    items:
+                      $ref: "#/components/schemas/Execution"
+                  page_info:
+                    type: "object"
+                    properties:
+                      has_next_page:
+                        type: "boolean"
+                      has_prev_page:
+                        type: "boolean"
+                      start_cursor:
+                        type: "string"
+                      end_cursor:
+                        type: "string"
+              example:
+                data:
+                  - id: "AAYR4UFjxiD4cbHIJXSRZbzPVKtxTA"
+                    state: "started"
+                    created_at: "2023-11-14T16:16:51.98835+01:00"
+                    updated_at: "2023-11-14T16:16:55.612705+01:00"
+                  - id: "AAYR4UFjK-qtSamewR2TMUyhQ1a_oQ"
+                    state: "succeed"
+                    created_at: "2023-11-14T16:16:51.987716+01:00"
+                    updated_at: "2023-11-14T16:16:58.669179+01:00"
+                  - id: "AAYR4UFhv3cBjWlkZQlIwSlggOhjVQ"
+                    state: "failed"
+                    created_at: "2023-11-14T16:16:49.334976+01:00"
+                    updated_at: "2023-11-14T16:16:49.510079+01:00"
+                page_info:
+                  has_next_page: false
+                  has_prev_page: true
+                  start_cursor: "EeFBY8Yg-HGxyCV0kWW8z1SrcUz8zbvryIeFBg"
+                  end_cursor: "EeFBYb93AY1pZGUJSMEpYIDoY1WA2_foyIeFBg"
+        "400":
+          description: "Invalid filter"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Error"
+              example:
+                error: "bad_request"
+                message: "cannot decode request body"
+        "404":
+          description: "Execution not found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "not_found"
+                message: "cannot found execution \"AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw\""
+  /executions/{executionId}/reruns:
+    post:
+      tags:
+        - "execution"
+      summary: "Rerun execution"
+      operationId: "reRunExecution"
+      security:
+        - basicAuth: []
+        - bearerAuth: []
+      parameters:
+        - in: "path"
+          name: "executionId"
+          schema:
+            type: "string"
+          required: true
+          description: "The execution ID"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+      responses:
+        "200":
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Execution'
+        "404":
+          description: "Execution not found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "not_found"
+                message: "cannot found execution \"AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw\""    
+    
+  /executions/{executionId}/schedule:
+    patch:
+      tags:
+        - "execution"
+      summary: "Reschedule execution"
+      operationId: "rescheduleExecution"
+      security:
+        - basicAuth: []
+        - bearerAuth: []
+      parameters:
+        - in: "path"
+          name: "executionId"
+          schema:
+            type: "string"
+          required: true
+          description: "The execution ID"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                schedule_for:
+                  type: "boolean"
+      responses:
+        "200":
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Execution'
+        "400":
+          description: "Invalid path or body parameters"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "bad_request"
+                message: "cannot decode request body"
+        "404":
+          description: "Execution not found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "not_found"
+                message: "cannot found execution \"AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw\""
+        "409":
+          description: "Execution is not reschedulable"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "conflict"
+                message: "cannot resechedule execution in started state"
+  /executions/{executionId}/cancellation:
+    post:
+      tags:
+        - "execution"
+      summary: "Cancel execution"
+      operationId: "cancelExecution"
+      security:
+        - basicAuth: []
+        - bearerAuth: []
+      parameters:
+        - in: "path"
+          name: "executionId"
+          schema:
+            type: "string"
+          required: true
+          description: "The execution ID"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                force:
+                  description: "When set to true it will abort running execution"
+                  type: "boolean"
+      responses:
+        "102":
+          description: "Execution cancelling already in progress"
+          content:
+            application/json:
+              schema:
+                type: "object"
+        "200":
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Execution'
+        "400":
+          description: "Invalid path or body parameters"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "bad_request"
+                message: "cannot decode request body"
+        "404":
+          description: "Execution not found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "not_found"
+                message: "cannot found execution \"AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw\""
+        "409":
+          description: "Execution is not cancellable"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "conflict"
+                message: "cannot cancel execution in failed state"
+  /executions/{executionId}/logs:
+    get:
+      tags:
+        - "execution"
+      summary: "Get execution logs"
+      operationId: "getExecutionLogs"
+      security:
+        - basicAuth: []
+        - bearerAuth: []
+      parameters:
+        - in: "path"
+          name: "executionId"
+          schema:
+            type: "string"
+          required: true
+          description: "The execution ID"
+      responses:
+        "307":
+          description: "Successful operation"
+          headers:
+            location:
+              description: "The location of the arguments file"
+              schema:
+                type: "string"
+        "400":
+          description: "Invalid execution ID format"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Error"
+              example:
+                error: "bad_request"
+                message: "cannot decode request body"
+        "404":
+          description: "Execution not found or logs not available yet"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Error"
+              example:
+                error: "not_found"
+                message: "cannot found execution \"AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw\""
+  /executions/{executionId}/results:
+    get:
+      tags:
+        - "execution"
+      summary: "Get execution results"
+      operationId: "getExecutionResults"
+      security:
+        - basicAuth: []
+        - bearerAuth: []
+      parameters:
+        - in: "path"
+          name: "executionId"
+          schema:
+            type: "string"
+          required: true
+          description: "The execution ID"
+      responses:
+        "307":
+          description: "Successful operation"
+          headers:
+            location:
+              description: "The location of the arguments file"
+              schema:
+                type: "string"
+        "400":
+          description: "Invalid execution ID format"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Error"
+              example:
+                error: "bad_request"
+                message: "cannot decode request body"
+        "404":
+          description: "Execution not found or result not available yet"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Error"
+              example:
+                error: "not_found"
+                message: "cannot found execution \"AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw\""
+  /executions/{executionId}/arguments:
+    get:
+      tags:
+        - "execution"
+      summary: "Get execution arguments"
+      operationId: "getExecutionArguments"
+      security:
+        - basicAuth: []
+        - bearerAuth: []
+      parameters:
+        - in: "path"
+          name: "executionId"
+          schema:
+            type: "string"
+          required: true
+          description: "The execution ID"
+      responses:
+        "307":
+          description: "Successful operation"
+          headers:
+            location:
+              description: "The location of the arguments file"
+              schema:
+                type: "string"
+        "400":
+          description: "Invalid execution ID format"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Error"
+              example:
+                error: "bad_request"
+                message: "cannot decode request body"
+        "404":
+          description: "Execution not found"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Error"
+              example:
+                error: "not_found"
+                message: "cannot found execution \"AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw\""
+  /executions/{executionId}:
+    get:
+      tags:
+        - "execution"
+      summary: "Get execution"
+      operationId: "getExecution"
+      security:
+        - basicAuth: []
+        - bearerAuth: []
+      parameters:
+        - in: "path"
+          name: "executionId"
+          schema:
+            type: "string"
+          required: true
+          description: "The execution ID"
+      responses:
+        "200":
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Execution"
+        "400":
+          description: "Invalid execution ID format"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Error"
+              example:
+                error: "bad_request"
+                message: "cannot decode request body"
+        "404":
+          description: "Execution not found"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Error"
+              example:
+                error: "not_found"
+                message: "cannot found execution \"AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw\""
+  /executions:
+    post:
+      tags:
+        - "execution"
+      summary: "List executions"
+      operationId: "listExecutions"
+      security:
+        - basicAuth: []
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                page:
+                  type: "object"
+                  properties:
+                    first:
+                      type: "integer"
+                    after:
+                      type: "string"
+                    last:
+                      type: "integer"
+                    before:
+                      type: "string"
+                filters:
+                  type: "object"
+                  properties:
+                    states:
+                      type: "array"
+                      items:
+                        type: "string"
+                        enum:
+                          - "created"
+                          - "started"
+                          - "succeed"
+                          - "failed"
+                          - "cancelled"
+                          - "aborting"
+                          - "aborted"
+                          - "discarded"
+                    function_ids:
+                      type: "array"
+                      items:
+                        type: "string"
+                    error_codes:
+                      type: "array"
+                      items:
+                        type: "string"
+                    scheduled_at:
+                      type: "string"
+                      format: "date-time"
+                    started_at:
+                      type: "string"
+                      format: "date-time"
+                    executed_by:
+                      type: "string"
+                    metadata:
+                      type: "array"
+                      items:
+                        type: "object"
+                        properties:
+                          key:
+                            type: "string"
+                          values:
+                            type: "array"
+                            items:
+                              type: "string"
+            example:
+              page:
+                first: 3
+              filters:
+                states: ["started", "succeed", "failed"]
+                metadata:
+                  - key: "user-id"
+                    values:
+                      - "89a7c4d0-edf1-418b-a7d2-aa54d3832cc0"
+                      - "dc01b186-dd81-4f52-9795-c7281f9637a4"
+      responses:
+        "200":
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  data:
+                    type: "array"
+                    items:
+                      $ref: "#/components/schemas/Execution"
+                  page_info:
+                    type: "object"
+                    properties:
+                      has_next_page:
+                        type: "boolean"
+                      has_prev_page:
+                        type: "boolean"
+                      start_cursor:
+                        type: "string"
+                      end_cursor:
+                        type: "string"
+              example:
+                data:
+                  - id: "AAYR4UFjxiD4cbHIJXSRZbzPVKtxTA"
+                    state: "started"
+                    created_at: "2023-11-14T16:16:51.98835+01:00"
+                    updated_at: "2023-11-14T16:16:55.612705+01:00"
+                  - id: "AAYR4UFjK-qtSamewR2TMUyhQ1a_oQ"
+                    state: "succeed"
+                    created_at: "2023-11-14T16:16:51.987716+01:00"
+                    updated_at: "2023-11-14T16:16:58.669179+01:00"
+                  - id: "AAYR4UFhv3cBjWlkZQlIwSlggOhjVQ"
+                    state: "failed"
+                    created_at: "2023-11-14T16:16:49.334976+01:00"
+                    updated_at: "2023-11-14T16:16:49.510079+01:00"
+                page_info:
+                  has_next_page: false
+                  has_prev_page: true
+                  start_cursor: "EeFBY8Yg-HGxyCV0kWW8z1SrcUz8zbvryIeFBg"
+                  end_cursor: "EeFBYb93AY1pZGUJSMEpYIDoY1WA2_foyIeFBg"
+        "400":
+          description: "Invalid filter"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Error"
+              example:
+                error: "bad_request"
+                message: "cannot decode request body"
+
+    put:
+      tags:
+        - "execution"
+      summary: "Enqueue an execution"
+      operationId: "enqueueExecution"
+      security:
+        - basicAuth: []
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              required:
+                - "function_name"
+              properties:
+                function_name:
+                  type: "string"
+                function_arguments:
+                  type: "array"
+                  items:
+                    type: "string"
+                schedule_for:
+                  type: "string"
+                  format: "date-time"
+                discard_after:
+                  type: "string"
+                  format: "date-time"
+                metadata:
+                 type: "object"
+            example:
+                function_name: "createUser"
+                function_arguments: [{name: "John Doe", company: "ACME"}, false]
+                metadata:
+                  - user-id: "ab4d517f-64cb-48b2-aaaa-3ba3bec2e437"
+      responses:
+        "200":
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Execution'
+        "400":
+          description: "Function not found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "bad_request"
+                message: "cannot find function \"createUser\""
+                
+components:
+  securitySchemes:
+    basicAuth:
+      type: "http"
+      scheme: "basic"
+    bearerAuth:
+      type: "http"
+      scheme: "bearer"
+  schemas:
+    Execution:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+          example: "AAYR1m5T-trJR95j1BaiC_36IdTTLw"
+        state:
+          type: "string"
+          example: "created"
+          enum:
+            - "created"
+            - "started"
+            - "succeed"
+            - "failed"
+            - "cancelled"
+            - "aborting"
+            - "aborted"
+            - "discarded"
+        created_at:
+          type: "string"
+          format: "date-time"
+        updated_at:
+          type: "string"
+          format: "date-time"
+    Error:
+      type: "object"
+      properties:
+        error:
+          type: "string"
+        message:
+          type: "string"

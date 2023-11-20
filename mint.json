@@ -218,9 +218,16 @@
     {
       "group": "REST API",
       "pages": [
-        "references/defer-api/enqueue",
-        "references/defer-api/get-execution",
-        "references/defer-api/cancel-execution"
+        "references/defer-api/execution/list-execution-attemps",
+        "references/defer-api/execution/rerun-execution",
+        "references/defer-api/execution/reschedule-execution",
+        "references/defer-api/execution/cancel-execution",
+        "references/defer-api/execution/get-execution-logs",
+        "references/defer-api/execution/get-execution-results",
+        "references/defer-api/execution/get-execution-arguments",
+        "references/defer-api/execution/get-execution",
+        "references/defer-api/execution/enqueue-an-execution",
+        "references/defer-api/execution/list-executions"
       ]
     }
   ],
