@@ -216,11 +216,31 @@
       ]
     },
     {
-      "group": "REST API",
+      "group": "HTTP API",
       "pages": [
-        "references/defer-api/enqueue",
-        "references/defer-api/get-execution",
-        "references/defer-api/cancel-execution"
+        {
+          "group": "v2",
+          "pages": [
+            "references/http-api/v2/execution/list-execution-attemps",
+            "references/http-api/v2/execution/rerun-execution",
+            "references/http-api/v2/execution/reschedule-execution",
+            "references/http-api/v2/execution/cancel-execution",
+            "references/http-api/v2/execution/get-execution-logs",
+            "references/http-api/v2/execution/get-execution-results",
+            "references/http-api/v2/execution/get-execution-arguments",
+            "references/http-api/v2/execution/get-execution",
+            "references/http-api/v2/execution/list-executions",
+            "references/http-api/v2/execution/enqueue-an-execution"
+          ]
+        },
+        {
+          "group": "v1 (deprecated)",
+          "pages": [
+            "references/defer-api/enqueue",
+            "references/defer-api/get-execution",
+            "references/defer-api/cancel-execution"
+          ]
+        }
       ]
     }
   ],
@@ -231,10 +251,9 @@
     "linkedin": "https://www.linkedin.com/company/defer-inc",
     "discord": "https://discord.com/invite/x2v84Vqsk6"
   },
+  "openapi": "/references/http-api/v2/openapi.yml",
   "api": {
-    "playground": {
-      "mode": "hide"
-    }
+    "maintainOrder": true
   },
   "redirects": [
     {
