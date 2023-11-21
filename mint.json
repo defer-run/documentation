@@ -251,7 +251,7 @@
     "linkedin": "https://www.linkedin.com/company/defer-inc",
     "discord": "https://discord.com/invite/x2v84Vqsk6"
   },
-  "openapi": ["./references/http-api/v2/openapi.yaml"],
+  "openapi": ["/references/http-api/v2/openapi.yaml"],
   "api": {
     "maintainOrder": true
   },
