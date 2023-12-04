@@ -1,0 +1,14 @@
+Shopify_API: Shopify API
+Inventory_Translator: Inventory Translator app
+
+Inventory_Translator.a: 1. incoming webhook
+Inventory_Translator -> Shopify_API: 2. fetches missing data {
+  style: {
+    animated: true
+  }
+}
+Inventory_Translator -> Shopify_API: 3. update translations {
+  style: {
+    animated: true
+  }
+}

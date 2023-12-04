@@ -1,0 +1,237 @@
+---
+title: "Build a scalable Shopify App"
+description:
+  "Leverage Defer to integrate with the Shopify API and Shopify Webhooks"
+---
+
+The e-commerce platform Shopify enables merchants to build their stores with no
+code knowledge. It is also extensible: developers can build Shopify apps to
+integrate their own or third-party APIs—for example, payment services, search
+and navigation tools, and product translation apps.
+
+## Shopify apps
+
+[Shopify apps](https://shopify.dev/docs/apps) are standalone Node.js or Ruby
+apps that integrate with Shopify's API. Most Shopify apps rely on
+[Shopify Webhooks](https://shopify.dev/docs/api/admin-rest/2023-10/resources/webhook)
+and other data export APIs.
+
+This is where Defer comes in, to help manage activities such as rate limiting,
+webhooks processing, and other complex background processes. We'll illustrate
+this with an example of a product translation service.
+
+## Use case—Product Translation
+
+Our Shopify app (”Inventory Translator”) is built with
+[Shopify's Node.js template](https://github.com/Shopify/shopify-app-template-node).
+It enables merchants to translate their inventory of products and associated
+[variants](https://help.shopify.com/en/manual/products/variants).
+
+We use two approaches.
+
+### First Approach: Real-time product updates
+
+We use webhooks to receive regular notifications of new or updated products:
+
+![Shopify app architecture](/images/guides/shopify-app/shopify-app.svg)
+
+When notified, our app retrieves from Shopify the product's data and
+[associated meta fields](https://help.shopify.com/en/manual/custom-data/metafields),
+such as product localization information (“us-US, fr-FR”). Our app then
+translates the properties and updates them with the Shopify API:
+
+![Processing Shopify Webhooks](/images/guides/shopify-app/shopify-webhooks.svg)
+
+As the
+[Shopify API is rate-limited](https://shopify.dev/docs/api/usage/rate-limits),
+product updates must be processed in the background to help deal with surges of
+updates and rate limits.
+
+```tsx src/api.ts
+import express from "express";
+import shopify from "./shopifyClient";
+
+import handleProductCreateWebhook from "defer/handleProductCreateWebhook";
+import handleProductUpdateWebhook from "defer/handleProductUpdateWebhook";
+
+shopify.webhooks.addHandlers({
+  PRODUCTS_CREATE: [
+    {
+      deliveryMethod: DeliveryMethod.Http,
+      callbackUrl: "/webhooks",
+      callback: handleProductCreateWebhook,
+    },
+  ],
+  PRODUCTS_UPDATE: [
+    {
+      deliveryMethod: DeliveryMethod.Http,
+      callbackUrl: "/webhooks",
+      callback: handleProductUpdateWebhook,
+    },
+  ],
+});
+
+// Process webhooks with body as text (serializable)
+app.post("/webhooks", express.text({ type: "*/*" }), async (req, res) => {
+  try {
+    await shopify.webhooks.process({
+      rawBody: req.body, // is a string
+      rawRequest: req,
+      rawResponse: res,
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+```
+
+```tsx src/defer/handleProductCreateWebhook.ts
+import { defer } from "@defer/client";
+
+const handleProductCreateWebhook = async (
+  topic: string,
+  shop: string,
+  webhookRequestBody: string,
+  _webhookId: string,
+  _apiVersion: string,
+) => {
+  const session = await getSessionFromStorage(
+    shopify.session.getOfflineId(shop),
+  );
+  const client = new shopify.clients.Graphql({
+    session,
+    apiVersion: ApiVersion.January23,
+  });
+
+  // Then:
+  // 1. fetch the product data and metafields
+  // 2. translates the data
+  // 3. update the product with the Shopify API
+};
+
+export default defer(handleProductCreateWebhook, {
+  retry: 5, // ensure to retry in case of unwanted issues (ex: outage)
+  concurrency: 2, // limit the processing to match Shopify API's rate limit
+});
+```
+
+### Second approach: Process updates every hour with a CRON
+
+Another approach would be to perform product updates every hour. For this, we
+implement a CRON to spawn a
+[Defer Background Function](https://docs.defer.run/get-started/concepts) for
+each shop.
+
+The Defer Background Function triggers a
+[Shopify Bulk Query](https://shopify.dev/docs/api/usage/bulk-operations/queries#bulk-query-overview)
+to export and translate all the product data. The Bulk Query makes an initial
+Shopify API request to ask for the data export, then it pools the returned
+`bulkOperation.id` to get the status of the requested export.
+
+```tsx src/defer/reindexShops.ts
+import { defer } from "@defer/client";
+import translateShopProducts from "./translateShopProducts.ts";
+
+async function processProducts() {
+  shops.forEach((shop) => {
+    await translateShopProducts(shop);
+  });
+}
+
+export default defer.cron(processProducts, "0 * * * *");
+```
+
+```tsx src/defer/translateShopProducts.ts
+import { defer, delay } from '@defer/client'
+
+const REQUEST_PRODUCTS_BULK_QUERY = `mutation {
+  bulkOperationRunQuery(
+   query: """
+    {
+      products {
+        edges {
+          node {
+            id
+            title
+          }
+        }
+      }
+    }
+    """
+  ) {
+    bulkOperation {
+      id
+      status
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+}`
+
+const GET_STATUS_QUERY = `
+{
+  node(id: $id) {
+    ... on BulkOperation {
+      id
+      status
+      errorCode
+      createdAt
+      completedAt
+      objectCount
+      fileSize
+      url
+      partialDataUrl
+    }
+  }
+}
+`
+
+const translateShopProductsAsync =defer(
+	async function translateShopProducts(shop, bulkQueryOperationID) {
+	  const session = await getSessionFromStorage(shopify.session.getOfflineId(shop));
+	  const client = new shopify.clients.Graphql({
+	    session,
+	    apiVersion: ApiVersion.January23,
+	  });
+
+	  // if we did not initiated the bulk export query, trigger it
+	  if (bulkQueryOperationID) {
+			const response = await client.query({
+			  data: {
+			    query: REQUEST_PRODUCTS_BULK_QUERY,
+			  },
+			});
+
+			// check the status of the export in 1min
+			await delayedTranslateShopProductsAsync(shop, response.data.bulkOperationRunQuery.bulkOperation.id)
+	  } else {
+			const response = await client.query({
+			  data: {
+			    query: GET_STATUS_QUERY,
+					variables: { id: bulkQueryOperationID }
+			  },
+			});
+			if (['CREATED', 'RUNNING'].includes(response.data.node.status) {
+				// check the status of the export in 1min
+				await delayedTranslateShopProductsAsync(shop, response.data.bulkOperationRunQuery.bulkOperation.id)
+			} else {
+				// download the `response.data.url` file and process it for translations
+			}
+	  }
+
+	},
+  { concurrency: 10 }
+)
+const delayedTranslateShopProductsAsync = delay(translateShopProductsAsync, '1min')
+
+export default translateShopProductsAsync
+```
+
+`translateShopProducts.ts` is a Recursive Background Function that calls itself
+with the extra `bulkQueryOperationID` argument to track the status of the
+inventory export.
+
+Once the Bulk Export Query is completed, we download the file and process it to
+create translations.

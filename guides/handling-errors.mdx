@@ -1,0 +1,165 @@
+---
+title: "Handle common error causes"
+description: "Leverage the Defer Console filters to narrow down error causes."
+---
+
+Sh#! happens. Errors occur. The network slows down, memory runs out, an external
+resource becomes unavailable. Maybe there's a security issue.
+
+Whatever the case may be, an API must be able to clearly identify the error,
+catch it, and give you the tools to manage the error—ideally, programmatically
+and in real-time.
+
+In this guide, you'll learn how to use Defer to manage the following kinds of
+errors:
+
+- Timeouts
+- External failures
+- Runtime errors
+- Internal errors
+
+### Filter executions for a given Error Reason
+
+You can always go to the Defer Console to quickly identify errors that impact
+your application. The Defer Console's Error Reason filter allows you to analyze
+errors by error type:
+
+<Frame caption="First, select the metadata filter and Error reason">
+  <img src="/images/guides/handling-errors/1.png" alt="Error reason filter" />
+</Frame>
+
+<br />
+
+<Frame caption="Finally, select Error reason">
+  <img src="/images/guides/handling-errors/2.png" alt="Error reason" />
+</Frame>
+
+<br />
+
+<Frame caption="You can now inspect executions for the select Error reason">
+  <img src="/images/guides/handling-errors/3.png" alt="Filtered executions" />
+</Frame>
+
+## How **to handle timeouts**
+
+Unwanted timeouts due to external factors, such as network or 3rd party API
+outages, can compromise your concurrency capabilities. Here are two patterns
+that mitigate timeouts:
+
+### **1 - Timeout control with the `maxDuration` option**
+
+Since
+[`@defer/client@1.6.0`](https://github.com/defer-run/defer.client/releases/tag/v1.6.0),
+you can specify a `maxDuration` to avoid unwanted timeouts.
+
+```tsx
+const importContacts = (companyId: string, contacts: Contact[]) => {
+  //  ...
+};
+
+export default defer(importContacts, {
+  maxDuration: 10, // will timeout after 10secs
+});
+```
+
+### 2 - **Canceling executions**
+
+Since
+[`@defer/client@1.8.0`](https://www.notion.so/Narrow-down-Error-Causes-with-the-Defer-Console-dba3d73ed50d4a55951c763dc10014f0?pvs=21),
+you can also cancel pending executions from the API.
+
+```tsx
+import { cancelExecution } from "@defer/client";
+
+// ...
+
+const { id } = await cancelExecution(executionId);
+
+// ...
+```
+
+**_Note: You can also cancel pending and running executions from the Defer
+Console._**
+
+## How **to handle runtime and external errors**
+
+_External errors_ are linked to 3rd party API outages or network issues, while
+_runtime errors_ range from typos and malformed data to memory issues. Both can
+be mitigated with the `retry` option and by enabling Slack notifications.
+
+Here's an overview of Defer's retry capabilities. For a full discussion with use
+case and notification examples, please read our
+[Deep Dive into Defer's Retry Strategies](https://www.defer.run/blog/function-retry-strategies).
+
+### Standard Retry strategies
+
+Defer defaults to no retry:
+
+```ts
+import { defer } from "@defer/client";
+
+async function myBgFunction() {
+  /* ... */
+}
+
+export default defer(myBgFunction);
+// is equivalent to:
+export default defer(myBgFunction, { retry: false });
+```
+
+Adding `{ retry: true }` to your background function will enable the retry
+option, which defaults up to 13 retries.
+
+You can also control the amount of retries by replacing `true` with a number,
+such as `{ retry: 5 }`.
+
+```ts
+export default defer(myBgFunction, { retry: 5 });
+```
+
+The `retry` combined with `concurrency` is a simple way to deal with API
+rate-limiting.
+
+For example, the below function—running for 500ms—will ensure that the 3rd party
+API will be called only once per second:
+
+```ts
+export default defer(myBgFunction, {
+  retry: 5,
+  concurrency: 2,
+});
+```
+
+The `{ retry: false }`, `{ retry: true }`, `{ retry: 5 }` are shorthands to
+disable or configure retries.
+
+However, Defer offers more precise retry strategies.
+
+### Fine-tuning your retry strategy
+
+Defer comes with a number of
+[retry parameters](https://docs.defer.run/references/defer-client/defer#options).
+The code below shows you the role of each retry option:
+
+```ts
+{
+   // How many retries should we attempt in total?
+   maxAttempts: 3,
+
+   // How close the first retry should be? (in seconds) ?
+   initialInterval: 30,
+
+   // How much randomness should be introduced in the space between retries?
+   randomizationFactor: 0,5,
+
+   // How fast the space between each retry should grow? (exponential back-off)
+   multiplier: 1,5,
+
+   // What should be the max space between 2 retries? (in seconds)
+   maxInterval: 600,
+}
+```
+
+Again, take a look at our
+[retry deep dive](https://www.defer.run/blog/function-retry-strategies) for a
+full discussion and more use cases.

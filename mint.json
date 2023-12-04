@@ -173,6 +173,7 @@
         "guides/workflows-notification-supabase-realtime",
         "guides/audio-files-openai-whisper",
         "guides/stripe-webhooks",
+        "guides/shopify-app",
         "guides/emails-resend",
         "guides/time-sensitive-notifications"
       ]
@@ -187,7 +188,8 @@
         "guides/weekly-recommendations",
         "guides/monorepo",
         "guides/api-rate-limiting",
-        "guides/fifo-queue"
+        "guides/fifo-queue",
+        "guides/handling-errors"
       ]
     },
     {
