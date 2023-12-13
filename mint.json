@@ -189,7 +189,8 @@
         "guides/monorepo",
         "guides/api-rate-limiting",
         "guides/fifo-queue",
-        "guides/handling-errors"
+        "guides/handling-errors",
+        "guides/work-with-files"
       ]
     },
     {

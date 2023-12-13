@@ -1,0 +1,134 @@
+---
+title: "Working with files"
+description: "See how to pass files to your Background functions"
+---
+
+Background Functions must be able to access and process files used by your
+application or API. And yet, being decoupled, the different processes and applications
+must find ways to share files.
+
+Additionally, the file-sharing process must be fail-safe,
+performant, and avoid access problems.
+
+This guide provides **two solutions** for these requirements: external storage
+and passing files as `base64`.
+
+### Defer file processing
+
+You can implement one or both of these approaches using Defer. Defer Functions
+live in your application thanks to
+[standard conventions](https://docs.defer.run/features/basics#conventions). One
+of them is that a Defer Function's arguments and return values must be
+serializable, which is needed for the approach that passes a `base64` argument.
+
+## First approach: encode lightweight files with base64
+
+A good first approach for a single lightweight file (\<10MB) is to serialize it
+with the `base64` algorithm. For this, you can leverage the Node.js
+`Buffer.from()` API.
+
+Here is an example that uploads an image:
+
+```tsx src/api.ts
+import express from "express";
+import fileUpload from "express-fileupload";
+import processFile from "defer/processFile";
+
+const app = express();
+
+app.use(fileUpload());
+
+app.post("/file/upload", (request, response) => {
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send("No files were uploaded.");
+  }
+
+  // The name of the input field (i.e. "uploadedFile") is used to retrieve the uploaded file
+  const file = req.files.uploadedFile;
+  await processFile(Buffer.from(file).toString("base64"));
+});
+
+export default app;
+```
+
+```tsx src/defer/processFile.ts
+import { defer } from "@defer/client";
+
+async function processFile(imageSource: string) {
+  const file = Buffer.from(imageSource.split(";base64,").pop()!, "base64");
+
+  // `file` can now be used with `sharp` for image processing
+}
+
+export default defer(processFile);
+```
+
+## Second approach: store files temporarily on an external storage
+
+Another approach, better suited for handling multiple file types (e.g., images
+and pdf) or large files (>10 MB), is to upload the file to external storage
+(e.g., [AWS S3](https://aws.amazon.com/fr/sdk-for-javascript/) or
+[Vercel Blob](https://vercel.com/docs/storage/vercel-blob)). Then, the Defer
+Function can retrieve the file independently from the external storage when
+executed.
+
+```tsx src/api.ts
+import express from "express";
+import fileUpload from "express-fileupload";
+import processFile from "defer/processFile";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import s3Config from "./s3Config";
+
+const s3Client = new S3Client(s3Config);
+
+const app = express();
+
+app.use(fileUpload());
+
+app.post("/file/upload", (request, response) => {
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send("No files were uploaded.");
+  }
+
+  // The name of the input field (i.e. "uploadedFile") is used to retrieve the uploaded file
+  const file = req.files.uploadedFile;
+
+  const bucketParams = {
+    Bucket: process.env.AWS_S3_BUCKET_NAME,
+    Key: `file-upload-${file.name}`,
+    Body: file,
+  };
+  await s3Client.send(new PutObjectCommand(bucketParams));
+
+  await processFile(`file-upload-${file.name}`);
+});
+
+export default app;
+```
+
+```tsx src/defer/processFile.ts
+import { defer } from "@defer/client";
+import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
+import s3Config from "../s3Config";
+
+const s3Client = new S3Client(s3Config);
+
+async function processFile(fileName: string) {
+  const { Body } = await s3Client.send(new GetObjectCommand(bucketParams));
+  const fileSource = await Body?.transformToByteArray();
+  if (!fileSource) {
+    throw new Error("could not parse image source");
+  }
+  const file = Buffer.from(fileSource.split(";base64,").pop()!, "base64");
+
+  // `file` can now be used as a base64 `Buffer`
+}
+
+export default defer(processFile);
+```
+
+## Summary
+
+You'll want to use the first approach for passing a single file of less than 10
+MB. For larger files or multiple files, you'll be better off with the second
+approach.
