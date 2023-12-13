@@ -140,7 +140,7 @@ import helloWorld from "../../defer/helloWorld";
 const app = express();
 const port = 3000;
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
   // calling a background function triggers an execution on Defer
   await helloWorld("Charly");
 
