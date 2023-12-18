@@ -722,6 +722,12 @@ components:
             - "aborting"
             - "aborted"
             - "discarded"
+        function_name:
+          type: "string"
+          example: "helloWorld"
+        function_id:
+          type: "string"
+          example: "AAcRmz6-ICPpFZv5oK7_9vkIfDPssA"
         created_at:
           type: "string"
           format: "date-time"
