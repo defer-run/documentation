@@ -4,7 +4,7 @@
   "logo": {
     "dark": "/images/logo/dark.svg",
     "light": "/images/logo/light.svg",
-    "href": "https://defer.run"
+    "href": "https://www.defer.run"
   },
   "modeToggle": {
     "default": "dark"
