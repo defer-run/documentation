@@ -8,6 +8,11 @@ description: "Schedule recurring executions"
 Defer allows you to schedule recurring executions. This is useful for example
 when you have a weekly newsletter to send to your users every Monday.
 
+<Tip>
+  Even if your defer function is declared as a cron, you can still enqueue it
+  anytime at your discretion, like a regular defer function.
+</Tip>
+
 You can schedule a recurring execution using the `defer.cron()` function rather
 than `defer`.
 
