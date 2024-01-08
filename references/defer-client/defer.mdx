@@ -122,13 +122,13 @@ export default defer(sayHello, { maxDuration: 3 * 60 * 60 });
   Determines the action to take on next execution in queue when the concurrency limit is already reached for the function (i.e. N executions are running, where N is the concurrency of the function).
 
 {" "}
+
 <Info>Available starting version `1.15.0`</Info>
 
   <Expandable title="Actions">
     {" "}
     <ResponseField name="cancel">
-      When concurrency limit is reached, will cancel the next queued execution(s) as
-      long as concurrency limit is reached.
+      As long as concurrency limit is reached, will cancel the next queued execution(s).
     </ResponseField>
 
     {" "}
