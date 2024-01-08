@@ -70,17 +70,20 @@ export default defer(sayHello, { retry: 10 });
 
 ```ts Custom
 export default defer(sayHello, {
-  maxAttempts: 0,
-  initialInterval: 30,
-  randomizationFactor: 0.5,
-  multiplier: 1.5,
-  maxInterval: 60 * 10,
+  retry: {
+    maxAttempts: 0,
+    initialInterval: 30,
+    randomizationFactor: 0.5,
+    multiplier: 1.5,
+    maxInterval: 60 * 10,
+  },
 });
 ```
 
   </CodeGroup>
 
 </ResponseField>
+
 <ResponseField name="concurrency" type="integer">
   Determines the maximum number of parallel executions that are allowed for this function. There is no limit on concurrency by default.
 
@@ -97,6 +100,7 @@ export default defer(sayHello, { concurrency: 5 });
 
   </CodeGroup>
 </ResponseField>
+
 <ResponseField name="maxDuration" type="integer">
   Determines the maximum allowed execution duration in second for this function, with a default of 30 minutes.
 
@@ -111,5 +115,35 @@ Examples:
 export default defer(sayHello, { maxDuration: 3 * 60 * 60 });
 ```
 
+  </CodeGroup>
+</ResponseField>
+
+<ResponseField name="maxConcurrencyAction" type={`"cancel" | "keep"`}>
+  Determines the action to take on next execution in queue when the concurrency limit is already reached for the function (i.e. N executions are running, where N is the concurrency of the function).
+
+{" "}
+<Info>Available starting version `1.15.0`</Info>
+
+  <Expandable title="Actions">
+    {" "}
+    <ResponseField name="cancel">
+      When concurrency limit is reached, will cancel the next queued execution(s) as
+      long as concurrency limit is reached.
+    </ResponseField>
+
+    {" "}
+    <ResponseField name="keep">
+      Default behavior. When concurrency limit is reached, will keep the next queued
+      execution(s).
+    </ResponseField>
+
+  </Expandable>
+
+Examples:
+
+  <CodeGroup>
+  ```js FIFO cancel
+  export default defer(sayHello, { concurrency: 1, maxConcurrencyAction: 'cancel' });
+  ```
   </CodeGroup>
 </ResponseField>
