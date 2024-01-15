@@ -33,14 +33,15 @@ In a SvelteKit app, we recommend creating a `defer/` folder as follows:
  `-- vite.config.ts
 ```
 
-<Info>
+<Note>
 
-**Notes:**
+**Important**
 
-- The `defer/` folder can be located anywhere in your project
-- The `defer/` folder can contain nested folders
+**All files inside the `defer/` folder must be Background Functions** (wrapped with `defer()`); any shared code (ex: utils) should be moved outside of the `defer/` folder.
 
-</Info>
+The `defer/` folder can be placed anywhere in your project and can contain nested sub-folders.
+
+</Note>
 
 ### Write a background function
 
