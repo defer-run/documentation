@@ -70,14 +70,24 @@ to execute background functions locally; it means that all executions are bound
 to the parent process and will be canceled if the parent process (ex: local
 server) crashed or is stopped.
 
-Given this limitation, the following [`@defer/client`](/references/overview)
-APIs are not supported locally:
+Given this limitation, here is the [`@defer/client`](/references/overview)
+local development support matrix:
 
-- [`delay()`](/references/defer-client/delay): will result in executing the
-  function immediately
-- [`defer.cron()`](/references/defer-client/defer-cron): CRONs do not get
-  scheduled locally. You can still test them like regular defer functions
-  though.
+|Feature|Local support|Details|
+|---|---|---|
+|Immediate execution| ✅ |   |
+|`defer()` - `concurrency` option| ✅ |   |
+|`defer()` - `maxDuration` option| ❌ |   |
+|`defer()` - `retry` option| ❌ |   |
+|`defer()` - `maxConcurrencyAction` option| ❌ |   |
+|`cancelExecution()` | ✅ |   |
+|`awaitResult()` | ✅ |   |
+|`assignOptions()` option| ❌ | *`delay` and `discardAfter` are not supported locally* |
+|`rescheduleExecution()` | ❌ |   |
+|`delay()` - Delayed execution| ❌ | *will result in executing the function immediately* |
+|`defer.cron()`| ❌ | *CRONs do not get scheduled locally. You can still test them like regular defer functions though.* |
+
+
 
 ### Troubleshooting
 
