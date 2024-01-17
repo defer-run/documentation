@@ -22,13 +22,14 @@ export default defer(importContacts, { concurrency: 2, retry: 2 });
 
 **About the `defer/` folder**
 
-**All files inside the `defer/` folder must be Background Functions** (wrapped with `defer()`); any shared code (ex: utils) should be moved outside of the `defer/` folder.
+**All files inside the `defer/` folder must be Background Functions** (wrapped
+with `defer()`); any shared code (ex: utils) should be moved outside of the
+`defer/` folder.
 
-The `defer/` folder can be placed anywhere in your project and can contain nested sub-folders.
+The `defer/` folder can be placed anywhere in your project and can contain
+nested sub-folders.
 
 </Note>
-
-
 
 Enqueuing an execution is achieved by simply calling _Background Functions_
 (_Producer_ pattern):

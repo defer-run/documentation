@@ -28,7 +28,9 @@ With Defer CRON your schedule is defined in UTC.
 
 ## Example
 
-```ts
+<CodeGroup>
+
+```ts CRON
 import { defer } from "@defer/client";
 
 async function sendMondayNewletter() {
@@ -37,6 +39,26 @@ async function sendMondayNewletter() {
 
 export default defer.cron(sendMondayNewletter, "0 0 * * MON");
 ```
+
+```ts Non stackable CRON
+import { defer } from "@defer/client";
+
+async function syncSalesforceContacts() {
+  // business logic here
+}
+
+export default defer.cron(
+  syncSalesforceContacts,
+  "*/10 * * * *",
+  // Ensure only one CRON is running at a time, and cancel those queued during that time
+  {
+    concurrency: 1,
+    maxConcurrencyAction: "cancel",
+  },
+);
+```
+
+</CodeGroup>
 
 <Tip>
 
