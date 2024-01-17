@@ -50,7 +50,8 @@ async function syncSalesforceContacts() {
 export default defer.cron(
   syncSalesforceContacts,
   "*/10 * * * *",
-  // Ensure only one CRON is running at a time, and cancel those queued during that time
+  // Ensure only one CRON is running at a time,
+  // and cancel those queued during that time
   {
     concurrency: 1,
     maxConcurrencyAction: "cancel",
@@ -60,6 +61,7 @@ export default defer.cron(
 
 </CodeGroup>
 
+<br/>
 <Tip>
 
 If you are not an expert of the CRON syntax, no worries! You can use the
