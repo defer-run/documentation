@@ -508,7 +508,7 @@ paths:
                   description: "When set to true it will abort running execution"
                   type: "boolean"
       responses:
-        "102":
+        "202":
           description: "Execution cancelling already in progress"
           content:
             application/json:
@@ -728,6 +728,9 @@ components:
         function_id:
           type: "string"
           example: "AAcRmz6-ICPpFZv5oK7_9vkIfDPssA"
+        scheduled_at:
+          type: "string"
+          format: "date-time"
         created_at:
           type: "string"
           format: "date-time"
