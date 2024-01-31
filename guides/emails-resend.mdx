@@ -65,44 +65,48 @@ export const MonthlyUsageEmail = ({
 }: MonthlyUsageEmailProps) => {
   return (
     <Html>
+      {" "}
       <Head />
-      <Preview>{`Your Defer usage for ${period}`}</Preview>
+      <Preview>{`Your Defer usage for ${period}`}</Preview>{" "}
       <Tailwind>
         <Body className="bg-white my-auto mx-auto font-sans">
           <Container className="border border-solid border-[#eaeaea] rounded my-[40px] mx-auto p-[20px] w-[465px]">
             <Section className="mt-[32px]">
+              {" "}
               <Img
                 src={"https://www.defer.run/github/defer_lightmode.png"}
                 width="250"
                 height="131"
                 alt="Defer"
                 className="my-0 mx-auto"
-              />
+              />{" "}
             </Section>
             <Heading className="text-black text-[24px] font-normal text-center p-0 my-[30px] mx-0">
-              {title}
-            </Heading>
-            <Text className="text-black text-[14px] leading-[24px]">
-              Hello {firstName},
+              {title}{" "}
+            </Heading> <Text className="text-black text-[14px] leading-[24px]">
+              Hello {firstName},{" "}
             </Text>
             <Text className="text-black text-[14px] leading-[24px]">
+              {" "}
               You used {percentPlan}% of your <strong>Pro plan</strong> capacity
-              last month. <br /> You will find the detailed list of executions
-              attached.
+              last month. <br /> You will find the detailed list of executions attached.{" "}
             </Text>
             <Section className="text-center mt-[32px] mb-[32px]">
+              {" "}
               <Button
                 pX={20}
                 pY={12}
-                className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center"
+                className="bg-[#000000] rounded text-white text-[12px] font-semibold
+no-underline text-center"
                 href={"#"}
               >
-                Go to the Console
-              </Button>
+                {" "}
+                Go to the Console{" "}
+              </Button>{" "}
             </Section>
-          </Container>
-        </Body>
-      </Tailwind>
+          </Container>{" "}
+        </Body>{" "}
+      </Tailwind>{" "}
     </Html>
   );
 };
@@ -122,25 +126,25 @@ import MonthlyUsageEmail from "@/emails/MonthlyUsage";
 const resend = new Resend(process.env.RESEND_API_KEY!);
 
 async function sendMonthlyUsage(userId: string) {
-const billingInfo = // ... query DB with `userId`
-const usageInfo = // ... query DB with `userId`
+  const billingInfo = getBillingInfo(); // ... query DB with `userId`
+  const usageInfo = getUsageInfo(); // ... query DB with `userId`
 
-const title = `You performed ${new Intl.NumberFormat().format(
-  usageInfo.executions
-)} executions in ${billingInfo.period}`;
+  const title = `You performed ${new Intl.NumberFormat().format(
+    usageInfo.executions,
+  )} executions in ${billingInfo.period}`;
 
-await resend.emails.send({
-  from: "usage@defer.run",
-  to: "charly@defer.run",
-  subject: title,
-  html: title,
-  react: MonthlyUsageEmail({
-    firstName: billingInfo.user.firstName,
-    title,
-    percentPlan: usageInfo.planPercent,
-    period: billingInfo.period,
-  }),
-});
+  await resend.emails.send({
+    from: "usage@defer.run",
+    to: "charly@defer.run",
+    subject: title,
+    html: title,
+    react: MonthlyUsageEmail({
+      firstName: billingInfo.user.firstName,
+      title,
+      percentPlan: usageInfo.planPercent,
+      period: billingInfo.period,
+    }),
+  });
 }
 ```
 
@@ -203,16 +207,14 @@ as follows:
 ```
 
 <Info>
-
-Resend accepts an `attachments` option taking an array of files (`Buffer` and
-file's name).
-
+  Resend accepts an `attachments` option taking an array of files (`Buffer` and
+  file's name).
 </Info>
 
 ### Transform `sendMonthlyUsage()` into a Background Function
 
 We simply wrap `sendMonthlyUsage()` with
-[`defer()`](/references/defer-client/defer) to transform it into a Defer
+[`defer()`](/references/defer-client/v1/defer) to transform it into a Defer
 [Background Function](/get-started/concepts#background-functions):
 
 ```diff src/defer/sendMonthlyUsage.tsx
@@ -233,8 +235,7 @@ We simply wrap `sendMonthlyUsage()` with
 ```
 
 <Info>
-
-You'll notice that we pass to `defer()` 2 options:
+  You'll notice that we pass to `defer()` 2 options:
 
 - a `concurrency: 10` to match Resend's 10 calls/sec policy
 - a `retry` strategy to recover potential
@@ -251,7 +252,7 @@ September 16th_).
 
 ### Send the usage email on a sliding window schedule
 
-We'll leverage Defer's [`delay()`](/references/defer-client/delay) feature to
+We'll leverage Defer's [`delay()`](/references/defer-client/v1/delay) feature to
 match this criteria:
 
 ```ts src/app/api/startSubscription/route.ts
@@ -268,10 +269,8 @@ export const POST = () => {
 ```
 
 <Info>
-
-Each call to `sendMonthlyUsage()` from the NextJS App will trigger a background
-execution on **Defer**.
-
+  Each call to `sendMonthlyUsage()` from the NextJS App will trigger a
+  background execution on **Defer**.
 </Info>
 
 We need to update `sendMonthlyUsage()` to reschedule itself for the next billing

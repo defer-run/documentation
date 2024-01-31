@@ -200,22 +200,22 @@
     {
       "group": "@defer/client",
       "pages": [
-        "references/defer-client/defer",
-        "references/defer-client/defer-cron",
-        "references/defer-client/assign-options",
-        "references/defer-client/await-result",
-        "references/defer-client/get-execution",
-        "references/defer-client/cancel-execution",
-        "references/defer-client/reschedule-execution",
-        "references/defer-client/errors"
-      ]
-    },
-    {
-      "group": "@defer/client (deprecated helpers)",
-      "pages": [
-        "references/defer-client/delay",
-        "references/defer-client/add-metadata",
-        "references/defer-client/discard-after"
+        {
+          "group": "v1 (deprecated)",
+          "pages": [
+            "references/defer-client/v1/defer",
+            "references/defer-client/v1/defer-cron",
+            "references/defer-client/v1/assign-options",
+            "references/defer-client/v1/delay",
+            "references/defer-client/v1/add-metadata",
+            "references/defer-client/v1/discard-after",
+            "references/defer-client/v1/await-result",
+            "references/defer-client/v1/get-execution",
+            "references/defer-client/v1/cancel-execution",
+            "references/defer-client/v1/reschedule-execution",
+            "references/defer-client/v1/errors"
+          ]
+        }
       ]
     },
     {
@@ -382,6 +382,50 @@
     {
       "source": "/guides/bulk-import-contacts",
       "destination": "/guides/offloading-api"
+    },
+    {
+      "source": "/references/defer-client/add-metadata",
+      "destination": "/references/defer-client/v1/add-metadata"
+    },
+    {
+      "source": "/references/defer-client/assign-options",
+      "destination": "/references/defer-client/v1/assign-options"
+    },
+    {
+      "source": "/references/defer-client/await-result",
+      "destination": "/references/defer-client/v1/await-result"
+    },
+    {
+      "source": "/references/defer-client/cancel-execution",
+      "destination": "/references/defer-client/v1/cancel-execution"
+    },
+    {
+      "source": "/references/defer-client/defer-cron",
+      "destination": "/references/defer-client/v1/defer-cron"
+    },
+    {
+      "source": "/references/defer-client/defer",
+      "destination": "/references/defer-client/v1/defer"
+    },
+    {
+      "source": "/references/defer-client/delay",
+      "destination": "/references/defer-client/v1/delay"
+    },
+    {
+      "source": "/references/defer-client/discard-after",
+      "destination": "/references/defer-client/v1/discard-after"
+    },
+    {
+      "source": "/references/defer-client/errors",
+      "destination": "/references/defer-client/v1/errors"
+    },
+    {
+      "source": "/references/defer-client/get-execution",
+      "destination": "/references/defer-client/v1/get-execution"
+    },
+    {
+      "source": "/references/defer-client/reschedule-execution",
+      "destination": "/references/defer-client/v1/reschedule-execution"
     }
   ]
 }

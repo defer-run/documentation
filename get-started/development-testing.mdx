@@ -73,39 +73,35 @@ server) crashed or is stopped.
 Given this limitation, the following [`@defer/client`](/references/overview)
 APIs are not supported locally:
 
-- [`delay()`](/references/defer-client/delay): will result in executing the
+- [`delay()`](/references/defer-client/v1/delay): will result in executing the
   function immediately
-- [`defer.cron()`](/references/defer-client/defer-cron): CRONs do not get
+- [`defer.cron()`](/references/defer-client/v1/defer-cron): CRONs do not get
   scheduled locally. You can still test them like regular defer functions
   though.
 
 ### Troubleshooting
 
 <AccordionGroup>
+  <Accordion title="How do I debug my background functions without the Defer Console?">
+    Locally, background functions get executed on your machine using the JavaScript
+    Promise API.
 
-<Accordion title="How do I debug my background functions without the Defer Console?">
+    Local executions won't appear on your Defer Dashboard; however, all logs printed
+    by your background functions will show in your local API server terminal.
 
-Locally, background functions get executed on your machine using the JavaScript
-Promise API.
+    Similarly, when executed locally, background functions can benefit from any
+    [Node.js breakpoints](https://nodejs.org/api/debugger.html).
 
-Local executions won't appear on your Defer Dashboard; however, all logs printed
-by your background functions will show in your local API server terminal.
+  </Accordion>
 
-Similarly, when executed locally, background functions can benefit from any
-[Node.js breakpoints](https://nodejs.org/api/debugger.html).
+  <Accordion title="What happens if I set a `DEFER_TOKEN` locally?">
+    We don't recommend doing it.
 
-</Accordion>
+    By setting a `DEFER_TOKEN` locally, all calls to your background functions will
+    run on the Defer Platform.
 
-<Accordion title="What happens if I set a `DEFER_TOKEN` locally?">
+    It will result in executing the version of your background function present on
+    GitHub, not locally, which can be confusing.
 
-We don't recommend doing it.
-
-By setting a `DEFER_TOKEN` locally, all calls to your background functions will
-run on the Defer Platform.
-
-It will result in executing the version of your background function present on
-GitHub, not locally, which can be confusing.
-
-</Accordion>
-
+  </Accordion>
 </AccordionGroup>

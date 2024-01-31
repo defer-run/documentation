@@ -65,11 +65,9 @@ paths:
                       items:
                         type: "string"
                     scheduled_at:
-                      type: "string"
-                      format: "date-time"
+                      $ref: "#/components/schemas/DateTimeInterval"
                     started_at:
-                      type: "string"
-                      format: "date-time"
+                      $ref: "#/components/schemas/DateTimeInterval"
                     executed_by:
                       type: "string"
                     metadata:
@@ -181,14 +179,14 @@ paths:
                   type: "string"
                   format: "date-time"
                 metadata:
-                 type: "object"
+                  type: "object"
             example:
-                function_name: "createUser"
-                function_arguments: [{name: "John Doe", company: "ACME"}, false]
-                metadata:
-                  - user-id: "ab4d517f-64cb-48b2-aaaa-3ba3bec2e437"
+              function_name: "createUser"
+              function_arguments: [{ name: "John Doe", company: "ACME" }, false]
+              metadata:
+                - user-id: "ab4d517f-64cb-48b2-aaaa-3ba3bec2e437"
       responses:
-        "200":
+        "201":
           description: "Successful operation"
           content:
             application/json:
@@ -196,16 +194,16 @@ paths:
                 type: "object"
                 properties:
                   data:
-                    $ref: '#/components/schemas/Execution'
+                    $ref: "#/components/schemas/Execution"
         "400":
           description: "Function not found"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
               example:
                 error: "bad_request"
-                message: "cannot find function \"createUser\""
+                message: 'cannot find function "createUser"'
   /executions/{execution-id}:
     get:
       tags:
@@ -255,7 +253,7 @@ paths:
                     $ref: "#/components/schemas/Error"
               example:
                 error: "not_found"
-                message: "cannot found execution \"AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw\""
+                message: 'cannot find execution "AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw"'
   /executions/{execution-id}/attempts:
     get:
       tags:
@@ -310,11 +308,9 @@ paths:
                       items:
                         type: "string"
                     scheduled_at:
-                      type: "string"
-                      format: "date-time"
+                      $ref: "#/components/schemas/DateTimeInterval"
                     started_at:
-                      type: "string"
-                      format: "date-time"
+                      $ref: "#/components/schemas/DateTimeInterval"
             example:
               page:
                 first: 3
@@ -382,10 +378,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
               example:
                 error: "not_found"
-                message: "cannot found execution \"AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw\""
+                message: 'cannot find execution "AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw"'
   /executions/{execution-id}/reruns:
     post:
       tags:
@@ -416,17 +412,17 @@ paths:
                 type: "object"
                 properties:
                   data:
-                    $ref: '#/components/schemas/Execution'
+                    $ref: "#/components/schemas/Execution"
         "404":
           description: "Execution not found"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
               example:
                 error: "not_found"
-                message: "cannot found execution \"AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw\""    
-    
+                message: 'cannot find execution "AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw"'
+
   /executions/{execution-id}/schedule:
     patch:
       tags:
@@ -460,13 +456,13 @@ paths:
                 type: "object"
                 properties:
                   data:
-                    $ref: '#/components/schemas/Execution'
+                    $ref: "#/components/schemas/Execution"
         "400":
           description: "Invalid path or body parameters"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
               example:
                 error: "bad_request"
                 message: "cannot decode request body"
@@ -475,16 +471,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
               example:
                 error: "not_found"
-                message: "cannot found execution \"AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw\""
+                message: 'cannot find execution "AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw"'
         "409":
           description: "Execution is not reschedulable"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
               example:
                 error: "conflict"
                 message: "cannot resechedule execution in started state"
@@ -528,13 +524,13 @@ paths:
                 type: "object"
                 properties:
                   data:
-                    $ref: '#/components/schemas/Execution'
+                    $ref: "#/components/schemas/Execution"
         "400":
           description: "Invalid path or body parameters"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
               example:
                 error: "bad_request"
                 message: "cannot decode request body"
@@ -543,16 +539,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
               example:
                 error: "not_found"
-                message: "cannot found execution \"AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw\""
+                message: 'cannot find execution "AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw"'
         "409":
           description: "Execution is not cancellable"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: "#/components/schemas/Error"
               example:
                 error: "conflict"
                 message: "cannot cancel execution in failed state"
@@ -603,7 +599,7 @@ paths:
                     $ref: "#/components/schemas/Error"
               example:
                 error: "not_found"
-                message: "cannot found execution \"AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw\""
+                message: 'cannot find execution "AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw"'
   /executions/{execution-id}/results:
     get:
       tags:
@@ -621,6 +617,18 @@ paths:
           required: true
           description: "The execution ID"
       responses:
+        "202":
+          description: "Execution result is not available yet"
+          content:
+            application/json:
+              schema:
+                type: "object"
+        "204":
+          description: "Execution is not available and will never be"
+          content:
+            application/json:
+              schema:
+                type: "object"
         "307":
           description: "Successful operation"
           headers:
@@ -651,7 +659,7 @@ paths:
                     $ref: "#/components/schemas/Error"
               example:
                 error: "not_found"
-                message: "cannot found execution \"AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw\""
+                message: 'cannot find execution "AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw"'
   /executions/{execution-id}/arguments:
     get:
       tags:
@@ -699,7 +707,7 @@ paths:
                     $ref: "#/components/schemas/Error"
               example:
                 error: "not_found"
-                message: "cannot found execution \"AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw\""
+                message: 'cannot find execution "AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw"'
 
 components:
   securitySchemes:
@@ -710,6 +718,15 @@ components:
       type: "http"
       scheme: "bearer"
   schemas:
+    DateTimeInterval:
+      type: "object"
+      properties:
+        from:
+          type: "string"
+          format: "date-time"
+        to:
+          type: "string"
+          format: "date-time"
     Execution:
       type: "object"
       properties:
