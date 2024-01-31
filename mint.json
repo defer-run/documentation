@@ -201,6 +201,49 @@
       "group": "@defer/client",
       "pages": [
         {
+          "group": "v2",
+          "pages": [
+            {
+              "group": "Interfaces",
+              "pages": [
+                "references/defer-client/v2/interfaces/DeferredFunction",
+                "references/defer-client/v2/interfaces/DeferredFunctionConfiguration",
+                "references/defer-client/v2/interfaces/ExecutionMetadata",
+                "references/defer-client/v2/interfaces/ExecutionOptions",
+                "references/defer-client/v2/interfaces/Manifest",
+                "references/defer-client/v2/interfaces/RetryPolicy"
+              ]
+            },
+            {
+              "group": "Type Aliases",
+              "pages": [
+                "references/defer-client/v2/type-aliases/DeferrableFunction",
+                "references/defer-client/v2/type-aliases/NextRouteString"
+              ]
+            },
+            {
+              "group": "Functions",
+              "pages": [
+                "references/defer-client/v2/functions/addMetadata",
+                "references/defer-client/v2/functions/assignOptions",
+                "references/defer-client/v2/functions/awaitResult",
+                "references/defer-client/v2/functions/cancelExecution",
+                "references/defer-client/v2/functions/defer",
+                "references/defer-client/v2/functions/deferEnabled",
+                "references/defer-client/v2/functions/delay",
+                "references/defer-client/v2/functions/discardAfter",
+                "references/defer-client/v2/functions/getExecution",
+                "references/defer-client/v2/functions/getExecutionResult",
+                "references/defer-client/v2/functions/getExecutionTries",
+                "references/defer-client/v2/functions/listExecutionAttempts",
+                "references/defer-client/v2/functions/listExecutions",
+                "references/defer-client/v2/functions/reRunExecution",
+                "references/defer-client/v2/functions/rescheduleExecution"
+              ]
+            }
+          ]
+        },
+        {
           "group": "v1 (deprecated)",
           "pages": [
             "references/defer-client/v1/defer",

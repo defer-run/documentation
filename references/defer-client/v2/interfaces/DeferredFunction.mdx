@@ -1,0 +1,67 @@
+[@defer/client](../README.md) / [Exports](../modules.md) / DeferredFunction
+
+# Interface: DeferredFunction\<F\>
+
+## Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `F` | extends [`DeferableFunction`](../modules.md#deferablefunction) |
+
+## Callable
+
+### DeferredFunction
+
+▸ **DeferredFunction**(`...args`): `Promise`\<`Execution`\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `...args` | `Parameters`\<`F`\> |
+
+#### Returns
+
+`Promise`\<`Execution`\>
+
+#### Defined in
+
+[index.ts:82](https://github.com/defer-run/defer.client/blob/d04a692/src/index.ts#L82)
+
+## Table of contents
+
+### Properties
+
+- [\_\_execOptions](DeferredFunction.md#__execoptions)
+- [\_\_fn](DeferredFunction.md#__fn)
+- [\_\_metadata](DeferredFunction.md#__metadata)
+
+## Properties
+
+### \_\_execOptions
+
+• `Optional` **\_\_execOptions**: [`ExecutionOptions`](ExecutionOptions.md)
+
+#### Defined in
+
+[index.ts:85](https://github.com/defer-run/defer.client/blob/d04a692/src/index.ts#L85)
+
+___
+
+### \_\_fn
+
+• **\_\_fn**: `F`
+
+#### Defined in
+
+[index.ts:84](https://github.com/defer-run/defer.client/blob/d04a692/src/index.ts#L84)
+
+___
+
+### \_\_metadata
+
+• **\_\_metadata**: [`Manifest`](Manifest.md)
+
+#### Defined in
+
+[index.ts:83](https://github.com/defer-run/defer.client/blob/d04a692/src/index.ts#L83)
