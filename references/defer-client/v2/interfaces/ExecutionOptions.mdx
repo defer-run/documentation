@@ -1,41 +1,29 @@
-[@defer/client](../README.md) / [Exports](../modules.md) / ExecutionOptions
-
-# Interface: ExecutionOptions
-
-## Table of contents
-
-### Properties
-
-- [delay](ExecutionOptions.md#delay)
-- [discardAfter](ExecutionOptions.md#discardafter)
-- [metadata](ExecutionOptions.md#metadata)
+---
+title: "ExecutionOptions"
+---
 
 ## Properties
 
-### delay
+<ResponseField
+  name="delay"
+  type="${string}nanosecond | ${string}ns |
+${string}µs | ${string}μs |
+${string}us | ${string}microsecond |
+${string}millisecond | ${string}ms |
+${string}second | ${string}sec |
+${string}s | ${string}minute | ${string}min | ${string}m
+| ${string}hour | ${string}hr |
+${string}h | ${string}day | ${string}d | ${string}week |
+${string}wk | ${string}w | ${string}month | ${string}b |
+${string}year | ${string}yr | ${string}y | Date"
+/>
 
-• `Optional` **delay**: \`$\{string}nanosecond\` \| \`$\{string}ns\` \| \`$\{string}µs\` \| \`$\{string}μs\` \| \`$\{string}us\` \| \`$\{string}microsecond\` \| \`$\{string}millisecond\` \| \`$\{string}ms\` \| \`$\{string}second\` \| \`$\{string}sec\` \| \`$\{string}s\` \| \`$\{string}minute\` \| \`$\{string}min\` \| \`$\{string}m\` \| \`$\{string}hour\` \| \`$\{string}hr\` \| \`$\{string}h\` \| \`$\{string}day\` \| \`$\{string}d\` \| \`$\{string}week\` \| \`$\{string}wk\` \| \`$\{string}w\` \| \`$\{string}month\` \| \`$\{string}b\` \| \`$\{string}year\` \| \`$\{string}yr\` \| \`$\{string}y\` \| `Date`
+<ResponseField
+  name="discardAfter"
+  type="${string}nanosecond | ${string}ns | ${string}µs | ${string}μs | ${string}us | ${string}microsecond | ${string}millisecond | ${string}ms | ${string}second | ${string}sec | ${string}s | ${string}minute | ${string}min | ${string}m | ${string}hour | ${string}hr | ${string}h | ${string}day | ${string}d | ${string}week | ${string}wk | ${string}w | ${string}month | ${string}b | ${string}year | ${string}yr | ${string}y | Date"
+/>
 
-#### Defined in
-
-[index.ts:76](https://github.com/defer-run/defer.client/blob/d04a692/src/index.ts#L76)
-
-___
-
-### discardAfter
-
-• `Optional` **discardAfter**: \`$\{string}nanosecond\` \| \`$\{string}ns\` \| \`$\{string}µs\` \| \`$\{string}μs\` \| \`$\{string}us\` \| \`$\{string}microsecond\` \| \`$\{string}millisecond\` \| \`$\{string}ms\` \| \`$\{string}second\` \| \`$\{string}sec\` \| \`$\{string}s\` \| \`$\{string}minute\` \| \`$\{string}min\` \| \`$\{string}m\` \| \`$\{string}hour\` \| \`$\{string}hr\` \| \`$\{string}h\` \| \`$\{string}day\` \| \`$\{string}d\` \| \`$\{string}week\` \| \`$\{string}wk\` \| \`$\{string}w\` \| \`$\{string}month\` \| \`$\{string}b\` \| \`$\{string}year\` \| \`$\{string}yr\` \| \`$\{string}y\` \| `Date`
-
-#### Defined in
-
-[index.ts:78](https://github.com/defer-run/defer.client/blob/d04a692/src/index.ts#L78)
-
-___
-
-### metadata
-
-• `Optional` **metadata**: [`ExecutionMetadata`](ExecutionMetadata.md)
-
-#### Defined in
-
-[index.ts:77](https://github.com/defer-run/defer.client/blob/d04a692/src/index.ts#L77)
+<ResponseField name="metadata" type="ExecutionMetadata">
+  See
+  [ExecutionMetadata](/references/defer-client/v2/interfaces/ExecutionMetadata)
+</ResponseField>

@@ -1,67 +1,34 @@
-[@defer/client](../README.md) / [Exports](../modules.md) / DeferredFunction
-
-# Interface: DeferredFunction\<F\>
+---
+title: "DeferredFunction<F>"
+---
 
 ## Type parameters
 
-| Name | Type |
-| :------ | :------ |
-| `F` | extends [`DeferableFunction`](../modules.md#deferablefunction) |
+<ResponseField name="F" type="extends DeferableFunction">
+  See
+  [DeferableFunction](/references/defer-client/v2/type-aliases/DeferrableFunction)
+</ResponseField>
 
-## Callable
+## Interface
 
-### DeferredFunction
+<ResponseField name="DeferredFunction" type="(...args): Promise<Execution>" />
 
-▸ **DeferredFunction**(`...args`): `Promise`\<`Execution`\>
+### Callable
 
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `...args` | `Parameters`\<`F`\> |
-
-#### Returns
-
-`Promise`\<`Execution`\>
-
-#### Defined in
-
-[index.ts:82](https://github.com/defer-run/defer.client/blob/d04a692/src/index.ts#L82)
-
-## Table of contents
+<ResponseField name="parameters">
+  <ResponseField name="...args" type="Parameters<F>" />
+</ResponseField>
+<ResponseField name="returns" type="Promise<Execution>">
+  // TODO add link to Execution type
+</ResponseField>
 
 ### Properties
 
-- [\_\_execOptions](DeferredFunction.md#__execoptions)
-- [\_\_fn](DeferredFunction.md#__fn)
-- [\_\_metadata](DeferredFunction.md#__metadata)
-
-## Properties
-
-### \_\_execOptions
-
-• `Optional` **\_\_execOptions**: [`ExecutionOptions`](ExecutionOptions.md)
-
-#### Defined in
-
-[index.ts:85](https://github.com/defer-run/defer.client/blob/d04a692/src/index.ts#L85)
-
-___
-
-### \_\_fn
-
-• **\_\_fn**: `F`
-
-#### Defined in
-
-[index.ts:84](https://github.com/defer-run/defer.client/blob/d04a692/src/index.ts#L84)
-
-___
-
-### \_\_metadata
-
-• **\_\_metadata**: [`Manifest`](Manifest.md)
-
-#### Defined in
-
-[index.ts:83](https://github.com/defer-run/defer.client/blob/d04a692/src/index.ts#L83)
+<ResponseField name="__execOptions" type="ExecutionOptions">
+  See
+  [ExecutionOptions](/references/defer-client/v2/interfaces/ExecutionOptions)
+</ResponseField>
+<ResponseField name="__fn" type="F" />
+<ResponseField name="__metadata" type="Manifest">
+  See [Manifest](/references/defer-client/v2/interfaces/Manifest)
+</ResponseField>

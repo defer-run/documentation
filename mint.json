@@ -217,8 +217,7 @@
             {
               "group": "Type Aliases",
               "pages": [
-                "references/defer-client/v2/type-aliases/DeferrableFunction",
-                "references/defer-client/v2/type-aliases/NextRouteString"
+                "references/defer-client/v2/type-aliases/DeferrableFunction"
               ]
             },
             {
