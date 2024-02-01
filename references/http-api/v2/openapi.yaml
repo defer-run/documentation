@@ -253,13 +253,14 @@ paths:
                     $ref: "#/components/schemas/Error"
               example:
                 error: "not_found"
-                message: 'cannot find execution "AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw"'
+                message:
+                  'cannot find execution "AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw"'
   /executions/{execution-id}/attempts:
     get:
       tags:
         - "execution"
-      summary: "List execution attemps"
-      operationId: "listExecutionAttemps"
+      summary: "List execution attempts"
+      operationId: "listExecutionAttempts"
       security:
         - bearerAuth: []
         - basicAuth: []
@@ -381,7 +382,8 @@ paths:
                 $ref: "#/components/schemas/Error"
               example:
                 error: "not_found"
-                message: 'cannot find execution "AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw"'
+                message:
+                  'cannot find execution "AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw"'
   /executions/{execution-id}/reruns:
     post:
       tags:
@@ -421,7 +423,8 @@ paths:
                 $ref: "#/components/schemas/Error"
               example:
                 error: "not_found"
-                message: 'cannot find execution "AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw"'
+                message:
+                  'cannot find execution "AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw"'
 
   /executions/{execution-id}/schedule:
     patch:
@@ -474,7 +477,8 @@ paths:
                 $ref: "#/components/schemas/Error"
               example:
                 error: "not_found"
-                message: 'cannot find execution "AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw"'
+                message:
+                  'cannot find execution "AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw"'
         "409":
           description: "Execution is not reschedulable"
           content:
@@ -507,7 +511,8 @@ paths:
               type: "object"
               properties:
                 force:
-                  description: "When set to true it will abort running execution"
+                  description:
+                    "When set to true it will abort running execution"
                   type: "boolean"
       responses:
         "202":
@@ -542,7 +547,8 @@ paths:
                 $ref: "#/components/schemas/Error"
               example:
                 error: "not_found"
-                message: 'cannot find execution "AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw"'
+                message:
+                  'cannot find execution "AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw"'
         "409":
           description: "Execution is not cancellable"
           content:
@@ -599,7 +605,8 @@ paths:
                     $ref: "#/components/schemas/Error"
               example:
                 error: "not_found"
-                message: 'cannot find execution "AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw"'
+                message:
+                  'cannot find execution "AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw"'
   /executions/{execution-id}/results:
     get:
       tags:
@@ -659,7 +666,8 @@ paths:
                     $ref: "#/components/schemas/Error"
               example:
                 error: "not_found"
-                message: 'cannot find execution "AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw"'
+                message:
+                  'cannot find execution "AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw"'
   /executions/{execution-id}/arguments:
     get:
       tags:
@@ -707,7 +715,8 @@ paths:
                     $ref: "#/components/schemas/Error"
               example:
                 error: "not_found"
-                message: 'cannot find execution "AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw"'
+                message:
+                  'cannot find execution "AAYR5PXzTvs24Uf-RZPCiDNdxjl1rw"'
 
 components:
   securitySchemes:
