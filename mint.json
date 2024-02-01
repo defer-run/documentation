@@ -205,6 +205,7 @@
           "pages": [
             {
               "group": "Interfaces",
+              "icon": "brackets-curly",
               "pages": [
                 "references/defer-client/v2/interfaces/DeferredFunction",
                 "references/defer-client/v2/interfaces/DeferredFunctionConfiguration",
@@ -216,12 +217,14 @@
             },
             {
               "group": "Type Aliases",
+              "icon": "t",
               "pages": [
                 "references/defer-client/v2/type-aliases/DeferrableFunction"
               ]
             },
             {
               "group": "Functions",
+              "icon": "function",
               "pages": [
                 "references/defer-client/v2/functions/addMetadata",
                 "references/defer-client/v2/functions/assignOptions",

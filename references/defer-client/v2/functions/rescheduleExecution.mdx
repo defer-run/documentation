@@ -1,0 +1,27 @@
+---
+title: "rescheduleExecution"
+description: "Reschedule an execution"
+---
+
+## Signature
+
+<ResponseField
+  name="rescheduleExecution"
+  type="(id, value?): Promise<RescheduleExecutionResult>"
+>
+  // TODO add link to RescheduleExecutionResult
+</ResponseField>
+
+## Function
+
+<ResponseField name="parameters">
+  <ResponseField name="id" type="string" />
+  <ResponseField
+    name="value"
+    type="${string}nanosecond | ${string}ns | ${string}µs | ${string}μs | ${string}us | ${string}microsecond | ${string}millisecond | ${string}ms | ${string}second | ${string}sec | ${string}s | ${string}minute | ${string}min | ${string}m | ${string}hour | ${string}hr | ${string}h | ${string}day | ${string}d | ${string}week | ${string}wk | ${string}w | ${string}month | ${string}b | ${string}year | ${string}yr | ${string}y | Date"
+  />
+</ResponseField>
+
+<ResponseField name="returns" type="Promise<RescheduleExecutionResult>">
+  // TODO add link to RescheduleExecutionResult
+</ResponseField>

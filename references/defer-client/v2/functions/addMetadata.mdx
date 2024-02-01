@@ -1,0 +1,41 @@
+---
+title: "addMetadata"
+description: "Add metadata to an execution"
+---
+
+<Warning>
+  **Deprecated**: prefer
+  [`assignOptions`](/references/defer-client/v2/functions/assignOptions)
+</Warning>
+
+## Signature
+
+<ResponseField name="addMetadata" type="<F>(fn, metadata): DeferredFunction<F>">
+  See
+  [DeferredFunction](/references/defer-client/v2/interfaces/DeferredFunction)
+</ResponseField>
+
+## Type parameters
+
+<ResponseField name="F" type="extends DeferableFunction">
+  See
+  [DeferableFunction](/references/defer-client/v2/type-aliases/DeferrableFunction)
+</ResponseField>
+
+## Function
+
+<ResponseField name="parameters">
+  <ResponseField name="fn" type="DeferredFunction<F>">
+    See
+    [DeferredFunction](/references/defer-client/v2/interfaces/DeferredFunction)
+  </ResponseField>
+  <ResponseField name="metadata" type="ExecutionMetadata<F>">
+    See
+    [ExecutionMetadata](/references/defer-client/v2/interfaces/ExecutionMetadata)
+  </ResponseField>
+</ResponseField>
+
+<ResponseField name="returns" type="DeferredFunction<F>">
+  See
+  [DeferredFunction](/references/defer-client/v2/interfaces/DeferredFunction)
+</ResponseField>

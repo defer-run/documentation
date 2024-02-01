@@ -1,0 +1,41 @@
+---
+title: "discardAfter"
+description: "Discard an execution if not started after a given interval"
+---
+
+<Warning>
+  **Deprecated**: prefer
+  [`assignOptions`](/references/defer-client/v2/functions/assignOptions)
+</Warning>
+
+## Signature
+
+<ResponseField name="discardAfter" type="<F>(fn, value): DeferredFunction<F>">
+  See
+  [DeferredFunction](/references/defer-client/v2/interfaces/DeferredFunction)
+</ResponseField>
+
+## Type parameters
+
+<ResponseField name="F" type="extends DeferableFunction">
+  See
+  [DeferableFunction](/references/defer-client/v2/type-aliases/DeferrableFunction)
+</ResponseField>
+
+## Function
+
+<ResponseField name="parameters">
+  <ResponseField name="fn" type="DeferredFunction<F>">
+    See
+    [DeferredFunction](/references/defer-client/v2/interfaces/DeferredFunction)
+  </ResponseField>
+  <ResponseField
+    name="value"
+    type="${string}nanosecond | ${string}ns | ${string}µs | ${string}μs | ${string}us | ${string}microsecond | ${string}millisecond | ${string}ms | ${string}second | ${string}sec | ${string}s | ${string}minute | ${string}min | ${string}m | ${string}hour | ${string}hr | ${string}h | ${string}day | ${string}d | ${string}week | ${string}wk | ${string}w | ${string}month | ${string}b | ${string}year | ${string}yr | ${string}y | Date"
+  />
+</ResponseField>
+
+<ResponseField name="returns" type="DeferredFunction<F>">
+  See
+  [DeferredFunction](/references/defer-client/v2/interfaces/DeferredFunction)
+</ResponseField>

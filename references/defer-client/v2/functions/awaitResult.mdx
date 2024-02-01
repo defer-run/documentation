@@ -1,0 +1,38 @@
+---
+title: "awaitResult"
+description: "Enqueue and wait for an execution result"
+---
+
+## Signature
+
+<ResponseField
+  name="awaitResult"
+  type="<F>(fn): (...args: Parameters<F>) => Promise<Awaited<F>>"
+/>
+
+## Type parameters
+
+<ResponseField name="F" type="extends DeferableFunction">
+  See
+  [DeferableFunction](/references/defer-client/v2/type-aliases/DeferrableFunction)
+</ResponseField>
+
+## Function
+
+<ResponseField name="parameters">
+  <ResponseField name="fn" type="DeferredFunction<F>">
+    See
+    [DeferredFunction](/references/defer-client/v2/interfaces/DeferredFunction)
+  </ResponseField>
+</ResponseField>
+
+<ResponseField name="returns" type="(...args): Promise<Awaited<F>>">
+  <Expandable title="(...args): Promise<Awaited<F>>">
+    <ResponseField name="parameters">
+      <ResponseField name="...args" type="Parameters<F>" />
+    </ResponseField>
+    <ResponseField name="returns" type="Promise<Awaited<F>>">
+      <ResponseField name="...args" type="Parameters<F>" />
+    </ResponseField>
+  </Expandable>
+</ResponseField>
