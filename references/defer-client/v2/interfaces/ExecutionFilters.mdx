@@ -1,0 +1,22 @@
+---
+title: "ExecutionFilters"
+---
+
+## Properties
+
+<ResponseField name="errorCodes" type="ExecutionErrorCode[]">
+  See
+  [ExecutionErrorCode](/references/defer-client/v2/type-aliases/ExecutionErrorCode)
+</ResponseField>
+<ResponseField name="executedBy" type="string" />
+<ResponseField name="functionIds" type="string[]" />
+<ResponseField name="metadata" type="{ key: string; values: string[] }[]" />
+<ResponseField name="scheduledAt" type="DateInterval">
+  See [DateInterval](/references/defer-client/v2/interfaces/DateInterval)
+</ResponseField>
+<ResponseField name="startedAt" type="DateInterval">
+  See [DateInterval](/references/defer-client/v2/interfaces/DateInterval)
+</ResponseField>
+<ResponseField name="states" type="ExecutionState[]">
+  See [ExecutionState](/references/defer-client/v2/type-aliases/ExecutionState)
+</ResponseField>
