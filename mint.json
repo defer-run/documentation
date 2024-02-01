@@ -207,11 +207,17 @@
               "group": "Interfaces",
               "icon": "brackets-curly",
               "pages": [
+                "references/defer-client/v2/interfaces/DateInterval",
                 "references/defer-client/v2/interfaces/DeferredFunction",
                 "references/defer-client/v2/interfaces/DeferredFunctionConfiguration",
+                "references/defer-client/v2/interfaces/Execution",
+                "references/defer-client/v2/interfaces/ExecutionFilters",
                 "references/defer-client/v2/interfaces/ExecutionMetadata",
                 "references/defer-client/v2/interfaces/ExecutionOptions",
                 "references/defer-client/v2/interfaces/Manifest",
+                "references/defer-client/v2/interfaces/PageInfo",
+                "references/defer-client/v2/interfaces/PageRequest",
+                "references/defer-client/v2/interfaces/PageResult",
                 "references/defer-client/v2/interfaces/RetryPolicy"
               ]
             },
@@ -219,7 +225,15 @@
               "group": "Type Aliases",
               "icon": "t",
               "pages": [
-                "references/defer-client/v2/type-aliases/DeferrableFunction"
+                "references/defer-client/v2/type-aliases/CancelExecutionResult",
+                "references/defer-client/v2/type-aliases/DeferrableFunction",
+                "references/defer-client/v2/type-aliases/ExecutionErrorCode",
+                "references/defer-client/v2/type-aliases/ExecutionState",
+                "references/defer-client/v2/type-aliases/GetExecutionResult",
+                "references/defer-client/v2/type-aliases/ListExecutionAttemptsResult",
+                "references/defer-client/v2/type-aliases/ListExecutionsResult",
+                "references/defer-client/v2/type-aliases/ReRunExecutionResult",
+                "references/defer-client/v2/type-aliases/RescheduleExecutionResult"
               ]
             },
             {
