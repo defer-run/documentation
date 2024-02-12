@@ -72,19 +72,19 @@ server) crashed or is stopped.
 
 `@defer/client` supports the following feature locally:
 
-| Feature                                                                                                           | Local support | Details                                                                                            |
-| ----------------------------------------------------------------------------------------------------------------- | ------------- | -------------------------------------------------------------------------------------------------- |
-| Immediate execution                                                                                               | ✅            |                                                                                                    |
-| `defer()` - [`concurrency` option](/references/defer-client/v2/interfaces/DeferredFunctionConfiguration)          | ✅            |                                                                                                    |
-| `defer()` - [`maxDuration` option](/references/defer-client/v2/interfaces/DeferredFunctionConfiguration)          | ❌            |                                                                                                    |
-| `defer()` - [`retry` option](/references/defer-client/v2/interfaces/DeferredFunctionConfiguration)                | ❌            |                                                                                                    |
-| `defer()` - [`maxConcurrencyAction` option](/references/defer-client/v2/interfaces/DeferredFunctionConfiguration) | ❌            |                                                                                                    |
-| [`cancelExecution()`](/references/defer-client/v2/functions/cancelExecution)                                      | ✅            |                                                                                                    |
-| [`awaitResult()`](/references/defer-client/v2/functions/awaitResult)                                              | ✅            |                                                                                                    |
-| [`assignOptions()` options](/references/defer-client/v2/interfaces/ExecutionOptions)                              | ✅            | _Long delays might likely result in cancellation upon your local server termination_               |
-| [`rescheduleExecution()`](/references/defer-client/v2/functions/rescheduleExecution)                              | ✅            |                                                                                                    |
-| [`delay()`](/references/defer-client/v2/functions/delay) - Delayed execution                                      | ✅            | _Long delays might likely result in cancellation upon your local server termination_               |
-| [`defer.cron()`](/features/cron)                                                                                  | ❌            | _CRONs do not get scheduled locally. You can still test them like regular defer functions though._ |
+| Feature                                                                                                           | Local support | Details                                                                                              |
+| ----------------------------------------------------------------------------------------------------------------- | ------------- | ---------------------------------------------------------------------------------------------------- |
+| Immediate execution                                                                                               | ✅            |                                                                                                      |
+| `defer()` - [`concurrency` option](/references/defer-client/v2/interfaces/DeferredFunctionConfiguration)          | ✅            |                                                                                                      |
+| `defer()` - [`maxDuration` option](/references/defer-client/v2/interfaces/DeferredFunctionConfiguration)          | ❌            |                                                                                                      |
+| `defer()` - [`retry` option](/references/defer-client/v2/interfaces/DeferredFunctionConfiguration)                | ❌            |                                                                                                      |
+| `defer()` - [`maxConcurrencyAction` option](/references/defer-client/v2/interfaces/DeferredFunctionConfiguration) | ❌            |                                                                                                      |
+| [`cancelExecution()`](/references/defer-client/v2/functions/cancelExecution)                                      | ✅            | The state of the execution is updated to `canceled` but the execution will continue upon completion. |
+| [`awaitResult()`](/references/defer-client/v2/functions/awaitResult)                                              | ✅            |                                                                                                      |
+| [`assignOptions()` options](/references/defer-client/v2/interfaces/ExecutionOptions)                              | ✅            | _Long delays might likely result in cancellation upon your local server termination_                 |
+| [`rescheduleExecution()`](/references/defer-client/v2/functions/rescheduleExecution)                              | ✅            |                                                                                                      |
+| [`delay()`](/references/defer-client/v2/functions/delay) - Delayed execution                                      | ✅            | _Long delays might likely result in cancellation upon your local server termination_                 |
+| [`defer.cron()`](/features/cron)                                                                                  | ❌            | _CRONs do not get scheduled locally. You can still test them like regular defer functions though._   |
 
 ### Troubleshooting
 
