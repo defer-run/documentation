@@ -6,7 +6,9 @@ title: "DeferredFunctionConfiguration"
 
 <ResponseField name="concurrency" type="number" />
 <ResponseField name="maxConcurrencyAction" type="keep | cancel" />
-<ResponseField name="maxDuration" type="number" />
+<ResponseField name="maxDuration" type="number">
+  Number of seconds
+</ResponseField>
 <ResponseField name="retry" type="number | boolean | Partial<RetryPolicy>">
   See [RetryPolicy](/references/defer-client/v2/interfaces/RetryPolicy)
 </ResponseField>
