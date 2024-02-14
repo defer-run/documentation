@@ -1,8 +1,17 @@
 ---
 title: "How to handle Stripe webhooks"
 description:
-  "Leverage Defer to receive Stripe webhooks in your Node.js or Bun API"
+  "Leverage Defer to receive Stripe webhooks in your Next.js application"
 ---
+
+<Info>
+
+**Next.js template available**
+
+This guide comes with a one-click deployable demo
+[available on GitHub](https://github.com/defer-run/defer.demo/tree/master/nextjs/stripe-template#readme).
+
+</Info>
 
 When adding payment capabilities to a web application, users expect a fast,
 reliable, and simple bank confirmation process. However, there is more to
@@ -45,72 +54,84 @@ First, you need to set up a Stripe client in your API. Then, build a Stripe
 event from the received webhooks (with `stripeClient.webhooks.constructEvent()`)
 and forward it for background processing by calling `handleStripeWebhookFn()`.
 
-```tsx src/app.js
-import Stripe from "stripe";
-import express from "express";
-import { assignOptions, delay } from "@defer/client";
+```tsx app/api/webhooks/route.ts
+import type { Stripe } from "stripe";
 
-import handleStripeWebhookFn from "./defer/handleStripeWebhook.js";
+import { NextResponse } from "next/server";
+import { assignOptions } from "@defer/client";
 
-const app = express();
-const stripe = new Stripe(process.env.STRIPE_PRIVATE_API_KEY);
+import { stripe } from "@/lib/stripe";
+import handleStripeEvent from "defer/handleStripeEvent";
 
-app.post(
-  "/webhook",
-  express.raw({ type: "application/json" }),
-  (request, response) => {
-    let event = request.body;
+export async function POST(req: Request) {
+  let event: Stripe.Event;
 
-    const signature = request.headers["stripe-signature"];
+  try {
+    event = stripe.webhooks.constructEvent(
+      await (await req.blob()).text(),
+      req.headers.get("stripe-signature") as string,
+      process.env.STRIPE_WEBHOOK_SECRET as string,
+    );
+  } catch (err) {
+    const errorMessage = err instanceof Error ? err.message : "Unknown error";
+    // On error, log and return the error message.
+    if (err! instanceof Error) console.log(err);
+    console.log(`❌ Error message: ${errorMessage}`);
+    return NextResponse.json(
+      { message: `Webhook Error: ${errorMessage}` },
+      { status: 400 },
+    );
+  }
+
+  // Successfully constructed event.
+  console.log("✅ Success:", event.id);
+
+  const permittedEvents: string[] = [
+    "checkout.session.completed",
+    "payment_intent.succeeded",
+    "payment_intent.payment_failed",
+  ];
+
+  if (permittedEvents.includes(event.type)) {
     try {
-      event = stripeClient.webhooks.constructEvent(
-        request.body,
-        signature,
-        process.env.STRIPE_WEBHOOK_ENDPOINT_SECRET,
-      );
-    } catch (err) {
-      console.error("cannot verify stripe webhook signature:", err.message);
-      return response.sendStatus(400);
-    }
-
-    const handleStripeWebhook = assignOptions(handleStripeWebhookFn, {
-      // process webhooks in the right order
-      delay: event.created + 60 * 10,
-      // add metadata for the the Defer Console
-      metadata: {
-        livemode: event.livemode,
-        type: event.type,
-        apiVersion: event.api_version,
-      },
-    });
-
-    handleStripeWebhook(event.id)
-      .then((executionID) => {
-        response.sendStatus(
-          200,
-          "application/json",
-          JSON.stringify({ executionID }),
-        );
-      })
-      .catch((err) => {
-        response.sendStatus(400);
+      // attach some metadata to the execution
+      //  for better filtering in the Defer Console
+      const handleStripeEventWithMetadata = assignOptions(handleStripeEvent, {
+        metadata: {
+          livemode: event.livemode ? "true" : "false",
+          type: event.type,
+          apiVersion: event.api_version || "",
+        },
       });
-  },
-);
 
-export default app;
+      // process the event in the background
+      await handleStripeEventWithMetadata(event.id);
+    } catch (error) {
+      console.error(error);
+      return NextResponse.json(
+        { message: "Webhook handler failed" },
+        { status: 500 },
+      );
+    }
+  }
+  // Return a response to acknowledge receipt of the event.
+  return NextResponse.json({ message: "Received" }, { status: 200 });
+}
 ```
 
 The `handleStripeEvent()` Defer function retrieves the Stripe event using the
 Stripe client and performs the associated action, for example, updating a
 customer record.
 
-```tsx src/defer/handleStripeWebhook.js
+```tsx src/defer/handleStripeEvent.ts
 import { defer } from "@defer/client";
 import Stripe from "stripe";
 
-async function handleStripeEvent(eventID) {
-  const stripe = new Stripe(process.env.STRIPE_PRIVATE_API_KEY);
+// this Background Function processes Stripe events with:
+//  - `retries` for resilient processing of events
+//  - `concurrency` to avoid external rate limiting during spikes
+async function handleStripeEvent(eventID: string) {
+  const stripe = new Stripe(process.env.STRIPE_PRIVATE_API_KEY!);
   const event = await stripe.events.retrieve(eventID);
   switch (event.type) {
     case "customer.created":
@@ -123,9 +144,8 @@ async function handleStripeEvent(eventID) {
 }
 
 export default defer(handleStripeEvent, {
-  // retry the Stripe event processing
-  //   with an exponential back-off retry strategy
-  retry: 7,
+  retry: 7, // enable retries with a exponential back-off strategy
+  concurrency: 5,
 });
 ```
 
@@ -135,12 +155,12 @@ export default defer(handleStripeEvent, {
 
 <CardGroup cols={1}>
   <Card
-    title="Advanced Execution filtering with Metadata"
-    icon={"book"}
+    title="Deploy this Stripe demo in 2 minutes"
+    icon={"rocket"}
     iconType={"light"}
-    href="https://www.defer.run/blog/function-metadata"
+    href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fdefer-run%2Fdefer.demo%2Ftree%2Fmaster%2Fnextjs%2Fstripe-template%2F&project-name=nextjs-with-stripe-defer&repository-name=nextjs-with-stripe-defer&demo-title=nextjs-with-stripe-defer&demo-description=The%20fastest%20way%20to%20get%20build%20reliable%20Stripe%20applications%20with%20Next.js&demo-url=https://google.com&external-id=https%3A%2F%2Fgithub.com%2Fdefer-run%2Fdefer.demo%2Ftree%2Fmaster%2Fnextjs%2Fstripe-template%2F&demo-image=https%3A%2F%2Fgithub.com%2Fdefer-run%2Fdefer.demo%2Fblob%2Fmaster%2Fnextjs%2Fstripe-template%2Fpublic%2Fog_image.png%3Fraw%3Dtrue&integration-ids="
   >
-    Learn more about Function Metadata
+    One-click deploy on Vercel
   </Card>
   <Card
     title="A deep dive into Function's retry strategies"
