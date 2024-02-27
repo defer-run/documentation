@@ -4,7 +4,7 @@
     "proseWrap": "always"
   },
   "dependencies": {
-    "mintlify": "^4.0.119",
-    "prettier": "^3.2.4"
+    "mintlify": "^4.0.127",
+    "prettier": "^3.2.5"
   }
 }
